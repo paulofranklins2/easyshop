@@ -1,4 +1,4 @@
-package org.yearup.data.mysql;
+package org.yearup.repository.mysql;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

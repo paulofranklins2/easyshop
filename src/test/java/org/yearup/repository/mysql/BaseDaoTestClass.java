@@ -1,4 +1,4 @@
-package org.yearup.data.mysql;
+package org.yearup.repository.mysql;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.extension.ExtendWith;

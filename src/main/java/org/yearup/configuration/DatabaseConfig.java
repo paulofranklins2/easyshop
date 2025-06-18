@@ -1,4 +1,4 @@
-package org.yearup.configurations;
+package org.yearup.configuration;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;

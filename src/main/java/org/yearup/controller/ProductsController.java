@@ -1,4 +1,4 @@
-package org.yearup.controllers;
+package org.yearup.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -6,7 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.yearup.models.Product;
-import org.yearup.data.ProductDao;
+import org.yearup.repository.ProductDao;
 
 import java.math.BigDecimal;
 import java.util.List;

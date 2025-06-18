@@ -1,10 +1,10 @@
-package org.yearup.controllers;
+package org.yearup.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-import org.yearup.data.ProductDao;
-import org.yearup.data.ShoppingCartDao;
-import org.yearup.data.UserDao;
+import org.yearup.repository.ProductDao;
+import org.yearup.repository.ShoppingCartDao;
+import org.yearup.repository.UserDao;
 import org.yearup.models.ShoppingCart;
 import org.yearup.models.User;
 

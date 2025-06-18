@@ -1,4 +1,4 @@
-package org.yearup.data;
+package org.yearup.repository;
 
 import org.yearup.models.Product;
 

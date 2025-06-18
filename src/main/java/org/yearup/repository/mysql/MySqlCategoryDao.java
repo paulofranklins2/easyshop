@@ -1,7 +1,7 @@
-package org.yearup.data.mysql;
+package org.yearup.repository.mysql;
 
 import org.springframework.stereotype.Component;
-import org.yearup.data.CategoryDao;
+import org.yearup.repository.CategoryDao;
 import org.yearup.models.Category;
 
 import javax.sql.DataSource;
