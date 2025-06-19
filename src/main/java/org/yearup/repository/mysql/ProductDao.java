@@ -20,7 +20,7 @@ public class ProductDao extends DataManager implements ProductRepository {
     }
 
     @Override
-    public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String color) {
+    public List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String color, int offset, int limit) {
         List<Product> products = new ArrayList<>();
 
         String sql = """
@@ -29,6 +29,7 @@ public class ProductDao extends DataManager implements ProductRepository {
                       AND (price >= ? OR ? = -1)
                       AND (price <= ? OR ? = -1)
                       AND (color = ? OR ? = '')
+                    LIMIT ? OFFSET ?
                 """;
 
         categoryId = (categoryId == null) ? -1 : categoryId;
@@ -47,6 +48,9 @@ public class ProductDao extends DataManager implements ProductRepository {
             statement.setBigDecimal(6, maxPrice);
             statement.setString(7, color);
             statement.setString(8, color);
+
+            statement.setInt(9, limit);
+            statement.setInt(10, offset);
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -109,9 +113,9 @@ public class ProductDao extends DataManager implements ProductRepository {
     @Override
     public Product create(Product product) {
         String sql = """
-            INSERT INTO products(name, price, category_id, description, color, image_url, stock, featured)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """;
+                    INSERT INTO products(name, price, category_id, description, color, image_url, stock, featured)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """;
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -196,5 +200,56 @@ public class ProductDao extends DataManager implements ProductRepository {
         ps.setString(6, product.getImageUrl());
         ps.setInt(7, product.getStock());
         ps.setBoolean(8, product.isFeatured());
+    }
+
+    @Override
+    public List<Product> searchByQuery(String query, int offset, int limit) {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE name LIKE ? OR description LIKE ? LIMIT ? OFFSET ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            String like = "%" + query + "%";
+            statement.setString(1, like);
+            statement.setString(2, like);
+            statement.setInt(3, limit);
+            statement.setInt(4, offset);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    products.add(mapRow(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error searching products by query: " + e);
+        }
+
+        return products;
+    }
+
+    @Override
+    public List<Product> listPaged(int offset, int limit) {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM products LIMIT ? OFFSET ?";
+
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setInt(1, limit);
+            statement.setInt(2, offset);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    products.add(mapRow(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error listing paged products: " + e);
+        }
+
+        return products;
     }
 }

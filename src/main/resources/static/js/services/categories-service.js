@@ -3,8 +3,7 @@ let categoryService;
 class CategoryService {
 
 
-    getAllCategories(callback)
-    {
+    getAllCategories(callback) {
         const url = `${config.baseUrl}/categories`;
 
         return axios.get(url)

@@ -3,12 +3,11 @@ let cartService;
 class ShoppingCartService {
 
     cart = {
-        items:[],
-        total:0
+        items: [],
+        total: 0
     };
 
-    addToCart(productId)
-    {
+    addToCart(productId) {
         const url = `${config.baseUrl}/cart/products/${productId}`;
         // const headers = userService.getHeaders();
 
@@ -17,7 +16,7 @@ class ShoppingCartService {
                 this.setCart(response.data)
 
                 this.updateCartDisplay()
-
+                this.renderSidebar()
             })
             .catch(error => {
 
@@ -29,8 +28,7 @@ class ShoppingCartService {
             })
     }
 
-    setCart(data)
-    {
+    setCart(data) {
         this.cart = {
             items: [],
             total: 0
@@ -43,8 +41,7 @@ class ShoppingCartService {
         }
     }
 
-    loadCart()
-    {
+    loadCart() {
 
         const url = `${config.baseUrl}/cart`;
 
@@ -53,7 +50,7 @@ class ShoppingCartService {
                 this.setCart(response.data)
 
                 this.updateCartDisplay()
-
+                this.renderSidebar()
             })
             .catch(error => {
 
@@ -66,15 +63,14 @@ class ShoppingCartService {
 
     }
 
-    loadCartPage()
-    {
+    loadCartPage() {
         // templateBuilder.build("cart", this.cart, "main");
 
         const main = document.getElementById("main")
         main.innerHTML = "";
 
         let div = document.createElement("div");
-        div.classList="filter-box";
+        div.classList = "filter-box";
         main.appendChild(div);
 
         const contentDiv = document.createElement("div")
@@ -104,8 +100,53 @@ class ShoppingCartService {
         });
     }
 
-    buildItem(item, parent)
-    {
+    renderSidebar() {
+        const container = document.getElementById('cartSidebarItems');
+        if (!container) return;
+        container.innerHTML = '';
+        this.cart.items.forEach(item => {
+            const max = item.product.stock;
+            const options = Array.from({length: max}, (_, i) => `<option ${i + 1 === item.quantity ? 'selected' : ''}>${i + 1}</option>`).join('');
+            const div = document.createElement('div');
+            div.className = 'd-flex justify-content-between align-items-center mb-3';
+            div.innerHTML = `<div><strong>${item.product.name}</strong><br>$${item.product.price} × <select class="form-select form-select-sm d-inline-block w-auto cartQty" data-id="${item.product.productId}">${options}</select></div><button class="btn btn-danger btn-sm remove-item" data-id="${item.product.productId}">Remove</button>`;
+            container.appendChild(div);
+        });
+        const totalDiv = document.getElementById('cartSidebarTotal');
+        if (totalDiv) totalDiv.innerText = `Total: $${this.cart.total.toFixed(2)}`;
+        container.querySelectorAll('.cartQty').forEach(sel => {
+            sel.addEventListener('change', (e) => {
+                this.updateQuantity(sel.dataset.id, parseInt(sel.value));
+            });
+        });
+        container.querySelectorAll('.remove-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.deleteProduct(btn.dataset.id);
+            });
+        });
+    }
+
+    updateQuantity(productId, qty) {
+        const url = `${config.baseUrl}/cart/products/${productId}`;
+        axios.put(url, {quantity: qty})
+            .then(res => {
+                this.setCart(res.data);
+                this.updateCartDisplay();
+                this.renderSidebar();
+            });
+    }
+
+    deleteProduct(productId) {
+        const url = `${config.baseUrl}/cart/products/${productId}`;
+        axios.delete(url)
+            .then(res => {
+                this.setCart(res.data);
+                this.updateCartDisplay();
+                this.renderSidebar();
+            });
+    }
+
+    buildItem(item, parent) {
         let outerDiv = document.createElement("div");
         outerDiv.classList.add("cart-item");
 
@@ -141,61 +182,54 @@ class ShoppingCartService {
         parent.appendChild(outerDiv);
     }
 
-    clearCart()
-    {
+    clearCart() {
 
         const url = `${config.baseUrl}/cart`;
 
         axios.delete(url)
-             .then(response => {
-                 this.cart = {
-                     items: [],
-                     total: 0
-                 }
+            .then(response => {
+                this.cart = {
+                    items: [],
+                    total: 0
+                }
 
-                 this.cart.total = response.data.total;
+                this.cart.total = response.data.total;
 
-                 for (const [key, value] of Object.entries(response.data.items)) {
-                     this.cart.items.push(value);
-                 }
+                for (const [key, value] of Object.entries(response.data.items)) {
+                    this.cart.items.push(value);
+                }
 
-                 this.updateCartDisplay()
-                 this.loadCartPage()
+                this.updateCartDisplay()
+                this.renderSidebar()
 
-             })
-             .catch(error => {
+            })
+            .catch(error => {
 
-                 const data = {
-                     error: "Empty cart failed."
-                 };
+                const data = {
+                    error: "Empty cart failed."
+                };
 
-                 templateBuilder.append("error", data, "errors")
-             })
+                templateBuilder.append("error", data, "errors")
+            })
     }
 
-    updateCartDisplay()
-    {
+    updateCartDisplay() {
         try {
             const itemCount = this.cart.items.length;
             const cartControl = document.getElementById("cart-items")
 
             cartControl.innerText = itemCount;
-        }
-        catch (e) {
+        } catch (e) {
 
         }
     }
 }
 
 
-
-
-
 document.addEventListener('DOMContentLoaded', () => {
     cartService = new ShoppingCartService();
 
-    if(userService.isLoggedIn())
-    {
+    if (userService.isLoggedIn()) {
         cartService.loadCart();
     }
 

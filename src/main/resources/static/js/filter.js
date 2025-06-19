@@ -1,8 +1,4 @@
-
-
-
-function loadCategories(categories)
-{
+function loadCategories(categories) {
     const select = document.getElementById('category-select');
 
     categories.forEach(c => {

@@ -6,7 +6,9 @@
 
     <!--  CSS  -->
     <link rel="stylesheet" href="css/lib/bootstrap.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="css/main.css">
 
     <!--  JS  -->
@@ -30,18 +32,28 @@
 </head>
 <body>
 
-    <header id="header-user"></header>
+<header id="header-user"></header>
 
-    <section id="errors">
-    </section>
+<section id="errors">
+</section>
 
-    <section id="login"></section>
+<section id="login"></section>
 
-    <main id="main">
-    </main>
+<main id="main">
+</main>
 
-    <footer></footer>
+<footer></footer>
 
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartSidebar">
+    <div class="offcanvas-header">
+        <h5>Shopping Cart</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body" id="cartSidebarItems">
+        <hr>
+        <div class="text-end" id="cartSidebarTotal">Total: $0.00</div>
+    </div>
+</div>
 
 </body>
 </html>

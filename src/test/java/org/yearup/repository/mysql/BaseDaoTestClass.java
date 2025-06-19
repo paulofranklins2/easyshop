@@ -13,17 +13,14 @@ import java.sql.SQLException;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = TestDatabaseConfig.class)
-public abstract class BaseDaoTestClass
-{
+public abstract class BaseDaoTestClass {
     @Autowired
     protected DataSource dataSource;
 
     @AfterEach
-    public void rollback() throws SQLException
-    {
+    public void rollback() throws SQLException {
         Connection connection = dataSource.getConnection();
-        if(!connection.getAutoCommit())
-        {
+        if (!connection.getAutoCommit()) {
             dataSource.getConnection().rollback();
         }
     }

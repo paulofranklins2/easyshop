@@ -1,7 +1,5 @@
 package org.yearup.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,16 +10,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import org.yearup.model.Profile;
-import org.yearup.repository.ProfileRepository;
-import org.yearup.repository.UserRepository;
+import org.yearup.model.User;
 import org.yearup.model.authentication.LoginDto;
 import org.yearup.model.authentication.LoginResponseDto;
 import org.yearup.model.authentication.RegisterUserDto;
-import org.yearup.model.User;
+import org.yearup.repository.ProfileRepository;
+import org.yearup.repository.UserRepository;
 import org.yearup.security.jwt.JWTFilter;
 import org.yearup.security.jwt.TokenProvider;
+
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin

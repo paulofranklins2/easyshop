@@ -10,28 +10,44 @@ class ProductService {
         minPrice: undefined,
         maxPrice: undefined,
         color: undefined,
+        q: undefined,
         queryString: () => {
             let qs = "";
-            if(this.filter.cat){ qs = `cat=${this.filter.cat}`; }
-            if(this.filter.minPrice)
-            {
+            if (this.filter.cat) {
+                qs = `cat=${this.filter.cat}`;
+            }
+            if (this.filter.minPrice) {
                 const minP = `minPrice=${this.filter.minPrice}`;
-                if(qs.length>0) {   qs += `&${minP}`; }
-                else { qs = minP; }
+                if (qs.length > 0) {
+                    qs += `&${minP}`;
+                } else {
+                    qs = minP;
+                }
             }
-            if(this.filter.maxPrice)
-            {
+            if (this.filter.maxPrice) {
                 const maxP = `maxPrice=${this.filter.maxPrice}`;
-                if(qs.length>0) {   qs += `&${maxP}`; }
-                else { qs = maxP; }
+                if (qs.length > 0) {
+                    qs += `&${maxP}`;
+                } else {
+                    qs = maxP;
+                }
             }
-            if(this.filter.color)
-            {
+            if (this.filter.color) {
                 const col = `color=${this.filter.color}`;
-                if(qs.length>0) {   qs += `&${col}`; }
-                else { qs = col; }
+                if (qs.length > 0) {
+                    qs += `&${col}`;
+                } else {
+                    qs = col;
+                }
             }
-
+            if (this.filter.q) {
+                const q = `q=${encodeURIComponent(this.filter.q)}`;
+                if (qs.length > 0) {
+                    qs += `&${q}`;
+                } else {
+                    qs = q;
+                }
+            }
             return qs.length > 0 ? `?${qs}` : "";
         }
     }
@@ -45,67 +61,72 @@ class ProductService {
             });
     }
 
-    hasPhoto(photo){
+    hasPhoto(photo) {
         return this.photos.filter(p => p == photo).length > 0;
     }
 
-    addCategoryFilter(cat)
-    {
-        if(cat == 0) this.clearCategoryFilter();
+    addCategoryFilter(cat) {
+        if (cat == 0) this.clearCategoryFilter();
         else this.filter.cat = cat;
     }
-    addMinPriceFilter(price)
-    {
-        if(price == 0 || price == "") this.clearMinPriceFilter();
+
+    addMinPriceFilter(price) {
+        if (price == 0 || price == "") this.clearMinPriceFilter();
         else this.filter.minPrice = price;
     }
-    addMaxPriceFilter(price)
-    {
-        if(price == 0 || price == "") this.clearMaxPriceFilter();
+
+    addMaxPriceFilter(price) {
+        if (price == 0 || price == "") this.clearMaxPriceFilter();
         else this.filter.maxPrice = price;
     }
-    addColorFilter(color)
-    {
-        if(color == "") this.clearColorFilter();
+
+    addColorFilter(color) {
+        if (color == "") this.clearColorFilter();
         else this.filter.color = color;
     }
 
-    clearCategoryFilter()
-    {
+    clearCategoryFilter() {
         this.filter.cat = undefined;
     }
-    clearMinPriceFilter()
-    {
+
+    clearMinPriceFilter() {
         this.filter.minPrice = undefined;
     }
-    clearMaxPriceFilter()
-    {
+
+    clearMaxPriceFilter() {
         this.filter.maxPrice = undefined;
     }
-    clearColorFilter()
-    {
+
+    clearColorFilter() {
         this.filter.color = undefined;
     }
 
-    search()
-    {
+    setSearchQuery(q) {
+        if (q === "") this.clearSearchQuery();
+        else this.filter.q = q;
+    }
+
+    clearSearchQuery() {
+        this.filter.q = undefined;
+    }
+
+    search() {
         const url = `${config.baseUrl}/products${this.filter.queryString()}`;
 
         axios.get(url)
-             .then(response => {
-                 let data = {};
-                 data.products = response.data;
+            .then(response => {
+                let data = {};
+                data.products = response.data;
 
-                 data.products.forEach(product => {
-                     if(!this.hasPhoto(product.imageUrl))
-                     {
-                         product.imageUrl = "no-image.jpg";
-                     }
-                 })
+                data.products.forEach(product => {
+                    if (!this.hasPhoto(product.imageUrl)) {
+                        product.imageUrl = "no-image.jpg";
+                    }
+                })
 
-                 templateBuilder.build('product', data, 'content', this.enableButtons);
+                templateBuilder.build('product', data, 'content', this.enableButtons);
 
-             })
+            })
             .catch(error => {
 
                 const data = {
@@ -116,18 +137,14 @@ class ProductService {
             });
     }
 
-    enableButtons()
-    {
+    enableButtons() {
         const buttons = [...document.querySelectorAll(".add-button")];
 
-        if(userService.isLoggedIn())
-        {
+        if (userService.isLoggedIn()) {
             buttons.forEach(button => {
                 button.classList.remove("invisible")
             });
-        }
-        else
-        {
+        } else {
             buttons.forEach(button => {
                 button.classList.add("invisible")
             });
@@ -135,9 +152,6 @@ class ProductService {
     }
 
 }
-
-
-
 
 
 document.addEventListener('DOMContentLoaded', () => {

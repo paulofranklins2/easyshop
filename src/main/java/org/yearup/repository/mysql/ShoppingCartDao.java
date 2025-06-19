@@ -7,7 +7,10 @@ import org.yearup.model.ShoppingCartItem;
 import org.yearup.repository.ShoppingCartRepository;
 
 import javax.sql.DataSource;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 @Component
 public class ShoppingCartDao extends DataManager implements ShoppingCartRepository {
@@ -37,10 +40,10 @@ public class ShoppingCartDao extends DataManager implements ShoppingCartReposito
     @Override
     public ShoppingCart addProductToShoppingCart(int userId, int productId) {
         String sql = """
-            INSERT INTO shopping_cart (user_id, product_id, quantity)
-            VALUES (?, ?, 1)
-            ON DUPLICATE KEY UPDATE quantity = quantity + 1
-        """;
+                    INSERT INTO shopping_cart (user_id, product_id, quantity)
+                    VALUES (?, ?, 1)
+                    ON DUPLICATE KEY UPDATE quantity = quantity + 1
+                """;
 
         try (Connection connection = this.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {

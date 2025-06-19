@@ -1,20 +1,22 @@
 {{#products}}
-<div class="product">
-    <div>
-        <h4>{{name}}</h4>
-        <div class="photo">
-            <img src="/images/products/{{imageUrl}}" alt=""
-                 onclick="showImageDetailForm(`{{name}}`,'/images/products/{{imageUrl}}')"
-            >
-          <h4 class="price">${{price}}</h4>
+<div class="col">
+    <div class="card h-100">
+        <div class="d-flex">
+            <img src="/images/products/{{imageUrl}}" class="card-img-left img-fluid"
+                 style="width: 150px; object-fit: contain;" alt=""
+                 onclick="showImageDetailForm(`{{name}}`, '/images/products/{{imageUrl}}')">
+            <div class="card-body text-start d-flex flex-column">
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title">{{name}}</h5>
+                    <h5 class="text-success">${{price}}</h5>
+                </div>
+                <p class="card-text">{{description}}</p>
+                <div class="text-center mt-auto add-button">
+                    <button class="btn btn-sm btn-success" onclick="cartService.addToCart({{productId}})">Add to Cart
+                    </button>
+                </div>
+            </div>
         </div>
-        <div>
-            <p>{{description}}</p>
-        </div>
-
-    </div>
-    <div class="add-button">
-        <button class="btn btn-success" onclick="cartService.addToCart({{productId}})">Add to Cart</button>
     </div>
 </div>
 {{/products}}
