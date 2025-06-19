@@ -1,6 +1,9 @@
 package org.yearup.model.authentication;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.yearup.model.User;
 
 /*
@@ -9,31 +12,13 @@ import org.yearup.model.User;
     pass to the server for a login endpoint, and TokenDto represents the object that's returned from the server
     to the client from a login endpoint.
  */
+@Setter
+@AllArgsConstructor
+@Getter
 public class LoginResponseDto {
 
-    private String token;
-    private User user;
-
-    public LoginResponseDto(String token, User user) {
-        this.token = token;
-        this.user = user;
-    }
-
     @JsonProperty("token")
-    String getToken() {
-        return token;
-    }
-
-    void setToken(String token) {
-        this.token = token;
-    }
-
+    private String token;
     @JsonProperty("user")
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    private User user;
 }
