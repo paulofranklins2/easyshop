@@ -1,26 +1,30 @@
 {{#products}}
 <div class="col">
     <div class="card h-100">
-        <div class="d-flex">
-            <img src="/images/products/{{imageUrl}}" class="card-img-left img-fluid"
-                 style="width: 150px; object-fit: contain;" alt=""
-                 onclick="showImageDetailForm(`{{name}}`, '/images/products/{{imageUrl}}')">
-            <div class="card-body text-start d-flex flex-column">
-                <div class="d-flex justify-content-between">
-                    <h5 class="card-title">{{name}}</h5>
-                    <h5 class="text-success">${{price}}</h5>
+        <div class="row g-0">
+            <div class="col-4 d-flex align-items-center">
+                <img src="/images/products/{{imageUrl}}" class="img-fluid"
+                     alt=""
+                     onclick="showImageDetailForm(`{{name}}`, '/images/products/{{imageUrl}}')">
+            </div>
+            <div class="col-8">
+                <div class="card-body text-start d-flex flex-column h-100">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="card-title">{{name}}</h5>
+                        <h5 class="text-success">${{price}}</h5>
+                    </div>
+                    <p class="card-text">{{description}}</p>
+                    <div class="text-center mt-auto add-button">
+                        <button class="btn btn-sm btn-success" onclick="cartService.addToCart({{productId}})">Add to Cart
+                        </button>
+                    </div>
+                    {{#isAdmin}}
+                    <div class="mt-2 d-flex justify-content-between">
+                        <button class="btn btn-warning btn-sm" onclick="productService.editProduct({{productId}})">Edit</button>
+                        <button class="btn btn-danger btn-sm" onclick="productService.confirmDelete({{productId}})">Delete</button>
+                    </div>
+                    {{/isAdmin}}
                 </div>
-                <p class="card-text">{{description}}</p>
-                <div class="text-center mt-auto add-button">
-                    <button class="btn btn-sm btn-success" onclick="cartService.addToCart({{productId}})">Add to Cart
-                    </button>
-                </div>
-                {{#isAdmin}}
-                <div class="mt-2 d-flex justify-content-between">
-                    <button class="btn btn-warning btn-sm" onclick="productService.editProduct({{productId}})">Edit</button>
-                    <button class="btn btn-danger btn-sm" onclick="productService.confirmDelete({{productId}})">Delete</button>
-                </div>
-                {{/isAdmin}}
             </div>
         </div>
     </div>
