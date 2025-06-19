@@ -1,0 +1,45 @@
+<div class="card" style="width: 18rem;">
+    <img src="{{photoUrl}}" class="card-img-top" alt="Profile Photo" onerror="this.src='/images/no-image.jpg'">
+    <div class="card-body">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="photoUrl" value="{{photoUrl}}">
+            <label for="photoUrl">Photo URL</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="firstName" value='{{firstName}}'>
+            <label for="firstName">First Name</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="lastName" value='{{lastName}}'>
+            <label for="lastName">Last Name</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="phone" value='{{phone}}'>
+            <label for="phone">Phone</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="email" value='{{email}}'>
+            <label for="email">Email</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="address" value='{{address}}'>
+            <label for="address">Address</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="city" value='{{city}}'>
+            <label for="city">City</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="state" value='{{state}}'>
+            <label for="state">State</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="zip" value='{{zip}}'>
+            <label for="zip">Zip</label>
+        </div>
+        <div class="text-end">
+            <button class="btn btn-secondary" data-bs-dismiss="offcanvas">Cancel</button>
+            <button class="btn btn-primary" onclick="saveProfile()">Save</button>
+        </div>
+    </div>
+</div>

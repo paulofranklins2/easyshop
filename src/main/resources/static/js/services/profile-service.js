@@ -6,7 +6,12 @@ class ProfileService {
 
         axios.get(url)
             .then(response => {
-                templateBuilder.build("profile", response.data, "main")
+                const data = response.data;
+                data.photoUrl = localStorage.getItem('profilePhotoUrl') || '';
+                templateBuilder.build("profile-offcanvas", data, "profileSidebarBody", () => {
+                    const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('profileSidebar'));
+                    off.show();
+                });
             })
             .catch(error => {
                 const data = {
@@ -27,7 +32,8 @@ class ProfileService {
                     message: "The profile has been updated."
                 };
 
-                templateBuilder.append("message", data, "errors")
+                localStorage.setItem('profilePhotoUrl', document.getElementById('photoUrl').value);
+                templateBuilder.append("message", data, "errors");
             })
             .catch(error => {
                 const data = {

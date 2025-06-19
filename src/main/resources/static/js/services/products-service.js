@@ -3,6 +3,9 @@ let productService;
 class ProductService {
 
     photos = [];
+    page = 0;
+    size = 20;
+    lastCount = 0;
 
 
     filter = {
@@ -111,12 +114,14 @@ class ProductService {
     }
 
     search() {
-        const url = `${config.baseUrl}/products${this.filter.queryString()}`;
+        const url = `${config.baseUrl}/products?page=${this.page}&size=${this.size}${this.filter.queryString().replace('?', '&')}`;
 
         axios.get(url)
             .then(response => {
                 let data = {};
                 data.products = response.data;
+                data.isAdmin = userService.getCurrentUser().role === 'ROLE_ADMIN';
+                this.lastCount = data.products.length;
 
                 data.products.forEach(product => {
                     if (!this.hasPhoto(product.imageUrl)) {
@@ -124,7 +129,10 @@ class ProductService {
                     }
                 })
 
-                templateBuilder.build('product', data, 'content', this.enableButtons);
+                templateBuilder.build('product', data, 'content', () => {
+                    this.enableButtons();
+                    this.renderPagination();
+                });
 
             })
             .catch(error => {
@@ -149,6 +157,77 @@ class ProductService {
                 button.classList.add("invisible")
             });
         }
+    }
+
+    renderPagination() {
+        const ul = document.getElementById('pagination');
+        if (!ul) return;
+        ul.innerHTML = '';
+
+        const prev = document.createElement('li');
+        prev.className = 'page-item' + (this.page === 0 ? ' disabled' : '');
+        prev.innerHTML = '<a class="page-link" href="#">Previous</a>';
+        prev.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (this.page > 0) { this.page--; this.search(); }
+        });
+        ul.appendChild(prev);
+
+        const current = document.createElement('li');
+        current.className = 'page-item active';
+        current.innerHTML = `<a class="page-link" href="#">${this.page + 1}</a>`;
+        ul.appendChild(current);
+
+        if (this.lastCount === this.size) {
+            const nextNum = document.createElement('li');
+            nextNum.className = 'page-item';
+            nextNum.innerHTML = `<a class="page-link" href="#">${this.page + 2}</a>`;
+            nextNum.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.page++; this.search();
+            });
+            ul.appendChild(nextNum);
+        }
+
+        const next = document.createElement('li');
+        next.className = 'page-item' + (this.lastCount < this.size ? ' disabled' : '');
+        next.innerHTML = '<a class="page-link" href="#">Next</a>';
+        next.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (this.lastCount === this.size) { this.page++; this.search(); }
+        });
+        ul.appendChild(next);
+    }
+
+    editProduct(id) {
+        axios.get(`${config.baseUrl}/products/${id}`)
+            .then(res => {
+                templateBuilder.build('edit-product', res.data, 'login');
+            });
+    }
+
+    saveProduct(id) {
+        const product = {
+            name: document.getElementById('edit-name').value,
+            price: parseFloat(document.getElementById('edit-price').value),
+            categoryId: parseInt(document.getElementById('edit-category').value),
+            description: document.getElementById('edit-description').value,
+            color: document.getElementById('edit-color').value,
+            stock: parseInt(document.getElementById('edit-stock').value),
+            featured: document.getElementById('edit-featured').checked,
+            imageUrl: document.getElementById('edit-image').value
+        };
+        axios.put(`${config.baseUrl}/products/${id}`, product)
+            .then(() => { hideModalForm(); this.search(); });
+    }
+
+    confirmDelete(id) {
+        templateBuilder.build('confirm-delete', {productId: id}, 'login');
+    }
+
+    deleteProduct(id) {
+        axios.delete(`${config.baseUrl}/products/${id}`)
+            .then(() => { hideModalForm(); this.search(); });
     }
 
 }

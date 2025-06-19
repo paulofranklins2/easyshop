@@ -109,7 +109,7 @@ class ShoppingCartService {
             const options = Array.from({length: max}, (_, i) => `<option ${i + 1 === item.quantity ? 'selected' : ''}>${i + 1}</option>`).join('');
             const div = document.createElement('div');
             div.className = 'd-flex justify-content-between align-items-center mb-3';
-            div.innerHTML = `<div><strong>${item.product.name}</strong><br>$${item.product.price} × <select class="form-select form-select-sm d-inline-block w-auto cartQty" data-id="${item.product.productId}">${options}</select></div><button class="btn btn-danger btn-sm remove-item" data-id="${item.product.productId}">Remove</button>`;
+            div.innerHTML = `<div class="d-flex align-items-center"><img src="/images/products/${item.product.imageUrl}" style="width:40px;height:40px;object-fit:contain" class="me-2"><div><strong>${item.product.name}</strong><br>$${item.product.price} × <select class="form-select form-select-sm d-inline-block w-auto cartQty" data-id="${item.product.productId}">${options}</select></div></div><button class="btn btn-danger btn-sm remove-item" data-id="${item.product.productId}">Remove</button>`;
             container.appendChild(div);
         });
         const totalDiv = document.getElementById('cartSidebarTotal');
