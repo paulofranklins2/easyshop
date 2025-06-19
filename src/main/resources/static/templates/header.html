@@ -1,15 +1,16 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#" onclick="loadHome()">
-            <img src="/images/logo.png" alt="logo" width="30" height="24">
+        <a class="navbar-brand d-flex align-items-center" href="#" onclick="loadHome()">
+            <img src="/images/logo.png" alt="logo" width="30" height="24" class="d-inline-block align-text-top me-2">
+            EasyShop
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#" onclick="loadHome()">Home</a>
+                    <a class="nav-link" href="#" onclick="loadHome()">Home</a>
                 </li>
                 {{#loggedin}}
                 <li class="nav-item">
@@ -19,6 +20,12 @@
                     <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar" onclick="showCart()">Cart</a>
                 </li>
                 {{/loggedin}}
+            </ul>
+            <form class="d-flex me-lg-3 mb-2 mb-lg-0" role="search" onsubmit="searchProducts(event)">
+                <input class="form-control me-2" type="search" placeholder="Search" id="search-input" />
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <ul class="navbar-nav mb-2 mb-lg-0">
                 {{#loggedout}}
                 <li class="nav-item">
                     <a class="nav-link" href="#" onclick="showLoginForm();return false;">Login</a>
@@ -27,19 +34,21 @@
                     <a class="nav-link" href="#" onclick="showRegisterForm();return false;">Register</a>
                 </li>
                 {{/loggedout}}
+                {{#loggedin}}
+                <li class="nav-item d-flex align-items-center">
+                    <span class="navbar-text me-2">Welcome <strong>{{username}}</strong></span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="userService.logout();return false;">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link cart position-relative" href="#" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar" onclick="showCart()">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <div id="cart-items" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</div>
+                    </a>
+                </li>
+                {{/loggedin}}
             </ul>
-            <form class="d-flex me-3" role="search" onsubmit="searchProducts(event)">
-                <input class="form-control me-2" type="search" placeholder="Search" id="search-input"/>
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-            {{#loggedin}}
-            <span class="navbar-text me-2">Welcome <strong>{{username}}</strong></span>
-            <a class="nav-link" href="#" onclick="userService.logout();return false;">Logout</a>
-            <div class="cart ms-2" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar" onclick="showCart()">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <div id="cart-items">0</div>
-            </div>
-            {{/loggedin}}
         </div>
     </div>
 </nav>

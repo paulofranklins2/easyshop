@@ -4,7 +4,7 @@ class ProductService {
 
     photos = [];
     page = 0;
-    size = 20;
+    size = 25;
     lastCount = 0;
 
 

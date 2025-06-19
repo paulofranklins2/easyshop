@@ -29,7 +29,7 @@ public class ProductsController {
                                 @RequestParam(name = "maxPrice", required = false) BigDecimal maxPrice,
                                 @RequestParam(name = "color", required = false) String color,
                                 @RequestParam(name = "page", defaultValue = "0") int page,
-                                @RequestParam(name = "size", defaultValue = "9") int size,
+                                @RequestParam(name = "size", defaultValue = "25") int size,
                                 @RequestParam(name = "q", required = false) String query
     ) {
         try {
