@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.yearup.repository.CategoryDao;
 import org.yearup.repository.ProductDao;
-import org.yearup.models.Category;
-import org.yearup.models.Product;
+import org.yearup.model.Category;
+import org.yearup.model.Product;
 
 import java.util.List;
 
@@ -23,8 +23,7 @@ public class CategoriesController {
 
     // add the appropriate annotation for a get action
     public List<Category> getAll() {
-        // find and return all categories
-        return null;
+        return categoryDao.getAllCategories();
     }
 
     // add the appropriate annotation for a get action
