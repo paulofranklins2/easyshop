@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.yearup.model.ShoppingCartItem;
+import org.yearup.model.ShoppingCart;
+import org.yearup.model.User;
+import org.yearup.model.dto.UpdateCartItemDto;
 import org.yearup.repository.ProductRepository;
 import org.yearup.repository.ShoppingCartRepository;
 import org.yearup.repository.UserRepository;
-import org.yearup.model.ShoppingCart;
-import org.yearup.model.User;
 
 import java.security.Principal;
 
@@ -45,7 +45,9 @@ public class ShoppingCartController {
     }
 
     @PutMapping("/cart/products/{productId}")
-    public ShoppingCart updateCartQuantity(@PathVariable int productId, @RequestBody ShoppingCartItem item, Principal principal) {
+    public ShoppingCart updateCartQuantity(@PathVariable int productId,
+                                           @RequestBody UpdateCartItemDto item,
+                                           Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
         return shoppingCartDao.updateProductQuantity(userId, productId, item.getQuantity());
     }

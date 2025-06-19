@@ -27,10 +27,17 @@ public class ProductsController {
     public List<Product> search(@RequestParam(name = "cat", required = false) Integer categoryId,
                                 @RequestParam(name = "minPrice", required = false) BigDecimal minPrice,
                                 @RequestParam(name = "maxPrice", required = false) BigDecimal maxPrice,
-                                @RequestParam(name = "color", required = false) String color
+                                @RequestParam(name = "color", required = false) String color,
+                                @RequestParam(name = "page", defaultValue = "0") int page,
+                                @RequestParam(name = "size", defaultValue = "9") int size,
+                                @RequestParam(name = "q", required = false) String query
     ) {
         try {
-            return productDao.search(categoryId, minPrice, maxPrice, color);
+            int offset = page * size;
+            if (query != null && !query.isBlank()) {
+                return productDao.searchByQuery(query, offset, size);
+            }
+            return productDao.search(categoryId, minPrice, maxPrice, color, offset, size);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
