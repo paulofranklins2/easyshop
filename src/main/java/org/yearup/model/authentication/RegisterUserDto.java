@@ -1,5 +1,8 @@
 package org.yearup.model.authentication;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.validation.constraints.NotEmpty;
 
 /*
@@ -8,6 +11,8 @@ import javax.validation.constraints.NotEmpty;
     pass to the server for a login endpoint, and TokenDto represents the object that's returned from the server
     to the client from a login endpoint.
  */
+@Setter
+@Getter
 public class RegisterUserDto {
 
     @NotEmpty
@@ -19,35 +24,4 @@ public class RegisterUserDto {
     @NotEmpty(message = "Please select a role for this user.")
     private String role;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }
