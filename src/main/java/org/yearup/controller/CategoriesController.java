@@ -22,7 +22,6 @@ public class CategoriesController {
         this.productDao = productDao;
     }
 
-
     // add the appropriate annotation for a get action
     @GetMapping("categories")
     public List<Category> getAll() {
