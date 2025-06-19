@@ -1,19 +1,16 @@
 package org.yearup.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+@Setter
+@Getter
 public class ShoppingCart {
     private Map<Integer, ShoppingCartItem> items = new HashMap<>();
-
-    public Map<Integer, ShoppingCartItem> getItems() {
-        return items;
-    }
-
-    public void setItems(Map<Integer, ShoppingCartItem> items) {
-        this.items = items;
-    }
 
     public boolean contains(int productId) {
         return items.containsKey(productId);

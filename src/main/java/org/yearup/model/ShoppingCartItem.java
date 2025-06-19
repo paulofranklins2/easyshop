@@ -1,38 +1,18 @@
 package org.yearup.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
+@Setter
+@Getter
 public class ShoppingCartItem {
-    private Product product = null;
+    private Product product;
     private int quantity = 1;
     private BigDecimal discountPercent = BigDecimal.ZERO;
 
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getDiscountPercent() {
-        return discountPercent;
-    }
-
-    public void setDiscountPercent(BigDecimal discountPercent) {
-        this.discountPercent = discountPercent;
-    }
 
     @JsonIgnore
     public int getProductId() {
