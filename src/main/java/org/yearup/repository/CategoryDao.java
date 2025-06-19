@@ -11,7 +11,7 @@ public interface CategoryDao {
 
     Category create(Category category);
 
-    void update(int categoryId, Category category);
+    boolean update(int categoryId, Category category);
 
-    void delete(int categoryId);
+    boolean delete(int categoryId);
 }
