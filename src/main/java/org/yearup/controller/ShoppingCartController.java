@@ -5,8 +5,8 @@ import org.springframework.web.server.ResponseStatusException;
 import org.yearup.repository.ProductDao;
 import org.yearup.repository.ShoppingCartDao;
 import org.yearup.repository.UserDao;
-import org.yearup.models.ShoppingCart;
-import org.yearup.models.User;
+import org.yearup.model.ShoppingCart;
+import org.yearup.model.User;
 
 import java.security.Principal;
 

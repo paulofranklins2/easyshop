@@ -13,13 +13,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import org.yearup.models.Profile;
+import org.yearup.model.Profile;
 import org.yearup.repository.ProfileDao;
 import org.yearup.repository.UserDao;
-import org.yearup.models.authentication.LoginDto;
-import org.yearup.models.authentication.LoginResponseDto;
-import org.yearup.models.authentication.RegisterUserDto;
-import org.yearup.models.User;
+import org.yearup.model.authentication.LoginDto;
+import org.yearup.model.authentication.LoginResponseDto;
+import org.yearup.model.authentication.RegisterUserDto;
+import org.yearup.model.User;
 import org.yearup.security.jwt.JWTFilter;
 import org.yearup.security.jwt.TokenProvider;
 

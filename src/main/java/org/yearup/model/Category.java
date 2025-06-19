@@ -1,4 +1,4 @@
-package org.yearup.models;
+package org.yearup.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

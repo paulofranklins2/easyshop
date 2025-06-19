@@ -1,6 +1,6 @@
 package org.yearup.repository;
 
-import org.yearup.models.ShoppingCart;
+import org.yearup.model.ShoppingCart;
 
 public interface ShoppingCartDao {
     ShoppingCart getByUserId(int userId);

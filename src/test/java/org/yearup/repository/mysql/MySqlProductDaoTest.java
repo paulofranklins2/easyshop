@@ -2,7 +2,7 @@ package org.yearup.repository.mysql;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.yearup.models.Product;
+import org.yearup.model.Product;
 
 import java.math.BigDecimal;
 

@@ -8,7 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
-import org.yearup.models.User;
+import org.yearup.model.User;
 import org.yearup.repository.UserDao;
 
 import java.util.List;

@@ -1,7 +1,7 @@
-package org.yearup.models.authentication;
+package org.yearup.model.authentication;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.yearup.models.User;
+import org.yearup.model.User;
 
 /*
     The acronym DTO is being used for "data transfer object". It means that this type of class is specifically

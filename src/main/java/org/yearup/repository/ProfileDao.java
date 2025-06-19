@@ -1,7 +1,7 @@
 package org.yearup.repository;
 
 
-import org.yearup.models.Profile;
+import org.yearup.model.Profile;
 
 public interface ProfileDao {
     Profile create(Profile profile);

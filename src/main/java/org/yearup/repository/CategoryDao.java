@@ -1,6 +1,6 @@
 package org.yearup.repository;
 
-import org.yearup.models.Category;
+import org.yearup.model.Category;
 
 import java.util.List;
 

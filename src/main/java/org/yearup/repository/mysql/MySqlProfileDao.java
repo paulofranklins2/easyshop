@@ -1,7 +1,7 @@
 package org.yearup.repository.mysql;
 
 import org.springframework.stereotype.Component;
-import org.yearup.models.Profile;
+import org.yearup.model.Profile;
 import org.yearup.repository.ProfileDao;
 
 import javax.sql.DataSource;

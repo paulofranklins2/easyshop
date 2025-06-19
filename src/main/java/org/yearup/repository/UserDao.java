@@ -1,6 +1,6 @@
 package org.yearup.repository;
 
-import org.yearup.models.User;
+import org.yearup.model.User;
 
 import java.util.List;
 

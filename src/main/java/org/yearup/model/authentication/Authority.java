@@ -1,4 +1,4 @@
-package org.yearup.models.authentication;
+package org.yearup.model.authentication;
 
 import java.util.Objects;
 
