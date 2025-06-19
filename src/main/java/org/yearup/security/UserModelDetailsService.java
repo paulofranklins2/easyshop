@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.yearup.model.User;
-import org.yearup.repository.UserDao;
+import org.yearup.repository.UserRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,9 +22,9 @@ public class UserModelDetailsService implements UserDetailsService {
 
     private final Logger log = LoggerFactory.getLogger(UserModelDetailsService.class);
 
-    private final UserDao userDao;
+    private final UserRepository userDao;
 
-    public UserModelDetailsService(UserDao userDao) {
+    public UserModelDetailsService(UserRepository userDao) {
         this.userDao = userDao;
     }
 

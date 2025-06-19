@@ -8,7 +8,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public class Authority {
-
     private String name;
 
     public Authority(String name) {

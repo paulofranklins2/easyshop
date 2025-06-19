@@ -4,7 +4,7 @@ import org.yearup.model.User;
 
 import java.util.List;
 
-public interface UserDao {
+public interface UserRepository {
 
     List<User> getAll();
 

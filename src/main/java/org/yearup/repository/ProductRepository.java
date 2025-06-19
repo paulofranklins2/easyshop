@@ -5,7 +5,7 @@ import org.yearup.model.Product;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface ProductDao {
+public interface ProductRepository {
     List<Product> search(Integer categoryId, BigDecimal minPrice, BigDecimal maxPrice, String color);
 
     List<Product> listByCategoryId(int categoryId);

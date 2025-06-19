@@ -6,7 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.yearup.model.Product;
-import org.yearup.repository.ProductDao;
+import org.yearup.repository.ProductRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,10 +15,10 @@ import java.util.List;
 @RequestMapping("products")
 @CrossOrigin
 public class ProductsController {
-    private final ProductDao productDao;
+    private final ProductRepository productDao;
 
     @Autowired
-    public ProductsController(ProductDao productDao) {
+    public ProductsController(ProductRepository productDao) {
         this.productDao = productDao;
     }
 
@@ -65,7 +65,7 @@ public class ProductsController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateProduct(@PathVariable int id, @RequestBody Product product) {
         try {
-            productDao.create(product);
+            productDao.update(id, product);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }

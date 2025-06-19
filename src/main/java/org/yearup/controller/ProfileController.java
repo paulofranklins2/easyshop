@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.yearup.model.Profile;
-import org.yearup.repository.ProfileDao;
+import org.yearup.repository.ProfileRepository;
 
 
 @RestController
 public class ProfileController {
-    private final ProfileDao profileDao;
+    private final ProfileRepository profileDao;
 
-    public ProfileController(ProfileDao profileDao) {
+    public ProfileController(ProfileRepository profileDao) {
         this.profileDao = profileDao;
     }
 

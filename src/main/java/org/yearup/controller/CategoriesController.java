@@ -5,19 +5,19 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.yearup.model.Category;
 import org.yearup.model.Product;
-import org.yearup.repository.CategoryDao;
-import org.yearup.repository.ProductDao;
+import org.yearup.repository.CategoryRepository;
+import org.yearup.repository.ProductRepository;
 
 import java.util.List;
 
 @RestController
 public class CategoriesController {
     // create an Autowired controller to inject the categoryDao and ProductDao
-    private final CategoryDao categoryDao;
-    private final ProductDao productDao;
+    private final CategoryRepository categoryDao;
+    private final ProductRepository productDao;
 
     @Autowired
-    public CategoriesController(CategoryDao categoryDao, ProductDao productDao) {
+    public CategoriesController(CategoryRepository categoryDao, ProductRepository productDao) {
         this.categoryDao = categoryDao;
         this.productDao = productDao;
     }

@@ -4,10 +4,10 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public abstract class MySqlDaoBase {
+public abstract class DataManager {
     private final DataSource dataSource;
 
-    public MySqlDaoBase(DataSource dataSource) {
+    public DataManager(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 

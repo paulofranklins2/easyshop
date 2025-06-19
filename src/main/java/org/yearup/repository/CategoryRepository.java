@@ -4,7 +4,7 @@ import org.yearup.model.Category;
 
 import java.util.List;
 
-public interface CategoryDao {
+public interface CategoryRepository {
     List<Category> getAllCategories();
 
     Category getById(int categoryId);

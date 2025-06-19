@@ -3,7 +3,7 @@ package org.yearup.repository;
 
 import org.yearup.model.Profile;
 
-public interface ProfileDao {
+public interface ProfileRepository {
     Profile create(Profile profile);
     boolean update(Profile profile);
     Profile findById(int id);
