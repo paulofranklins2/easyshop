@@ -2,6 +2,7 @@ package org.yearup.model.authentication;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /*
     The acronym DTO is being used for "data transfer object". It means that this type of class is specifically
@@ -11,16 +12,8 @@ import lombok.Setter;
  */
 @Setter
 @Getter
+@ToString
 public class LoginDto {
-
     private String username;
     private String password;
-
-    @Override
-    public String toString() {
-        return "LoginDTO{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }
