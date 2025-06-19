@@ -1,50 +1,71 @@
 package org.yearup.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.yearup.repository.ProductDao;
-import org.yearup.repository.ShoppingCartDao;
-import org.yearup.repository.UserDao;
+import org.yearup.model.ShoppingCartItem;
+import org.yearup.repository.ProductRepository;
+import org.yearup.repository.ShoppingCartRepository;
+import org.yearup.repository.UserRepository;
 import org.yearup.model.ShoppingCart;
 import org.yearup.model.User;
 
 import java.security.Principal;
 
-// convert this class to a REST controller
-// only logged in users should have access to these actions
+@RestController
 public class ShoppingCartController {
     // a shopping cart requires
-    private ShoppingCartDao shoppingCartDao;
-    private UserDao userDao;
-    private ProductDao productDao;
+    private final ShoppingCartRepository shoppingCartDao;
+    private final UserRepository userDao;
+
+    @Autowired
+    public ShoppingCartController(ShoppingCartRepository shoppingCartDao, UserRepository userDao, ProductRepository productDao) {
+        this.shoppingCartDao = shoppingCartDao;
+        this.userDao = userDao;
+    }
 
 
-    // each method in this controller requires a Principal object as a parameter
+    @GetMapping("/cart")
     public ShoppingCart getCart(Principal principal) {
         try {
-            // get the currently logged in username
-            String userName = principal.getName();
-            // find database user by userId
-            User user = userDao.getByUserName(userName);
-            int userId = user.getId();
-
-            // use the shoppingcartDao to get all items in the cart and return the cart
-            return null;
+            int userId = getUserIdFromPrincipal(principal);
+            return shoppingCartDao.getByUserId(userId);
+        } catch (ResponseStatusException e) {
+            throw e;
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error.");
         }
     }
 
-    // add a POST method to add a product to the cart - the url should be
-    // https://localhost:8080/cart/products/15 (15 is the productId to be added
+    @PostMapping("/cart/products/{productId}")
+    public ShoppingCart addToCart(@PathVariable int productId, Principal principal) {
+        int userId = getUserIdFromPrincipal(principal);
+        return shoppingCartDao.addProductToShoppingCart(userId, productId);
+    }
 
+    @PutMapping("/cart/products/{productId}")
+    public ShoppingCart updateCartQuantity(@PathVariable int productId, @RequestBody ShoppingCartItem item, Principal principal) {
+        int userId = getUserIdFromPrincipal(principal);
+        return shoppingCartDao.updateProductQuantity(userId, productId, item.getQuantity());
+    }
 
-    // add a PUT method to update an existing product in the cart - the url should be
-    // https://localhost:8080/cart/products/15 (15 is the productId to be updated)
-    // the BODY should be a ShoppingCartItem - quantity is the only value that will be updated
+    @DeleteMapping("/cart/products/{productId}")
+    public ShoppingCart deleteProduct(@PathVariable int productId, Principal principal) {
+        int userId = getUserIdFromPrincipal(principal);
+        return shoppingCartDao.deleteProductById(userId, productId);
+    }
 
+    @DeleteMapping("/cart")
+    public ShoppingCart clearCart(Principal principal) {
+        int userId = getUserIdFromPrincipal(principal);
+        return shoppingCartDao.clearCart(userId);
+    }
 
-    // add a DELETE method to clear all products from the current users cart
-    // https://localhost:8080/cart
-
+    private int getUserIdFromPrincipal(Principal principal) {
+        String username = principal.getName();
+        User user = userDao.getByUserName(username);
+        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        return user.getId();
+    }
 }
