@@ -2,11 +2,11 @@ package org.yearup.model.authentication;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Objects;
+import lombok.ToString;
 
 @Setter
 @Getter
+@ToString
 public class Authority {
 
     private String name;
@@ -21,17 +21,5 @@ public class Authority {
         if (o == null || getClass() != o.getClass()) return false;
         Authority authority = (Authority) o;
         return name.equals(authority.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
-    }
-
-    @Override
-    public String toString() {
-        return "Authority{" +
-                "name=" + name +
-                '}';
     }
 }
