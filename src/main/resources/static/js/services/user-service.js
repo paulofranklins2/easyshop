@@ -63,14 +63,13 @@ class UserService {
         const user = {
             username: this.getUserName(),
             loggedin: this.isLoggedIn(),
-            loggedout: !this.isLoggedIn(),
-            isAdmin: this.currentUser.role === 'ROLE_ADMIN'
+            loggedout: !this.isLoggedIn()
         };
 
         templateBuilder.build('header', user, 'header-user');
     }
 
-    register(username, password, confirm) {
+    register(username, password, confirm, callback) {
         const url = `${config.baseUrl}/register`;
         const register = {
             username: username,
@@ -80,6 +79,10 @@ class UserService {
         };
 
         axios.post(url, register)
+            .then(response => {
+                console.log(response.data);
+                if (callback) callback();
+            })
             .catch(error => {
 
                 const data = {

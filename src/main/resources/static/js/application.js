@@ -1,9 +1,67 @@
-function showLoginForm() {
-    templateBuilder.build('login-form', {}, 'login');
+function showLoginCanvas()
+{
+    templateBuilder.build('login-offcanvas', {}, 'login', () => {
+        const element = document.getElementById('loginCanvas');
+        const canvas = new bootstrap.Offcanvas(element);
+        canvas.show();
+    });
 }
 
-function showRegisterForm() {
-    templateBuilder.build('register-form', {}, 'login');
+function hideLoginCanvas()
+{
+    const element = document.getElementById('loginCanvas');
+    if(element)
+    {
+        const canvas = bootstrap.Offcanvas.getInstance(element);
+        if(canvas) canvas.hide();
+    }
+    templateBuilder.clear('login');
+}
+
+function showRegisterCanvas()
+{
+    templateBuilder.build('register-offcanvas', {}, 'login', () => {
+        const element = document.getElementById('registerCanvas');
+        const canvas = new bootstrap.Offcanvas(element);
+        canvas.show();
+    });
+}
+
+function hideRegisterCanvas()
+{
+    const element = document.getElementById('registerCanvas');
+    if(element)
+    {
+        const canvas = bootstrap.Offcanvas.getInstance(element);
+        if(canvas) canvas.hide();
+    }
+    templateBuilder.clear('login');
+}
+
+function hideModalForm()
+{
+    templateBuilder.clear('login');
+}
+
+function login()
+{
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+
+    userService.login(username, password);
+    hideLoginCanvas();
+}
+
+function registerUser()
+{
+    const username = document.getElementById("register-username").value;
+    const password = document.getElementById("register-password").value;
+    const confirm = document.getElementById("register-confirm").value;
+
+    userService.register(username, password, confirm, () => {
+        hideRegisterCanvas();
+        showLoginCanvas();
+    });
 }
 
 
