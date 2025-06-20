@@ -60,7 +60,7 @@ class CategoryService {
             name: document.getElementById('edit-category-name').value,
             description: document.getElementById('edit-category-description').value
         };
-        axios.put(`${config.baseUrl}/categorids/${id}`, category)
+        axios.put(`${config.baseUrl}/categories/${id}`, category)
             .then(() => {
                 hideModalForm();
                 this.showCategoryManager();
@@ -75,7 +75,7 @@ class CategoryService {
     }
 
     deleteCategory(id) {
-        axios.delete(`${config.baseUrl}/categorids/${id}`)
+        axios.delete(`${config.baseUrl}/categories/${id}`)
             .then(() => {
                 hideModalForm();
                 this.showCategoryManager();
