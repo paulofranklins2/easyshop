@@ -5,7 +5,7 @@
     </div>
 
     <div class="form-floating mb-3">
-        <select id="category-select" class="form-select">
+        <select id="category-select" class="form-select" onchange="setCategory(this)">
             <option value="0">Show All</option>
         </select>
         <label for="category-select">Category</label>
@@ -21,7 +21,7 @@
     </div>
 
     <div class="form-floating mb-3">
-        <select id="color-select" class="form-select">
+        <select id="color-select" class="form-select" onchange="setColor(this)">
             <option value="">Show All</option>
             <option>Black</option>
             <option>Blue</option>

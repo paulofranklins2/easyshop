@@ -87,6 +87,7 @@ function showCart() {
 function showFilters() {
     templateBuilder.build('filter', {}, 'filterSidebarBody', () => {
         categoryService.getAllCategories(loadCategories);
+        restoreFilters();
         const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('filterSidebar'));
         offcanvas.show();
     });
@@ -95,7 +96,17 @@ function showFilters() {
 function applyFilters(event) {
     if (event) event.preventDefault();
     const q = document.getElementById('search-input').value;
+    const cat = document.getElementById('category-select').value;
+    const color = document.getElementById('color-select').value;
+    const min = document.getElementById('min-price').value;
+    const max = document.getElementById('max-price').value;
+
     productService.setSearchQuery(q);
+    productService.addCategoryFilter(cat);
+    productService.addColorFilter(color);
+    productService.addMinPriceFilter(min);
+    productService.addMaxPriceFilter(max);
+
     productService.search();
     const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('filterSidebar'));
     offcanvas.hide();
