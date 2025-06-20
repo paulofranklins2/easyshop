@@ -7,6 +7,14 @@ class ShoppingCartService {
         total: 0
     };
 
+    getImagePath(url) {
+        if (url.startsWith('http')) return url;
+        if (productService && productService.hasPhoto(url)) {
+            return `/images/products/${url}`;
+        }
+        return '/images/products/no-image.jpg';
+    }
+
     addToCart(productId) {
         const url = `${config.baseUrl}/cart/products/${productId}`;
         // const headers = userService.getHeaders();
@@ -110,7 +118,8 @@ class ShoppingCartService {
             const options = Array.from({length: max}, (_, i) => `<option ${i + 1 === item.quantity ? 'selected' : ''}>${i + 1}</option>`).join('');
             const div = document.createElement('div');
             div.className = 'd-flex justify-content-between align-items-center mb-3';
-            div.innerHTML = `<div class="d-flex align-items-center"><img src="/images/products/${item.product.imageUrl}" style="width:40px;height:40px;object-fit:contain" class="me-2"><div><strong>${item.product.name}</strong><br>$${item.product.price} × <select class="form-select form-select-sm d-inline-block w-auto cartQty" data-id="${item.product.productId}">${options}</select></div></div><button class="btn btn-danger btn-sm remove-item" data-id="${item.product.productId}">Remove</button>`;
+            const imgPath = this.getImagePath(item.product.imageUrl);
+            div.innerHTML = `<div class="d-flex align-items-center"><img src="${imgPath}" style="width:40px;height:40px;object-fit:contain" class="me-2"><div><strong>${item.product.name}</strong><br>$${item.product.price} × <select class="form-select form-select-sm d-inline-block w-auto cartQty" data-id="${item.product.productId}">${options}</select></div></div><button class="btn btn-danger btn-sm remove-item" data-id="${item.product.productId}">Remove</button>`;
             container.appendChild(div);
         });
         const totalDiv = document.getElementById('cartSidebarTotal');
@@ -160,7 +169,7 @@ class ShoppingCartService {
         let photoDiv = document.createElement("div");
         photoDiv.classList.add("photo")
         let img = document.createElement("img");
-        img.src = `/images/products/${item.product.imageUrl}`
+        img.src = this.getImagePath(item.product.imageUrl)
         img.addEventListener("click", () => {
             showImageDetailForm(item.product.name, img.src)
         })

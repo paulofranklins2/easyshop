@@ -9,7 +9,11 @@
             <label for="add-price">Price</label>
         </div>
         <div class="form-floating mb-3">
-            <input type="number" class="form-control" id="add-category" placeholder="Category">
+            <select class="form-select" id="add-category">
+                {{#categories}}
+                <option value="{{categoryId}}">{{name}}</option>
+                {{/categories}}
+            </select>
             <label for="add-category">Category</label>
         </div>
         <div class="form-floating mb-3">

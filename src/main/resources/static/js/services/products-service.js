@@ -133,8 +133,12 @@ class ProductService {
                 this.lastCount = data.products.length;
 
                 data.products.forEach(product => {
-                    if (!this.hasPhoto(product.imageUrl)) {
-                        product.imageUrl = "no-image.jpg";
+                    if (product.imageUrl && product.imageUrl.startsWith('http')) {
+                        product.imagePath = product.imageUrl;
+                    } else if (this.hasPhoto(product.imageUrl)) {
+                        product.imagePath = `/images/products/${product.imageUrl}`;
+                    } else {
+                        product.imagePath = '/images/products/no-image.jpg';
                     }
                 })
 
@@ -216,13 +220,20 @@ class ProductService {
     }
 
     editProduct(id) {
-        axios.get(`${config.baseUrl}/products/${id}`)
-            .then(res => {
-                templateBuilder.build('edit-product', res.data, 'login', () => {
-                    const modal = document.getElementById('edit-product');
-                    if (modal) modal.style.display = 'flex';
-                });
+        axios.all([
+            axios.get(`${config.baseUrl}/products/${id}`),
+            axios.get(`${config.baseUrl}/categories`)
+        ]).then(axios.spread((prodRes, catRes) => {
+            const data = prodRes.data;
+            data.categories = catRes.data.map(c => ({
+                ...c,
+                selected: c.categoryId === data.categoryId
+            }));
+            templateBuilder.build('edit-product', data, 'login', () => {
+                const modal = document.getElementById('edit-product');
+                if (modal) modal.style.display = 'flex';
             });
+        }));
     }
 
     saveProduct(id) {
@@ -256,9 +267,11 @@ class ProductService {
     }
 
     showAddProduct() {
-        templateBuilder.build('add-product-offcanvas', {}, 'addProductSidebarBody', () => {
-            const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('addProductSidebar'));
-            off.show();
+        categoryService.getAllCategories(categories => {
+            templateBuilder.build('add-product-offcanvas', {categories}, 'addProductSidebarBody', () => {
+                const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('addProductSidebar'));
+                off.show();
+            });
         });
     }
 
