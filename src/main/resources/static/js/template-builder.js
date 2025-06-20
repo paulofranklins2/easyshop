@@ -11,7 +11,7 @@ class TemplateBuilder {
 
                     if (callback) callback();
                 } catch (e) {
-                    console.log(e);
+                    console.error(e);
                 }
             })
     }
@@ -37,7 +37,7 @@ class TemplateBuilder {
                         }, 3000);
                     }
                 } catch (e) {
-                    console.log(e);
+                    console.error(e);
                 }
             })
     }
