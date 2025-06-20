@@ -73,8 +73,9 @@ class CategoryService {
             });
     }
 
-    showDeleteCategoryModal(id) {
-        templateBuilder.build('confirm-delete-category-offcanvas', {categoryId: id}, 'deleteCategorySidebarBody', () => {
+    showDeleteCategoryModal(id, name, description) {
+        const data = {categoryId: id, name, description};
+        templateBuilder.build('confirm-delete-category-offcanvas', data, 'deleteCategorySidebarBody', () => {
             const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('deleteCategorySidebar'));
             off.show();
         });

@@ -20,7 +20,7 @@
             <td>{{description}}</td>
             <td>
                 <button class="btn btn-sm btn-warning me-1" onclick="categoryService.showEditCategoryModal({{categoryId}}, '{{name}}', '{{description}}')">Edit</button>
-                <button class="btn btn-sm btn-danger" onclick="categoryService.showDeleteCategoryModal({{categoryId}})">Delete</button>
+                <button class="btn btn-sm btn-danger" onclick="categoryService.showDeleteCategoryModal({{categoryId}}, '{{name}}', '{{description}}')">Delete</button>
             </td>
         </tr>
         {{/categories}}

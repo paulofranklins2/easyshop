@@ -3,14 +3,12 @@
         <a class="navbar-brand d-flex align-items-center" href="#" onclick="loadHome()">
             <img src="/images/logo.png" alt="logo" width="30" height="24" class="d-inline-block align-text-top me-2">
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="loadHome()">Home</a>
-                </li>
                 {{#loggedin}}
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#filterSidebar" onclick="showFilters()">Filter</a>
@@ -21,21 +19,25 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar" onclick="showCart()">Cart</a>
                 </li>
+
                 {{#isAdmin}}
-                <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="categoryService.showCategoryManager(); return false;">Add Category</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#addProductSidebar" onclick="productService.showAddProduct()">Add Product</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Admin
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="categoryService.showCategoryManager(); return false;">Add Category</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="offcanvas" data-bs-target="#addProductSidebar" onclick="productService.showAddProduct()">Add Product</a></li>
+                    </ul>
                 </li>
                 {{/isAdmin}}
                 {{/loggedin}}
             </ul>
-            <ul class="navbar-nav mb-2 mb-lg-0">
 
+            <ul class="navbar-nav mb-2 mb-lg-0">
                 {{#loggedout}}
                 <li class="nav-item">
-                    <a class="nav-link" href="#"  onclick="showLoginCanvas();return false;">login</a>
+                    <a class="nav-link" href="#" onclick="showLoginCanvas();return false;">Login</a>
                 </li>
                 {{/loggedout}}
 
@@ -53,7 +55,6 @@
                     </a>
                 </li>
                 {{/loggedin}}
-
             </ul>
         </div>
     </div>
