@@ -23,7 +23,7 @@
                 </li>
                 {{#isAdmin}}
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#categorySidebar" onclick="categoryService.showCategoryManager()">Categories</a>
+                    <a class="nav-link" href="#" onclick="categoryService.showCategoryManager(); return false;">Add Category</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#addProductSidebar" onclick="productService.showAddProduct()">Add Product</a>

@@ -1,0 +1,35 @@
+<div class="mb-3 text-end">
+    <button class="btn btn-primary" onclick="categoryService.showAddCategoryModal()">Add Category</button>
+</div>
+<div id="category-list">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#hasCategories}}
+        {{#categories}}
+        <tr>
+            <th scope="row">{{categoryId}}</th>
+            <td>{{name}}</td>
+            <td>{{description}}</td>
+            <td>
+                <button class="btn btn-sm btn-warning me-1" onclick="categoryService.showEditCategoryModal({{categoryId}}, '{{name}}', '{{description}}')">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="categoryService.showDeleteCategoryModal({{categoryId}})">Delete</button>
+            </td>
+        </tr>
+        {{/categories}}
+        {{/hasCategories}}
+        {{^hasCategories}}
+        <tr>
+            <td colspan="4" class="text-muted">No categories found.</td>
+        </tr>
+        {{/hasCategories}}
+        </tbody>
+    </table>
+</div>

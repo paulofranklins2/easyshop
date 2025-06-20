@@ -22,7 +22,11 @@ class CategoryService {
 
     showCategoryManager() {
         this.getAllCategories(cats => {
-            templateBuilder.build('categories-offcanvas', {categories: cats}, 'categorySidebarBody', () => {
+            const data = {
+                categories: cats,
+                hasCategories: cats.length > 0
+            };
+            templateBuilder.build('categories-offcanvas', data, 'categorySidebarBody', () => {
                 const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('categorySidebar'));
                 off.show();
             });
