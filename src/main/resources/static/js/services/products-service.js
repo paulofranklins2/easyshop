@@ -225,13 +225,20 @@ class ProductService {
             axios.get(`${config.baseUrl}/categories`)
         ]).then(axios.spread((prodRes, catRes) => {
             const data = prodRes.data;
+            if (data.imageUrl && data.imageUrl.startsWith('http')) {
+                data.imagePath = data.imageUrl;
+            } else if (this.hasPhoto(data.imageUrl)) {
+                data.imagePath = `/images/products/${data.imageUrl}`;
+            } else {
+                data.imagePath = '/images/products/no-image.jpg';
+            }
             data.categories = catRes.data.map(c => ({
                 ...c,
                 selected: c.categoryId === data.categoryId
             }));
-            templateBuilder.build('edit-product', data, 'login', () => {
-                const modal = document.getElementById('edit-product');
-                if (modal) modal.style.display = 'flex';
+            templateBuilder.build('edit-product-offcanvas', data, 'editProductSidebarBody', () => {
+                const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('editProductSidebar'));
+                off.show();
             });
         }));
     }
@@ -249,19 +256,35 @@ class ProductService {
         };
         axios.put(`${config.baseUrl}/products/${id}`, product)
             .then(() => {
-                hideModalForm();
+                const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('editProductSidebar'));
+                off.hide();
                 this.search();
             });
     }
 
     confirmDelete(id) {
-        templateBuilder.build('confirm-delete', {productId: id}, 'login');
+        axios.get(`${config.baseUrl}/products/${id}`)
+            .then(res => {
+                const data = res.data;
+                if (data.imageUrl && data.imageUrl.startsWith('http')) {
+                    data.imagePath = data.imageUrl;
+                } else if (this.hasPhoto(data.imageUrl)) {
+                    data.imagePath = `/images/products/${data.imageUrl}`;
+                } else {
+                    data.imagePath = '/images/products/no-image.jpg';
+                }
+                templateBuilder.build('confirm-delete-product-offcanvas', data, 'deleteProductSidebarBody', () => {
+                    const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('deleteProductSidebar'));
+                    off.show();
+                });
+            });
     }
 
     deleteProduct(id) {
         axios.delete(`${config.baseUrl}/products/${id}`)
             .then(() => {
-                hideModalForm();
+                const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('deleteProductSidebar'));
+                off.hide();
                 this.search();
             });
     }
