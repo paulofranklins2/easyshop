@@ -66,7 +66,8 @@ class ShoppingCartService {
     loadCartPage() {
         // templateBuilder.build("cart", this.cart, "main");
 
-        const main = document.getElementById("main")
+        const main = document.getElementById("main");
+        main.classList.add("with-sidebar");
         main.innerHTML = "";
 
         let div = document.createElement("div");

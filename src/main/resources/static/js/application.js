@@ -39,7 +39,9 @@ function showImageDetailForm(product, imageUrl) {
 }
 
 function loadHome() {
-    templateBuilder.build('home', {}, 'main')
+    const main = document.getElementById('main');
+    main.classList.remove('with-sidebar');
+    templateBuilder.build('home', {}, 'main');
 
     productService.search();
 }

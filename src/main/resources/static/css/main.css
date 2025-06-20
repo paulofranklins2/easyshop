@@ -27,8 +27,6 @@ header .cart #cart-items {
 }
 
 main {
-    display: grid;
-    grid-template-columns: 350px auto;
     margin-top: 15px;
     min-height: 90vh;
 }
@@ -36,6 +34,11 @@ main {
 main > .filter-box {
     width: 350px;
     padding: 15px;
+}
+
+main.with-sidebar {
+    display: grid;
+    grid-template-columns: 350px auto;
 }
 
 main #min-price .slider-selection {
