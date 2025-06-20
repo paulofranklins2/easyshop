@@ -8,6 +8,7 @@ class ProfileService {
             .then(response => {
                 const data = response.data;
                 templateBuilder.build("profile-offcanvas", data, "profileSidebarBody", () => {
+                    profileLoaded();
                     const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('profileSidebar'));
                     off.show();
                 });

@@ -104,6 +104,15 @@ class ProductService {
         this.filter.color = undefined;
     }
 
+    clearAllFilters() {
+        this.clearCategoryFilter();
+        this.clearMinPriceFilter();
+        this.clearMaxPriceFilter();
+        this.clearColorFilter();
+        this.clearSearchQuery();
+        this.page = 0;
+    }
+
     setSearchQuery(q) {
         if (q === "") this.clearSearchQuery();
         else this.filter.q = q;

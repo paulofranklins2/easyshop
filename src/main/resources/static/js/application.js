@@ -76,6 +76,30 @@ function saveProfile() {
     };
 
     profileService.updateProfile(profile);
+    setProfileEditable(false);
+}
+
+function profileLoaded() {
+    setProfileEditable(false);
+}
+
+function setProfileEditable(editable) {
+    const inputs = document.querySelectorAll('#profileSidebarBody input');
+    inputs.forEach(i => i.disabled = !editable);
+    const editBtn = document.getElementById('edit-profile');
+    const cancelBtn = document.getElementById('cancel-edit-profile');
+    const saveBtn = document.getElementById('save-profile');
+    if (editBtn) editBtn.classList.toggle('hidden', editable);
+    if (cancelBtn) cancelBtn.classList.toggle('hidden', !editable);
+    if (saveBtn) saveBtn.classList.toggle('hidden', !editable);
+}
+
+function enableProfileEdit() {
+    setProfileEditable(true);
+}
+
+function cancelProfileEdit() {
+    profileService.loadProfile();
 }
 
 function showCart() {
@@ -112,6 +136,13 @@ function applyFilters(event) {
     offcanvas.hide();
 }
 
+function clearFilters() {
+    productService.clearAllFilters();
+    clearFilterControls();
+    productService.search();
+    const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('filterSidebar'));
+    offcanvas.hide();
+}
 
 function clearCart() {
     cartService.clearCart();

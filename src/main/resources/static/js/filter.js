@@ -43,3 +43,28 @@ function restoreFilters() {
     const colorSelect = document.getElementById('color-select');
     if (colorSelect) colorSelect.value = filter.color || '';
 }
+
+function clearFilterControls() {
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) searchInput.value = '';
+
+    const minPrice = document.getElementById('min-price');
+    const minDisplay = document.getElementById('min-price-display');
+    if (minPrice) {
+        minPrice.value = 0;
+        if (minDisplay) minDisplay.innerText = 0;
+    }
+
+    const maxPrice = document.getElementById('max-price');
+    const maxDisplay = document.getElementById('max-price-display');
+    if (maxPrice) {
+        maxPrice.value = 1500;
+        if (maxDisplay) maxDisplay.innerText = 1500;
+    }
+
+    const colorSelect = document.getElementById('color-select');
+    if (colorSelect) colorSelect.value = '';
+
+    const categorySelect = document.getElementById('category-select');
+    if (categorySelect) categorySelect.value = 0;
+}
