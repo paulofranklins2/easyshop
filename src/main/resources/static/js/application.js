@@ -42,7 +42,6 @@ function loadHome() {
     templateBuilder.build('home', {}, 'main')
 
     productService.search();
-    categoryService.getAllCategories(loadCategories);
 }
 
 function editProfile() {
@@ -83,12 +82,23 @@ function showCart() {
     offcanvas.show();
 }
 
-function searchProducts(event) {
-    event.preventDefault();
+function showFilters() {
+    templateBuilder.build('filter', {}, 'filterSidebarBody', () => {
+        categoryService.getAllCategories(loadCategories);
+        const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('filterSidebar'));
+        offcanvas.show();
+    });
+}
+
+function applyFilters(event) {
+    if (event) event.preventDefault();
     const q = document.getElementById('search-input').value;
     productService.setSearchQuery(q);
     productService.search();
+    const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('filterSidebar'));
+    offcanvas.hide();
 }
+
 
 function clearCart() {
     cartService.clearCart();

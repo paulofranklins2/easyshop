@@ -13,6 +13,9 @@
                 </li>
                 {{#loggedin}}
                 <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#filterSidebar" onclick="showFilters()">Filter</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#profileSidebar" onclick="editProfile()">Profile</a>
                 </li>
                 <li class="nav-item">
@@ -20,10 +23,6 @@
                 </li>
                 {{/loggedin}}
             </ul>
-            <form class="d-flex me-lg-3 mb-2 mb-lg-0" role="search" onsubmit="searchProducts(event)">
-                <input class="form-control me-2" type="search" placeholder="Search" id="search-input" />
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
             <ul class="navbar-nav mb-2 mb-lg-0">
 
                 {{#loggedout}}
