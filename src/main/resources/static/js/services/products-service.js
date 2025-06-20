@@ -178,7 +178,10 @@ class ProductService {
         prev.innerHTML = '<a class="page-link" href="#">Previous</a>';
         prev.addEventListener('click', (e) => {
             e.preventDefault();
-            if (this.page > 0) { this.page--; this.search(); }
+            if (this.page > 0) {
+                this.page--;
+                this.search();
+            }
         });
         ul.appendChild(prev);
 
@@ -193,7 +196,8 @@ class ProductService {
             nextNum.innerHTML = `<a class="page-link" href="#">${this.page + 2}</a>`;
             nextNum.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.page++; this.search();
+                this.page++;
+                this.search();
             });
             ul.appendChild(nextNum);
         }
@@ -203,7 +207,10 @@ class ProductService {
         next.innerHTML = '<a class="page-link" href="#">Next</a>';
         next.addEventListener('click', (e) => {
             e.preventDefault();
-            if (this.lastCount === this.size) { this.page++; this.search(); }
+            if (this.lastCount === this.size) {
+                this.page++;
+                this.search();
+            }
         });
         ul.appendChild(next);
     }
@@ -230,7 +237,10 @@ class ProductService {
             imageUrl: document.getElementById('edit-image').value
         };
         axios.put(`${config.baseUrl}/products/${id}`, product)
-            .then(() => { hideModalForm(); this.search(); });
+            .then(() => {
+                hideModalForm();
+                this.search();
+            });
     }
 
     confirmDelete(id) {
@@ -239,7 +249,36 @@ class ProductService {
 
     deleteProduct(id) {
         axios.delete(`${config.baseUrl}/products/${id}`)
-            .then(() => { hideModalForm(); this.search(); });
+            .then(() => {
+                hideModalForm();
+                this.search();
+            });
+    }
+
+    showAddProduct() {
+        templateBuilder.build('add-product-offcanvas', {}, 'addProductSidebarBody', () => {
+            const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('addProductSidebar'));
+            off.show();
+        });
+    }
+
+    createProduct() {
+        const product = {
+            name: document.getElementById('add-name').value,
+            price: parseFloat(document.getElementById('add-price').value),
+            categoryId: parseInt(document.getElementById('add-category').value),
+            description: document.getElementById('add-description').value,
+            color: document.getElementById('add-color').value,
+            stock: parseInt(document.getElementById('add-stock').value),
+            featured: document.getElementById('add-featured').checked,
+            imageUrl: document.getElementById('add-image').value
+        };
+        axios.post(`${config.baseUrl}/products`, product)
+            .then(() => {
+                const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('addProductSidebar'));
+                off.hide();
+                this.search();
+            });
     }
 
 }

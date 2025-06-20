@@ -21,6 +21,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar" onclick="showCart()">Cart</a>
                 </li>
+                {{#isAdmin}}
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#addProductSidebar" onclick="productService.showAddProduct()">Add Product</a>
+                </li>
+                {{/isAdmin}}
                 {{/loggedin}}
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">
