@@ -63,7 +63,8 @@ class UserService {
         const user = {
             username: this.getUserName(),
             loggedin: this.isLoggedIn(),
-            loggedout: !this.isLoggedIn()
+            loggedout: !this.isLoggedIn(),
+            isAdmin: this.getCurrentUser().role === 'ROLE_ADMIN'
         };
 
         templateBuilder.build('header', user, 'header-user');

@@ -1,0 +1,16 @@
+<div class="card">
+    <div class="card-body">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="edit-category-name" value="{{name}}">
+            <label for="edit-category-name">Name</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="edit-category-description" value="{{description}}">
+            <label for="edit-category-description">Description</label>
+        </div>
+        <div class="text-end">
+            <button class="btn btn-secondary me-2" data-bs-dismiss="offcanvas">Cancel</button>
+            <button class="btn btn-primary" onclick="categoryService.updateCategory({{categoryId}})">Update</button>
+        </div>
+    </div>
+</div>

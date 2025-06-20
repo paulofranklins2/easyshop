@@ -34,9 +34,9 @@ class CategoryService {
     }
 
     showAddCategoryModal() {
-        templateBuilder.build('add-category-modal', {}, 'login', () => {
-            const modal = document.getElementById('add-category-modal');
-            if (modal) modal.style.display = 'flex';
+        templateBuilder.build('add-category-offcanvas', {}, 'addCategorySidebarBody', () => {
+            const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('addCategorySidebar'));
+            off.show();
         });
     }
 
@@ -47,15 +47,16 @@ class CategoryService {
         };
         axios.post(`${config.baseUrl}/categories`, category)
             .then(() => {
-                hideModalForm();
+                const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('addCategorySidebar'));
+                off.hide();
                 this.showCategoryManager();
             });
     }
 
     showEditCategoryModal(id, name, description) {
-        templateBuilder.build('edit-category-modal', {categoryId: id, name, description}, 'login', () => {
-            const modal = document.getElementById('edit-category-modal');
-            if (modal) modal.style.display = 'flex';
+        templateBuilder.build('edit-category-offcanvas', {categoryId: id, name, description}, 'editCategorySidebarBody', () => {
+            const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('editCategorySidebar'));
+            off.show();
         });
     }
 
@@ -66,22 +67,24 @@ class CategoryService {
         };
         axios.put(`${config.baseUrl}/categories/${id}`, category)
             .then(() => {
-                hideModalForm();
+                const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('editCategorySidebar'));
+                off.hide();
                 this.showCategoryManager();
             });
     }
 
     showDeleteCategoryModal(id) {
-        templateBuilder.build('confirm-delete-category', {categoryId: id}, 'login', () => {
-            const modal = document.getElementById('delete-category-modal');
-            if (modal) modal.style.display = 'flex';
+        templateBuilder.build('confirm-delete-category-offcanvas', {categoryId: id}, 'deleteCategorySidebarBody', () => {
+            const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('deleteCategorySidebar'));
+            off.show();
         });
     }
 
     deleteCategory(id) {
         axios.delete(`${config.baseUrl}/categories/${id}`)
             .then(() => {
-                hideModalForm();
+                const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('deleteCategorySidebar'));
+                off.hide();
                 this.showCategoryManager();
             });
     }
