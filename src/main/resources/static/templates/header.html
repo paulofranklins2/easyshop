@@ -11,12 +11,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#" onclick="loadHome()">Home</a>
                 </li>
+                {{#loggedin}}
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#profileSidebar" onclick="editProfile()">Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#cartSidebar" onclick="showCart()">Cart</a>
                 </li>
+                {{/loggedin}}
             </ul>
             <form class="d-flex me-lg-3 mb-2 mb-lg-0" role="search" onsubmit="searchProducts(event)">
                 <input class="form-control me-2" type="search" placeholder="Search" id="search-input" />

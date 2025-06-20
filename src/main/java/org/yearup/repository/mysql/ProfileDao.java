@@ -17,8 +17,8 @@ public class ProfileDao extends DataManager implements ProfileRepository {
     @Override
     public Profile create(Profile profile) {
         String sql = """
-                    INSERT INTO profiles (user_id, first_name, last_name, phone, email, address, city, state, zip)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    INSERT INTO profiles (user_id, first_name, last_name, phone, email, address, city, state, zip, photo_url, profile_url)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
         try (Connection connection = getConnection();
@@ -37,7 +37,7 @@ public class ProfileDao extends DataManager implements ProfileRepository {
     public boolean update(Profile profile) {
         String sql = """
                     UPDATE profiles
-                    SET first_name = ?, last_name = ?, phone = ?, email = ?, address = ?, city = ?, state = ?, zip = ?
+                    SET first_name = ?, last_name = ?, phone = ?, email = ?, address = ?, city = ?, state = ?, zip = ?, photo_url = ?, profile_url = ?
                     WHERE user_id = ?
                 """;
 
@@ -105,24 +105,30 @@ public class ProfileDao extends DataManager implements ProfileRepository {
                 rs.getString("address"),
                 rs.getString("city"),
                 rs.getString("state"),
-                rs.getString("zip")
+                rs.getString("zip"),
+                rs.getString("photo_url"),
+                rs.getString("profile_url")
         );
     }
 
     // Helper: sets profile parameters into a PreparedStatement
     private void setProfileParameters(PreparedStatement ps, Profile profile, boolean includeUserIdAtEnd) throws SQLException {
-        ps.setString(1, profile.getFirstName());
-        ps.setString(2, profile.getLastName());
-        ps.setString(3, profile.getPhone());
-        ps.setString(4, profile.getEmail());
-        ps.setString(5, profile.getAddress());
-        ps.setString(6, profile.getCity());
-        ps.setString(7, profile.getState());
-        ps.setString(8, profile.getZip());
+        int i = 1;
+        if(!includeUserIdAtEnd) {
+            ps.setInt(i++, profile.getUserId());
+        }
+        ps.setString(i++, profile.getFirstName());
+        ps.setString(i++, profile.getLastName());
+        ps.setString(i++, profile.getPhone());
+        ps.setString(i++, profile.getEmail());
+        ps.setString(i++, profile.getAddress());
+        ps.setString(i++, profile.getCity());
+        ps.setString(i++, profile.getState());
+        ps.setString(i++, profile.getZip());
+        ps.setString(i++, profile.getPhotoUrl());
+        ps.setString(i++, profile.getProfileUrl());
 
         if (includeUserIdAtEnd)
-            ps.setInt(9, profile.getUserId());
-        else
-            ps.setInt(1, profile.getUserId()); // only for INSERT if needed
+            ps.setInt(i, profile.getUserId());
     }
 }

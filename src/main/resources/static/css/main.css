@@ -163,3 +163,8 @@ main > .content-form .cart-item {
     height: 180px;
     object-fit: contain;
 }
+
+#profileSidebarBody .profile-card {
+    width: 90% !important;
+    margin: auto;
+}

@@ -58,6 +58,8 @@ function saveProfile() {
     const city = document.getElementById("city").value;
     const state = document.getElementById("state").value;
     const zip = document.getElementById("zip").value;
+    const photoUrl = document.getElementById("photoUrl").value;
+    const profileUrl = document.getElementById("profileUrl").value;
 
     const profile = {
         firstName,
@@ -67,7 +69,9 @@ function saveProfile() {
         address,
         city,
         state,
-        zip
+        zip,
+        photoUrl,
+        profileUrl
     };
 
     profileService.updateProfile(profile);

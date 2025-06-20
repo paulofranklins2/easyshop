@@ -202,7 +202,10 @@ class ProductService {
     editProduct(id) {
         axios.get(`${config.baseUrl}/products/${id}`)
             .then(res => {
-                templateBuilder.build('edit-product', res.data, 'login');
+                templateBuilder.build('edit-product', res.data, 'login', () => {
+                    const modal = document.getElementById('edit-product');
+                    if (modal) modal.style.display = 'flex';
+                });
             });
     }
 

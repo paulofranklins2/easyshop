@@ -1,9 +1,13 @@
-<div class="card" style="width: 18rem;">
+<div class="card profile-card">
     <img src="{{photoUrl}}" class="card-img-top" alt="Profile Photo" onerror="this.src='/images/products/no-image.jpg'">
     <div class="card-body">
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="photoUrl" value="{{photoUrl}}">
             <label for="photoUrl">Photo URL</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="profileUrl" value="{{profileUrl}}">
+            <label for="profileUrl">Profile URL</label>
         </div>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="firstName" value='{{firstName}}'>

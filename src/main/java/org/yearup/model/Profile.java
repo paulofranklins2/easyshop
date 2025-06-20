@@ -19,4 +19,6 @@ public class Profile {
     private String city;
     private String state;
     private String zip;
+    private String photoUrl;
+    private String profileUrl;
 }
