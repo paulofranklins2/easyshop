@@ -15,10 +15,8 @@ public class ShoppingCartItemEntity implements Serializable {
     @Id
     @Column(name = "user_id")
     private int userId;
-
     @Id
     @Column(name = "product_id")
     private int productId;
-
     private int quantity;
 }
