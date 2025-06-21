@@ -183,6 +183,8 @@ class ShoppingCartService {
         axios.post(`${config.baseUrl}/orders`, {})
             .then(() => {
                 this.loadCart();
+                const off = bootstrap.Offcanvas.getInstance(document.getElementById('cartSidebar'));
+                if (off) off.hide();
                 ordersService.showOrders();
             });
     }
