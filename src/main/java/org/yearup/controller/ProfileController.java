@@ -33,11 +33,10 @@ public class ProfileController {
         if (principal instanceof UserDetails) {
             username = ((UserDetails) principal).getUsername();
         } else {
-            username = principal.toString(); // fallback
+            username = principal.toString();
         }
 
-        // Assuming you store user_id in DB based on username
-        int userId = profileDao.findIdByUsername(username); // implement this if needed
+        int userId = profileDao.findIdByUsername(username);
         return profileDao.findById(userId);
     }
 
@@ -46,7 +45,7 @@ public class ProfileController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        int userId = profileDao.findIdByUsername(username); // assumes this method exists
+        int userId = profileDao.findIdByUsername(username);
         profile.setUserId(userId);
 
         return profileDao.update(profile);

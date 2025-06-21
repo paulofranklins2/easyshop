@@ -1,7 +1,9 @@
 package org.yearup.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.yearup.model.authentication.Authority;
 
@@ -30,6 +32,13 @@ public class User {
 
     public User(int id, String username, String password, String authorities) {
         this.id = id;
+        this.username = username;
+        this.password = password;
+        if (authorities != null) this.setAuthorities(authorities);
+        this.activated = true;
+    }
+
+    public User(String username, String password, String authorities) {
         this.username = username;
         this.password = password;
         if (authorities != null) this.setAuthorities(authorities);

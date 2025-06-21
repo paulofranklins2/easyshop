@@ -75,11 +75,10 @@ public class AuthenticationController {
             }
 
             // create user
-            User user = userDao.create(new User(0, newUser.getUsername(), newUser.getPassword(), newUser.getRole()));
+            User user = userDao.create(new User(newUser.getUsername(), newUser.getPassword(), newUser.getRole()));
 
             // create profile
-            Profile profile = new Profile();
-            profile.setUserId(user.getId());
+            Profile profile = new Profile(user.getId(), "null", "null", "null", "null", "null", "null", "null", "null", "null", "null");
             profileDao.create(profile);
 
             return new ResponseEntity<>(user, HttpStatus.CREATED);
