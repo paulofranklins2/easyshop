@@ -29,6 +29,7 @@ public class Product {
     private String description;
     private String color;
     private int stock;
+    @Column(name = "featured")
     private boolean isFeatured;
     @Column(name = "image_url")
     private String imageUrl;
