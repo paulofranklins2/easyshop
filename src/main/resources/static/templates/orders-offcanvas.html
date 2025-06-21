@@ -1,0 +1,27 @@
+<div id="order-list">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Order #</th>
+            <th scope="col">Date</th>
+            <th scope="col">Total</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#hasOrders}}
+        {{#orders}}
+        <tr>
+            <td>{{orderId}}</td>
+            <td>{{date}}</td>
+            <td>${{total}}</td>
+            <td><button class="btn btn-sm btn-primary view-order" data-id="{{orderId}}">View</button></td>
+        </tr>
+        {{/orders}}
+        {{/hasOrders}}
+        {{^hasOrders}}
+        <tr><td colspan="4" class="text-muted">No orders found.</td></tr>
+        {{/hasOrders}}
+        </tbody>
+    </table>
+</div>

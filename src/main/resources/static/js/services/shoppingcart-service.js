@@ -100,6 +100,12 @@ class ShoppingCartService {
         button.addEventListener("click", () => this.clearCart());
         cartHeader.appendChild(button)
 
+        const checkoutBtn = document.createElement("button");
+        checkoutBtn.classList.add("btn", "btn-primary", "ms-2");
+        checkoutBtn.innerText = "Checkout";
+        checkoutBtn.addEventListener("click", () => this.checkout());
+        cartHeader.appendChild(checkoutBtn);
+
         contentDiv.appendChild(cartHeader)
         main.appendChild(contentDiv);
 
@@ -134,6 +140,23 @@ class ShoppingCartService {
                 this.deleteProduct(btn.dataset.id);
             });
         });
+
+        if (this.cart.items.length > 0) {
+            const btnDiv = document.createElement('div');
+            btnDiv.className = 'mt-3 text-end';
+            const checkout = document.createElement('button');
+            checkout.className = 'btn btn-primary me-2';
+            checkout.innerText = 'Checkout';
+            checkout.addEventListener('click', () => this.checkout());
+            const clear = document.createElement('button');
+            clear.className = 'btn btn-danger';
+            clear.innerText = 'Clear';
+            clear.addEventListener('click', () => this.clearCart());
+            btnDiv.appendChild(checkout);
+            btnDiv.appendChild(clear);
+            container.appendChild(document.createElement('hr'));
+            container.appendChild(btnDiv);
+        }
     }
 
     updateQuantity(productId, qty) {
@@ -153,6 +176,14 @@ class ShoppingCartService {
                 this.setCart(res.data);
                 this.updateCartDisplay();
                 this.renderSidebar();
+            });
+    }
+
+    checkout() {
+        axios.post(`${config.baseUrl}/orders`, {})
+            .then(() => {
+                this.loadCart();
+                ordersService.showOrders();
             });
     }
 
