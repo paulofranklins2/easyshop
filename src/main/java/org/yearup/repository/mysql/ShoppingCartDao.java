@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import org.yearup.model.Product;
 import org.yearup.model.ShoppingCart;
 import org.yearup.model.ShoppingCartItem;
+import org.yearup.repository.ProductRepository;
 import org.yearup.repository.ShoppingCartRepository;
 
 import javax.sql.DataSource;
@@ -14,9 +15,9 @@ import java.sql.SQLException;
 
 @Component
 public class ShoppingCartDao extends DataManager implements ShoppingCartRepository {
-    private final ProductDao productDao;
+    private final ProductRepository productDao;
 
-    public ShoppingCartDao(DataSource dataSource, ProductDao productDao) {
+    public ShoppingCartDao(DataSource dataSource, ProductRepository productDao) {
         super(dataSource);
         this.productDao = productDao;
     }
@@ -120,7 +121,7 @@ public class ShoppingCartDao extends DataManager implements ShoppingCartReposito
             int productId = resultSet.getInt("product_id");
             int quantity = resultSet.getInt("quantity");
 
-            Product product = productDao.getById(productId);
+            Product product = productDao.findById(productId).orElse(null);
             if (product == null) continue;
 
             ShoppingCartItem item = new ShoppingCartItem();

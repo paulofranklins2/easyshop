@@ -1,6 +1,9 @@
 package org.yearup.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +27,7 @@ public class ProductsController {
 
     @GetMapping("")
     @PreAuthorize("permitAll()")
-    public List<Product> search(@RequestParam(name = "cat", required = false) Integer categoryId,
+    public Page<Product> search(@RequestParam(name = "cat", required = false) Integer categoryId,
                                 @RequestParam(name = "minPrice", required = false) BigDecimal minPrice,
                                 @RequestParam(name = "maxPrice", required = false) BigDecimal maxPrice,
                                 @RequestParam(name = "color", required = false) String color,
@@ -33,11 +36,11 @@ public class ProductsController {
                                 @RequestParam(name = "q", required = false) String query
     ) {
         try {
-            int offset = page * size;
+            Pageable pageable = PageRequest.of(page, size);
             if (query != null && !query.isBlank()) {
-                return productDao.searchByQuery(query, offset, size);
+                return productDao.searchByQuery(query, pageable);
             }
-            return productDao.search(categoryId, minPrice, maxPrice, color, offset, size);
+            return productDao.search(categoryId, minPrice, maxPrice, color, pageable);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
@@ -47,7 +50,7 @@ public class ProductsController {
     @PreAuthorize("permitAll()")
     public Product getById(@PathVariable int id) {
         try {
-            var product = productDao.getById(id);
+            var product = productDao.findById(id).orElse(null);
 
             if (product == null)
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -62,7 +65,7 @@ public class ProductsController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Product addProduct(@RequestBody Product product) {
         try {
-            return productDao.create(product);
+            return productDao.save(product);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
@@ -72,7 +75,8 @@ public class ProductsController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateProduct(@PathVariable int id, @RequestBody Product product) {
         try {
-            productDao.update(id, product);
+            product.setProductId(id);
+            productDao.save(product);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
@@ -82,12 +86,12 @@ public class ProductsController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteProduct(@PathVariable int id) {
         try {
-            var product = productDao.getById(id);
+            var product = productDao.findById(id).orElse(null);
 
             if (product == null)
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
-            productDao.delete(id);
+            productDao.deleteById(id);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }

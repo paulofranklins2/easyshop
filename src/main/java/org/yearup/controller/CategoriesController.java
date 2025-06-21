@@ -13,50 +13,45 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequestMapping("/categories")
 public class CategoriesController {
-    // create an Autowired controller to inject the categoryDao and ProductDao
-    private final CategoryRepository categoryDao;
-    private final ProductRepository productDao;
     private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public CategoriesController(CategoryRepository categoryDao, ProductRepository productDao, CategoryRepository categoryRepository) {
-        this.categoryDao = categoryDao;
-        this.productDao = productDao;
+    public CategoriesController(CategoryRepository categoryRepository, ProductRepository productRepository) {
         this.categoryRepository = categoryRepository;
+        this.productRepository = productRepository;
     }
 
     // add the appropriate annotation for a get action
-    @GetMapping("categories")
+    @GetMapping("")
     public List<Category> getAll() {
-        return categoryDao.getAllCategories();
+        return categoryRepository.findAll();
     }
 
     // Correct annotation is already in place for a GET action
-    @GetMapping("/categories/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Category> getById(@PathVariable int id) {
-        Category category = categoryDao.getById(id);
-        if (category != null) {
-            return ResponseEntity.ok(category); // 200 OK with the category data
-        } else {
-            return ResponseEntity.notFound().build(); // 404 Not Found if no category found
-        }
+        return categoryRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
 
     // the url to return all products in category 1 would look like this
     // https://localhost:8080/categories/1/products
-    @GetMapping("categories/{categoryId}/products")
+    @GetMapping("/{categoryId}/products")
     public List<Product> getProductsById(@PathVariable int categoryId) {
-        return productDao.listByCategoryId(categoryId);
+        return productRepository.findByCategoryId(categoryId);
     }
 
     // add annotation to call this method for a POST action
     // add annotation to ensure that only an ADMIN can call this function
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("categories")
+    @PostMapping("")
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
-        Category createdCategory = categoryRepository.create(category);
+        Category createdCategory = categoryRepository.save(category);
         URI location = URI.create("/categories/" + createdCategory.getCategoryId());
         return ResponseEntity.created(location).body(createdCategory);
     }
@@ -64,22 +59,27 @@ public class CategoriesController {
     // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
     // add annotation to ensure that only an ADMIN can call this function
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("categories/{id}")
-    public boolean updateCategory(@PathVariable int id, @RequestBody Category category) {
-        return categoryDao.update(id, category);
+    @PutMapping("/{id}")
+    public ResponseEntity<Category> updateCategory(@PathVariable int id, @RequestBody Category category) {
+        return categoryRepository.findById(id)
+                .map(existing -> {
+                    category.setCategoryId(id);
+                    Category saved = categoryRepository.save(category);
+                    return ResponseEntity.ok(saved);
+                }).orElse(ResponseEntity.notFound().build());
     }
 
 
     // add annotation to call this method for a DELETE action - the url path must include the categoryId
     // add annotation to ensure that only an ADMIN can call this function
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("categories/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable int id) {
-        boolean deleted = categoryDao.delete(id);
-        if (deleted) {
-            return ResponseEntity.noContent().build(); // 204 No Content
+        if (categoryRepository.existsById(id)) {
+            categoryRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.notFound().build(); // 404 Not Found
+            return ResponseEntity.notFound().build();
         }
     }
 }

@@ -5,6 +5,7 @@ import org.yearup.model.Order;
 import org.yearup.model.OrderLineItem;
 import org.yearup.model.Product;
 import org.yearup.repository.OrderRepository;
+import org.yearup.repository.ProductRepository;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -13,9 +14,9 @@ import java.util.List;
 
 @Component
 public class OrderDao extends DataManager implements OrderRepository {
-    private final ProductDao productDao;
+    private final ProductRepository productDao;
 
-    public OrderDao(DataSource dataSource, ProductDao productDao) {
+    public OrderDao(DataSource dataSource, ProductRepository productDao) {
         super(dataSource);
         this.productDao = productDao;
     }
@@ -134,7 +135,7 @@ public class OrderDao extends DataManager implements OrderRepository {
                     item.setQuantity(rs.getInt("quantity"));
                     item.setDiscount(rs.getBigDecimal("discount"));
                     item.setDate(rs.getTimestamp("date").toLocalDateTime());
-                    Product product = productDao.getById(pid);
+                    Product product = productDao.findById(pid).orElse(null);
                     item.setProduct(product);
                     items.add(item);
                 }
