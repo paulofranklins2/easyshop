@@ -25,7 +25,6 @@ public class ShoppingCartController {
         this.userDao = userDao;
     }
 
-
     @GetMapping("/cart")
     public ShoppingCart getCart(Principal principal) {
         try {
