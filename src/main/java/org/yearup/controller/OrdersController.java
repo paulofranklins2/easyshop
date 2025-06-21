@@ -58,13 +58,19 @@ public class OrdersController {
         }
         cartService.clearCart(userId);
         order.setItems(lineItemRepo.findByOrderId(order.getOrderId()));
+        order.getTotal();
         return order;
     }
 
     @GetMapping
     public List<Order> listOrders(Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
-        return orderDao.findByUserIdOrderByDateDesc(userId);
+        List<Order> orders = orderDao.findByUserIdOrderByDateDesc(userId);
+        for (Order order : orders) {
+            order.setItems(lineItemRepo.findByOrderId(order.getOrderId()));
+            order.getTotal();
+        }
+        return orders;
     }
 
     @GetMapping("/{id}")
@@ -73,6 +79,7 @@ public class OrdersController {
         Order order = orderDao.findById(id).orElse(null);
         if (order != null && order.getUserId() == userId) {
             order.setItems(lineItemRepo.findByOrderId(id));
+            order.getTotal();
             return order;
         }
         return null;

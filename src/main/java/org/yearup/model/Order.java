@@ -30,4 +30,22 @@ public class Order {
 
     @Transient
     private List<OrderLineItem> items = new ArrayList<>();
+
+    public void setItems(List<OrderLineItem> items) {
+        this.items = items != null ? items : new ArrayList<>();
+        this.total = null;
+    }
+
+    public BigDecimal getTotal() {
+        if (total == null) {
+            BigDecimal sum = items.stream()
+                    .map(OrderLineItem::getLineTotal)
+                    .reduce(BigDecimal.ZERO, BigDecimal::add);
+            if (shippingAmount != null) {
+                sum = sum.add(shippingAmount);
+            }
+            total = sum;
+        }
+        return total;
+    }
 }
