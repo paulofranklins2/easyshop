@@ -5,7 +5,18 @@ class OrdersService {
         const url = `${config.baseUrl}/orders`;
         axios.get(url)
             .then(res => {
-                const data = {orders: res.data, hasOrders: res.data.length > 0};
+                const orders = res.data.map(o => {
+                    const date = new Date(o.date);
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const year = date.getFullYear();
+                    const hours = String(date.getHours()).padStart(2, '0');
+                    const minutes = String(date.getMinutes()).padStart(2, '0');
+                    const seconds = String(date.getSeconds()).padStart(2, '0');
+                    o.date = `${month}:${day}:${year} ${hours}:${minutes}:${seconds}`;
+                    return o;
+                });
+                const data = {orders: orders, hasOrders: orders.length > 0};
                 templateBuilder.build('orders-offcanvas', data, 'ordersSidebarBody', () => {
                     const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('ordersSidebar'));
                     off.show();

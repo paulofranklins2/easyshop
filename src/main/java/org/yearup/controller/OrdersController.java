@@ -49,6 +49,7 @@ public class OrdersController {
             item.setSalesPrice(cartItem.getProduct().getPrice());
             item.setQuantity(cartItem.getQuantity());
             item.setDiscount(java.math.BigDecimal.ZERO);
+            item.setDate(LocalDateTime.now());
             orderDao.createLineItem(item);
         }
         cartDao.clearCart(userId);

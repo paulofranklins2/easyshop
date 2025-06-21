@@ -67,6 +67,7 @@ CREATE TABLE order_line_items
     sales_price        DECIMAL(10, 2) NOT NULL,
     quantity           INT            NOT NULL,
     discount           DECIMAL(10, 2) NOT NULL DEFAULT 0,
+    date               DATETIME       NOT NULL,
     PRIMARY KEY (order_line_item_id),
     FOREIGN KEY (order_id) REFERENCES orders (order_id),
     FOREIGN KEY (product_id) REFERENCES products (product_id)

@@ -51,8 +51,8 @@ public class OrderDao extends DataManager implements OrderRepository {
     @Override
     public void createLineItem(OrderLineItem item) {
         String sql = """
-                INSERT INTO order_line_items (order_id, product_id, sales_price, quantity, discount)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO order_line_items (order_id, product_id, sales_price, quantity, discount, date)
+                VALUES (?, ?, ?, ?, ?, ?)
                 """;
         try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -61,6 +61,7 @@ public class OrderDao extends DataManager implements OrderRepository {
             ps.setBigDecimal(3, item.getSalesPrice());
             ps.setInt(4, item.getQuantity());
             ps.setBigDecimal(5, item.getDiscount());
+            ps.setTimestamp(6, Timestamp.valueOf(item.getDate()));
             ps.executeUpdate();
         } catch (SQLException ex) {
             throw new RuntimeException("Error creating line item", ex);
@@ -132,6 +133,7 @@ public class OrderDao extends DataManager implements OrderRepository {
                     item.setSalesPrice(rs.getBigDecimal("sales_price"));
                     item.setQuantity(rs.getInt("quantity"));
                     item.setDiscount(rs.getBigDecimal("discount"));
+                    item.setDate(rs.getTimestamp("date").toLocalDateTime());
                     Product product = productDao.getById(pid);
                     item.setProduct(product);
                     items.add(item);
