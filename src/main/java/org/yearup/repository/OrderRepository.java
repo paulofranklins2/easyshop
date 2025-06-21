@@ -1,14 +1,10 @@
 package org.yearup.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.yearup.model.Order;
-import org.yearup.model.OrderLineItem;
 
 import java.util.List;
 
-public interface OrderRepository {
-    Order create(Order order);
-    void createLineItem(OrderLineItem item);
-    List<Order> listByUserId(int userId);
-    Order getById(int orderId);
-    List<OrderLineItem> getLineItemsByOrderId(int orderId);
+public interface OrderRepository extends JpaRepository<Order, Integer> {
+    List<Order> findByUserIdOrderByDateDesc(int userId);
 }

@@ -7,28 +7,35 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.yearup.model.authentication.Authority;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "users")
 public class User {
-
-    @Setter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private int id;
-    @Setter
-    private String username;
-    @Setter
-    @JsonIgnore
-    private String password;
-    @Setter
-    @JsonIgnore
-    private boolean activated;
-    private Set<Authority> authorities = new HashSet<>();
 
-    public User() {
-        this.activated = true;
-    }
+    private String username;
+
+    @JsonIgnore
+    @Column(name = "hashed_password")
+    private String password;
+
+    @JsonIgnore
+    @Transient
+    private boolean activated = true;
+
+    @Transient
+    private Set<Authority> authorities = new HashSet<>();
 
     public User(int id, String username, String password, String authorities) {
         this.id = id;

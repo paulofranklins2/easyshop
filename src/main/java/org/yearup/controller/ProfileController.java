@@ -9,14 +9,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.yearup.model.Profile;
 import org.yearup.repository.ProfileRepository;
+import org.yearup.repository.UserRepository;
 
 
 @RestController
 public class ProfileController {
     private final ProfileRepository profileDao;
+    private final UserRepository userRepository;
 
-    public ProfileController(ProfileRepository profileDao) {
+    public ProfileController(ProfileRepository profileDao, UserRepository userRepository) {
         this.profileDao = profileDao;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/profile")
@@ -36,8 +39,8 @@ public class ProfileController {
             username = principal.toString();
         }
 
-        int userId = profileDao.findIdByUsername(username);
-        return profileDao.findById(userId);
+        int userId = userRepository.findByUsername(username).getId();
+        return profileDao.findById(userId).orElse(null);
     }
 
     @PutMapping("/profile")
@@ -45,9 +48,9 @@ public class ProfileController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
-        int userId = profileDao.findIdByUsername(username);
+        int userId = userRepository.findByUsername(username).getId();
         profile.setUserId(userId);
-
-        return profileDao.update(profile);
+        profileDao.save(profile);
+        return true;
     }
 }

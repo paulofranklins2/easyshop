@@ -7,20 +7,19 @@ import org.springframework.web.server.ResponseStatusException;
 import org.yearup.model.ShoppingCart;
 import org.yearup.model.User;
 import org.yearup.model.dto.UpdateCartItemDto;
-import org.yearup.repository.ProductRepository;
-import org.yearup.repository.ShoppingCartRepository;
 import org.yearup.repository.UserRepository;
+import org.yearup.service.ShoppingCartService;
 
 import java.security.Principal;
 
 @RestController
 public class ShoppingCartController {
     // a shopping cart requires
-    private final ShoppingCartRepository shoppingCartDao;
+    private final ShoppingCartService shoppingCartDao;
     private final UserRepository userDao;
 
     @Autowired
-    public ShoppingCartController(ShoppingCartRepository shoppingCartDao, UserRepository userDao, ProductRepository productDao) {
+    public ShoppingCartController(ShoppingCartService shoppingCartDao, UserRepository userDao) {
         this.shoppingCartDao = shoppingCartDao;
         this.userDao = userDao;
     }
@@ -29,7 +28,7 @@ public class ShoppingCartController {
     public ShoppingCart getCart(Principal principal) {
         try {
             int userId = getUserIdFromPrincipal(principal);
-            return shoppingCartDao.getByUserId(userId);
+            return shoppingCartDao.getCart(userId);
         } catch (ResponseStatusException e) {
             throw e;
         } catch (Exception e) {
@@ -40,7 +39,7 @@ public class ShoppingCartController {
     @PostMapping("/cart/products/{productId}")
     public ShoppingCart addToCart(@PathVariable int productId, Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
-        return shoppingCartDao.addProductToShoppingCart(userId, productId);
+        return shoppingCartDao.addProduct(userId, productId);
     }
 
     @PutMapping("/cart/products/{productId}")
@@ -48,13 +47,13 @@ public class ShoppingCartController {
                                            @RequestBody UpdateCartItemDto item,
                                            Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
-        return shoppingCartDao.updateProductQuantity(userId, productId, item.getQuantity());
+        return shoppingCartDao.updateQuantity(userId, productId, item.getQuantity());
     }
 
     @DeleteMapping("/cart/products/{productId}")
     public ShoppingCart deleteProduct(@PathVariable int productId, Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
-        return shoppingCartDao.deleteProductById(userId, productId);
+        return shoppingCartDao.deleteProduct(userId, productId);
     }
 
     @DeleteMapping("/cart")
@@ -65,7 +64,7 @@ public class ShoppingCartController {
 
     private int getUserIdFromPrincipal(Principal principal) {
         String username = principal.getName();
-        User user = userDao.getByUserName(username);
+        User user = userDao.findByUsername(username);
         if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         return user.getId();
     }

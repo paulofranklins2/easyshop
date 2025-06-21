@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.yearup.model.*;
 import org.yearup.repository.*;
+import org.yearup.service.ShoppingCartService;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -13,13 +14,16 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrdersController {
     private final OrderRepository orderDao;
-    private final ShoppingCartRepository cartDao;
+    private final OrderLineItemRepository lineItemRepo;
+    private final ShoppingCartService cartService;
     private final UserRepository userDao;
     private final ProfileRepository profileDao;
 
-    public OrdersController(OrderRepository orderDao, ShoppingCartRepository cartDao, UserRepository userDao, ProfileRepository profileDao) {
+    public OrdersController(OrderRepository orderDao, OrderLineItemRepository lineItemRepo, ShoppingCartService cartService,
+                            UserRepository userDao, ProfileRepository profileDao) {
         this.orderDao = orderDao;
-        this.cartDao = cartDao;
+        this.lineItemRepo = lineItemRepo;
+        this.cartService = cartService;
         this.userDao = userDao;
         this.profileDao = profileDao;
     }
@@ -28,9 +32,9 @@ public class OrdersController {
     @ResponseStatus(HttpStatus.CREATED)
     public Order createOrder(Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
-        ShoppingCart cart = cartDao.getByUserId(userId);
+        ShoppingCart cart = cartService.getCart(userId);
         if (cart.getItems().isEmpty()) return null;
-        Profile profile = profileDao.findById(userId);
+        Profile profile = profileDao.findById(userId).orElse(null);
         Order order = new Order();
         order.setUserId(userId);
         order.setDate(LocalDateTime.now());
@@ -41,7 +45,7 @@ public class OrdersController {
             order.setZip(profile.getZip());
         }
         order.setShippingAmount(java.math.BigDecimal.ZERO);
-        order = orderDao.create(order);
+        order = orderDao.save(order);
         for (ShoppingCartItem cartItem : cart.getItems().values()) {
             OrderLineItem item = new OrderLineItem();
             item.setOrderId(order.getOrderId());
@@ -50,25 +54,25 @@ public class OrdersController {
             item.setQuantity(cartItem.getQuantity());
             item.setDiscount(java.math.BigDecimal.ZERO);
             item.setDate(LocalDateTime.now());
-            orderDao.createLineItem(item);
+            lineItemRepo.save(item);
         }
-        cartDao.clearCart(userId);
-        order.setItems(orderDao.getLineItemsByOrderId(order.getOrderId()));
+        cartService.clearCart(userId);
+        order.setItems(lineItemRepo.findByOrderId(order.getOrderId()));
         return order;
     }
 
     @GetMapping
     public List<Order> listOrders(Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
-        return orderDao.listByUserId(userId);
+        return orderDao.findByUserIdOrderByDateDesc(userId);
     }
 
     @GetMapping("/{id}")
     public Order getOrder(@PathVariable int id, Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
-        Order order = orderDao.getById(id);
+        Order order = orderDao.findById(id).orElse(null);
         if (order != null && order.getUserId() == userId) {
-            order.setItems(orderDao.getLineItemsByOrderId(id));
+            order.setItems(lineItemRepo.findByOrderId(id));
             return order;
         }
         return null;
@@ -76,6 +80,7 @@ public class OrdersController {
 
     private int getUserIdFromPrincipal(Principal principal) {
         String username = principal.getName();
-        return userDao.getIdByUsername(username);
+        User user = userDao.findByUsername(username);
+        return user != null ? user.getId() : -1;
     }
 }

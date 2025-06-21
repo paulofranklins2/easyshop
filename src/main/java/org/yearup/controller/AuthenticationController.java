@@ -52,7 +52,7 @@ public class AuthenticationController {
         String jwt = tokenProvider.createToken(authentication, false);
 
         try {
-            User user = userDao.getByUserName(loginDto.getUsername());
+            User user = userDao.findByUsername(loginDto.getUsername());
 
             if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
@@ -69,17 +69,16 @@ public class AuthenticationController {
     public ResponseEntity<User> register(@Valid @RequestBody RegisterUserDto newUser) {
 
         try {
-            boolean exists = userDao.exists(newUser.getUsername());
+            boolean exists = userDao.existsByUsername(newUser.getUsername());
             if (exists) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Already Exists.");
             }
 
             // create user
-            User user = userDao.create(new User(newUser.getUsername(), newUser.getPassword(), newUser.getRole()));
-
+            User user = userDao.save(new User(newUser.getUsername(), newUser.getPassword(), newUser.getRole()));
             // create profile
             Profile profile = new Profile(user.getId(), "null", "null", "null", "null", "null", "null", "null", "null", "null", "null");
-            profileDao.create(profile);
+            profileDao.save(profile);
 
             return new ResponseEntity<>(user, HttpStatus.CREATED);
         } catch (Exception e) {

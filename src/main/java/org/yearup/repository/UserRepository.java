@@ -1,20 +1,9 @@
 package org.yearup.repository;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.yearup.model.User;
 
-import java.util.List;
-
-public interface UserRepository {
-
-    List<User> getAll();
-
-    User getUserById(int userId);
-
-    User getByUserName(String username);
-
-    int getIdByUsername(String username);
-
-    User create(User user);
-
-    boolean exists(String username);
+public interface UserRepository extends JpaRepository<User, Integer> {
+    User findByUsername(String username);
+    boolean existsByUsername(String username);
 }
