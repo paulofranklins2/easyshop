@@ -38,20 +38,6 @@ function hideRegisterCanvas()
     templateBuilder.clear('login');
 }
 
-function hideModalForm()
-{
-    templateBuilder.clear('login');
-}
-
-function login()
-{
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-
-    userService.login(username, password);
-    hideLoginCanvas();
-}
-
 function registerUser()
 {
     const username = document.getElementById("register-username").value;
