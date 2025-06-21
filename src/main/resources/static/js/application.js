@@ -43,8 +43,9 @@ function registerUser()
     const username = document.getElementById("register-username").value;
     const password = document.getElementById("register-password").value;
     const confirm = document.getElementById("register-confirm").value;
+    const role = document.getElementById("register-role")?.value || 'USER';
 
-    userService.register(username, password, confirm, () => {
+    userService.register(username, password, confirm, role, () => {
         hideRegisterCanvas();
         showLoginCanvas();
     });

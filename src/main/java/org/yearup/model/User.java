@@ -30,6 +30,9 @@ public class User {
     @Column(name = "hashed_password")
     private String password;
 
+    @Column(name = "role")
+    private String role;
+
     @JsonIgnore
     @Transient
     private boolean activated = true;
@@ -37,18 +40,31 @@ public class User {
     @Transient
     private Set<Authority> authorities = new HashSet<>();
 
-    public User(int id, String username, String password, String authorities) {
+    @PostLoad
+    private void fillAuthorities() {
+        setRole(this.role);
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+        this.authorities.clear();
+        if (role != null && !role.isBlank()) {
+            addRole(role);
+        }
+    }
+
+    public User(int id, String username, String password, String role) {
         this.id = id;
         this.username = username;
         this.password = password;
-        if (authorities != null) this.setAuthorities(authorities);
+        this.setRole(role);
         this.activated = true;
     }
 
-    public User(String username, String password, String authorities) {
+    public User(String username, String password, String role) {
         this.username = username;
         this.password = password;
-        if (authorities != null) this.setAuthorities(authorities);
+        this.setRole(role);
         this.activated = true;
     }
 
@@ -97,6 +113,9 @@ public class User {
 
     @JsonIgnore
     public String getRole() {
+        if (this.role != null) {
+            return this.role.toUpperCase();
+        }
         if (authorities.size() > 0) {
             for (Authority role : authorities) {
                 return role.getName().toUpperCase();

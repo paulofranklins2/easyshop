@@ -70,13 +70,19 @@ class UserService {
         templateBuilder.build('header', user, 'header-user');
     }
 
-    register(username, password, confirm, callback) {
+    register(username, password, confirm, role, callback) {
+        if (typeof role === 'function') {
+            callback = role;
+            role = 'USER';
+        }
+        if (!role) role = 'USER';
+
         const url = `${config.baseUrl}/register`;
         const register = {
             username: username,
             password: password,
             confirmPassword: confirm,
-            role: 'USER'
+            role: role
         };
 
         axios.post(url, register)
