@@ -20,11 +20,11 @@ import java.util.List;
 @RestController
 @RequestMapping("products")
 @CrossOrigin
-public class ProductsController {
+public class ProductController {
     private final ProductRepository productDao;
 
     @Autowired
-    public ProductsController(ProductRepository productDao) {
+    public ProductController(ProductRepository productDao) {
         this.productDao = productDao;
     }
 

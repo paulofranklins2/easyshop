@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.yearup.model.authentication.Authority;
+import org.yearup.model.auth.Authority;
 
 import javax.persistence.*;
 import java.util.HashSet;

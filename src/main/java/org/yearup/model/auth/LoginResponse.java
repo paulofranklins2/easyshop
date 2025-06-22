@@ -1,4 +1,4 @@
-package org.yearup.model.authentication;
+package org.yearup.model.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import org.yearup.model.User;
 @Setter
 @AllArgsConstructor
 @Getter
-public class LoginResponseDto {
+public class LoginResponse {
 
     @JsonProperty("token")
     private String token;

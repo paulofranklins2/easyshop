@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.yearup.security.jwt.JWTConfigurer;
+import org.yearup.security.jwt.JwtConfigurer;
 import org.yearup.security.jwt.TokenProvider;
 
 /**
@@ -76,7 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .apply(securityConfigurerAdapter());
     }
 
-    private JWTConfigurer securityConfigurerAdapter() {
-        return new JWTConfigurer(tokenProvider);
+    private JwtConfigurer securityConfigurerAdapter() {
+        return new JwtConfigurer(tokenProvider);
     }
 }

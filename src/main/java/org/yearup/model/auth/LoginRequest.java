@@ -1,4 +1,4 @@
-package org.yearup.model.authentication;
+package org.yearup.model.auth;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class LoginDto {
+public class LoginRequest {
     private String username;
     private String password;
 }

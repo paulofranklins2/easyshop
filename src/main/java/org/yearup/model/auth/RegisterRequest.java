@@ -1,4 +1,4 @@
-package org.yearup.model.authentication;
+package org.yearup.model.auth;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
  */
 @Setter
 @Getter
-public class RegisterUserDto {
+public class RegisterRequest {
     @NotEmpty
     private String username;
     @NotEmpty

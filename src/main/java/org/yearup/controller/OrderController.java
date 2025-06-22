@@ -15,15 +15,15 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/orders")
-public class OrdersController {
+public class OrderController {
     private final OrderRepository orderDao;
     private final OrderLineItemRepository lineItemRepo;
     private final ShoppingCartService cartService;
     private final UserRepository userDao;
     private final ProfileRepository profileDao;
 
-    public OrdersController(OrderRepository orderDao, OrderLineItemRepository lineItemRepo, ShoppingCartService cartService,
-                            UserRepository userDao, ProfileRepository profileDao) {
+    public OrderController(OrderRepository orderDao, OrderLineItemRepository lineItemRepo, ShoppingCartService cartService,
+                           UserRepository userDao, ProfileRepository profileDao) {
         this.orderDao = orderDao;
         this.lineItemRepo = lineItemRepo;
         this.cartService = cartService;

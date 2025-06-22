@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.yearup.model.ShoppingCart;
 import org.yearup.model.User;
-import org.yearup.model.dto.UpdateCartItemDto;
+import org.yearup.model.dto.cart.UpdateCartItemRequest;
 import org.yearup.repository.UserRepository;
 import org.yearup.service.ShoppingCartService;
 
@@ -56,7 +56,7 @@ public class ShoppingCartController {
      */
     @PutMapping("/cart/products/{productId}")
     public ShoppingCart updateCartQuantity(@PathVariable int productId,
-                                           @RequestBody UpdateCartItemDto item,
+                                           @RequestBody UpdateCartItemRequest item,
                                            Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
         return shoppingCartDao.updateQuantity(userId, productId, item.getQuantity());

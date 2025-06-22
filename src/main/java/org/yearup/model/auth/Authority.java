@@ -1,4 +1,4 @@
-package org.yearup.model.authentication;
+package org.yearup.model.auth;
 
 import lombok.Getter;
 import lombok.Setter;

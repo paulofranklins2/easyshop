@@ -1,10 +1,10 @@
-package org.yearup.model.dto;
+package org.yearup.model.dto.cart;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class UpdateCartItemDto {
+public class UpdateCartItemRequest {
     private int quantity;
 }

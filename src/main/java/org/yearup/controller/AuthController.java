@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.yearup.model.Profile;
 import org.yearup.model.User;
-import org.yearup.model.authentication.LoginDto;
-import org.yearup.model.authentication.LoginResponseDto;
-import org.yearup.model.authentication.RegisterUserDto;
+import org.yearup.model.auth.LoginRequest;
+import org.yearup.model.auth.LoginResponse;
+import org.yearup.model.auth.RegisterRequest;
 import org.yearup.repository.ProfileRepository;
 import org.yearup.repository.UserRepository;
-import org.yearup.security.jwt.JWTFilter;
+import org.yearup.security.jwt.JwtFilter;
 import org.yearup.security.jwt.TokenProvider;
 
 import javax.validation.Valid;
@@ -31,7 +31,7 @@ import javax.validation.Valid;
 @RestController
 @CrossOrigin
 @PreAuthorize("permitAll()")
-public class AuthenticationController {
+public class AuthController {
 
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -39,10 +39,10 @@ public class AuthenticationController {
     private final ProfileRepository profileDao;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthenticationController(TokenProvider tokenProvider,
-                                    AuthenticationManagerBuilder authenticationManagerBuilder,
-                                    UserRepository userDao, ProfileRepository profileDao,
-                                    PasswordEncoder passwordEncoder) {
+    public AuthController(TokenProvider tokenProvider,
+                          AuthenticationManagerBuilder authenticationManagerBuilder,
+                          UserRepository userDao, ProfileRepository profileDao,
+                          PasswordEncoder passwordEncoder) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.userDao = userDao;
@@ -54,23 +54,23 @@ public class AuthenticationController {
      * Authenticate a user and return a JWT token.
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginDto loginDto) {
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
             UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
 
             Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = tokenProvider.createToken(authentication, false);
 
-            User user = userDao.findByUsername(loginDto.getUsername());
+            User user = userDao.findByUsername(loginRequest.getUsername());
             if (user == null) {
                 throw new UsernameNotFoundException("user not found");
             }
 
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-            return new ResponseEntity<>(new LoginResponseDto(jwt, user), httpHeaders, HttpStatus.OK);
+            httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+            return new ResponseEntity<>(new LoginResponse(jwt, user), httpHeaders, HttpStatus.OK);
         } catch (BadCredentialsException | UsernameNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password.");
         } catch (Exception ex) {
@@ -83,7 +83,7 @@ public class AuthenticationController {
      */
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<User> register(@Valid @RequestBody RegisterUserDto newUser) {
+    public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest newUser) {
 
         try {
             boolean exists = userDao.existsByUsername(newUser.getUsername());
