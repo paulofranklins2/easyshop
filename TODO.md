@@ -1,10 +1,6 @@
-### ✅ `07-todo.md`
-## TODO
-
 Here's what’s done and what’s coming soon, written like a checklist so you can track progress easily.
 
 ### ✅ Completed
-
 - [x] Project setup with Spring Boot and Maven
 - [x] MySQL Docker container for easy DB setup
 - [x] Database schema and mock data
@@ -16,9 +12,11 @@ Here's what’s done and what’s coming soon, written like a checklist so you c
 - [x] Checkout that turns cart into orders
 - [x] Bootstrap-based responsive frontend
 - [x] Initial unit tests for core features
+- [x] Migrated from JDBC to Java JPA
+- [x] Implemented full Javadoc
+- [x] Wrote comprehensive JUnit tests
 
-### 🛠 Planned / In Progress
-
+### 🔧 Planned / In Progress
 - [ ] Full test coverage (unit + integration)
 - [ ] Image upload for product listings
 - [ ] Stronger validation and error feedback
@@ -27,3 +25,6 @@ Here's what’s done and what’s coming soon, written like a checklist so you c
 - [ ] CI pipeline for auto builds
 - [ ] Advanced roles and permissions
 - [ ] Product review/rating system
+- [ ] Convert static HTML UI to Angular SPA
+- [ ] Add Swagger/OpenAPI for API documentation
+- [ ] Add CI/CD workflow for build and test automation
