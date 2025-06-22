@@ -1,5 +1,8 @@
 package org.yearup.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +36,8 @@ import javax.validation.Valid;
 @PreAuthorize("permitAll()")
 public class AuthController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
+
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final UserRepository userDao;
@@ -55,9 +60,10 @@ public class AuthController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+        LOG.debug("Login attempt for user '{}'", loginRequest.getUsername());
         try {
             UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
 
             Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -72,8 +78,10 @@ public class AuthController {
             httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
             return new ResponseEntity<>(new LoginResponse(jwt, user), httpHeaders, HttpStatus.OK);
         } catch (BadCredentialsException | UsernameNotFoundException e) {
+            LOG.warn("Invalid login for user '{}'", loginRequest.getUsername());
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password.");
         } catch (Exception ex) {
+            LOG.error("Error logging in user {}", loginRequest.getUsername(), ex);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -84,7 +92,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest newUser) {
-
+        LOG.debug("Registering user '{}'", newUser.getUsername());
         try {
             boolean exists = userDao.existsByUsername(newUser.getUsername());
             if (exists) {
@@ -105,6 +113,7 @@ public class AuthController {
 
             return new ResponseEntity<>(user, HttpStatus.CREATED);
         } catch (Exception e) {
+            LOG.error("Error registering user {}", newUser.getUsername(), e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }

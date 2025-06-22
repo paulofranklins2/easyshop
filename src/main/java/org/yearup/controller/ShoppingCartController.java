@@ -1,5 +1,8 @@
 package org.yearup.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,7 @@ import java.security.Principal;
  */
 @RestController
 public class ShoppingCartController {
+    private static final Logger LOG = LoggerFactory.getLogger(ShoppingCartController.class);
     private final ShoppingCartService shoppingCartDao;
     private final UserRepository userDao;
 
@@ -33,10 +37,12 @@ public class ShoppingCartController {
     public ShoppingCart getCart(Principal principal) {
         try {
             int userId = getUserIdFromPrincipal(principal);
+            LOG.debug("Retrieving cart for user {}", userId);
             return shoppingCartDao.getCart(userId);
         } catch (ResponseStatusException e) {
             throw e;
         } catch (Exception e) {
+            LOG.error("Error getting cart", e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error.");
         }
     }
@@ -47,6 +53,7 @@ public class ShoppingCartController {
     @PostMapping("/cart/products/{productId}")
     public ShoppingCart addToCart(@PathVariable int productId, Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
+        LOG.debug("Adding product {} to cart for user {}", productId, userId);
         return shoppingCartDao.addProduct(userId, productId);
     }
 
@@ -58,6 +65,7 @@ public class ShoppingCartController {
                                            @RequestBody UpdateCartItemRequest item,
                                            Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
+        LOG.debug("Updating product {} quantity to {} for user {}", productId, item.getQuantity(), userId);
         return shoppingCartDao.updateQuantity(userId, productId, item.getQuantity());
     }
 
@@ -67,6 +75,7 @@ public class ShoppingCartController {
     @DeleteMapping("/cart/products/{productId}")
     public ShoppingCart deleteProduct(@PathVariable int productId, Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
+        LOG.debug("Deleting product {} from cart for user {}", productId, userId);
         return shoppingCartDao.deleteProduct(userId, productId);
     }
 
@@ -76,6 +85,7 @@ public class ShoppingCartController {
     @DeleteMapping("/cart")
     public ShoppingCart clearCart(Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
+        LOG.debug("Clearing cart for user {}", userId);
         return shoppingCartDao.clearCart(userId);
     }
 

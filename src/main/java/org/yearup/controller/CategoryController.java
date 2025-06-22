@@ -1,5 +1,8 @@
 package org.yearup.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
+    private static final Logger LOG = LoggerFactory.getLogger(CategoryController.class);
     private final CategoryRepository categoryRepository;
     private final ProductRepository productRepository;
 
@@ -32,6 +36,7 @@ public class CategoryController {
      */
     @GetMapping("")
     public List<Category> getAll() {
+        LOG.debug("Retrieving all categories");
         return categoryRepository.findAll();
     }
 
@@ -40,9 +45,10 @@ public class CategoryController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Category> getById(@PathVariable int id) {
+        LOG.debug("Get category id={}", id);
         return categoryRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
     }
 
 
@@ -51,6 +57,7 @@ public class CategoryController {
      */
     @GetMapping("/{categoryId}/products")
     public List<Product> getProductsById(@PathVariable int categoryId) {
+        LOG.debug("Get products for category id={}", categoryId);
         return productRepository.findByCategoryId(categoryId);
     }
 
@@ -60,6 +67,7 @@ public class CategoryController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("")
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
+        LOG.debug("Adding category {}", category.getName());
         Category createdCategory = categoryRepository.save(category);
         URI location = URI.create("/categories/" + createdCategory.getCategoryId());
         return ResponseEntity.created(location).body(createdCategory);
@@ -71,12 +79,13 @@ public class CategoryController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable int id, @RequestBody Category category) {
+        LOG.debug("Updating category id={}", id);
         return categoryRepository.findById(id)
-                .map(existing -> {
-                    category.setCategoryId(id);
-                    Category saved = categoryRepository.save(category);
-                    return ResponseEntity.ok(saved);
-                }).orElse(ResponseEntity.notFound().build());
+            .map(existing -> {
+                category.setCategoryId(id);
+                Category saved = categoryRepository.save(category);
+                return ResponseEntity.ok(saved);
+            }).orElse(ResponseEntity.notFound().build());
     }
 
 
@@ -86,6 +95,7 @@ public class CategoryController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable int id) {
+        LOG.debug("Deleting category id={}", id);
         if (categoryRepository.existsById(id)) {
             categoryRepository.deleteById(id);
             return ResponseEntity.noContent().build();

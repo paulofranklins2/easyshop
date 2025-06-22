@@ -1,5 +1,7 @@
 package org.yearup.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +23,8 @@ import java.util.List;
 @RequestMapping("products")
 @CrossOrigin
 public class ProductController {
+    private static final Logger LOG = LoggerFactory.getLogger(ProductController.class);
+
     private final ProductRepository productDao;
 
     @Autowired
@@ -41,6 +45,8 @@ public class ProductController {
                                 @RequestParam(name = "size", defaultValue = "25") int size,
                                 @RequestParam(name = "q", required = false) String query
     ) {
+        LOG.debug("Searching products cat={}, minPrice={}, maxPrice={}, color={}, page={}, size={}, q={}",
+            categoryId, minPrice, maxPrice, color, page, size, query);
         try {
             Pageable pageable = PageRequest.of(page, size);
             Page<Product> result;
@@ -51,6 +57,7 @@ public class ProductController {
             }
             return result.getContent();
         } catch (Exception ex) {
+            LOG.error("Error searching products", ex);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -61,6 +68,7 @@ public class ProductController {
     @GetMapping("{id}")
     @PreAuthorize("permitAll()")
     public Product getById(@PathVariable int id) {
+        LOG.debug("Getting product id={}", id);
         try {
             var product = productDao.findById(id).orElse(null);
 
@@ -69,6 +77,7 @@ public class ProductController {
 
             return product;
         } catch (Exception ex) {
+            LOG.error("Error getting product {}", id, ex);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -79,9 +88,11 @@ public class ProductController {
     @PostMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Product addProduct(@RequestBody Product product) {
+        LOG.debug("Adding product {}", product.getName());
         try {
             return productDao.save(product);
         } catch (Exception ex) {
+            LOG.error("Error adding product", ex);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -92,10 +103,12 @@ public class ProductController {
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateProduct(@PathVariable int id, @RequestBody Product product) {
+        LOG.debug("Updating product id={}", id);
         try {
             product.setProductId(id);
             productDao.save(product);
         } catch (Exception ex) {
+            LOG.error("Error updating product {}", id, ex);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -106,6 +119,7 @@ public class ProductController {
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteProduct(@PathVariable int id) {
+        LOG.debug("Deleting product id={}", id);
         try {
             var product = productDao.findById(id).orElse(null);
 
@@ -114,6 +128,7 @@ public class ProductController {
 
             productDao.deleteById(id);
         } catch (Exception ex) {
+            LOG.error("Error deleting product {}", id, ex);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }

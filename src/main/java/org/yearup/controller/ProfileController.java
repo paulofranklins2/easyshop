@@ -1,5 +1,8 @@
 package org.yearup.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +20,7 @@ import org.yearup.repository.UserRepository;
  */
 @RestController
 public class ProfileController {
+    private static final Logger LOG = LoggerFactory.getLogger(ProfileController.class);
     private final ProfileRepository profileDao;
     private final UserRepository userRepository;
 
@@ -31,6 +35,8 @@ public class ProfileController {
     @GetMapping("/profile")
     public Profile getProfile() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        LOG.debug("Fetching profile for current user");
 
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new RuntimeException("Unauthorized access.");
@@ -56,6 +62,8 @@ public class ProfileController {
     public boolean updateProfile(@RequestBody Profile profile) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
+
+        LOG.debug("Updating profile for user '{}'", username);
 
         int userId = userRepository.findByUsername(username).getId();
         profile.setUserId(userId);

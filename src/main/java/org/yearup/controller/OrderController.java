@@ -1,5 +1,8 @@
 package org.yearup.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.yearup.model.*;
@@ -16,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
+    private static final Logger LOG = LoggerFactory.getLogger(OrderController.class);
     private final OrderRepository orderDao;
     private final OrderLineItemRepository lineItemRepo;
     private final ShoppingCartService cartService;
@@ -38,6 +42,7 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     public Order createOrder(Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
+        LOG.debug("Creating order for user {}", userId);
         ShoppingCart cart = cartService.getCart(userId);
         if (cart.getItems().isEmpty()) return null;
         Profile profile = profileDao.findById(userId).orElse(null);
@@ -74,6 +79,7 @@ public class OrderController {
     @GetMapping
     public List<Order> listOrders(Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
+        LOG.debug("Listing orders for user {}", userId);
         List<Order> orders = orderDao.findByUserIdOrderByDateDesc(userId);
         for (Order order : orders) {
             order.setItems(lineItemRepo.findByOrderId(order.getOrderId()));
@@ -88,6 +94,7 @@ public class OrderController {
     @GetMapping("/{id}")
     public Order getOrder(@PathVariable int id, Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
+        LOG.debug("Retrieving order {} for user {}", id, userId);
         Order order = orderDao.findById(id).orElse(null);
         if (order != null && order.getUserId() == userId) {
             order.setItems(lineItemRepo.findByOrderId(id));
