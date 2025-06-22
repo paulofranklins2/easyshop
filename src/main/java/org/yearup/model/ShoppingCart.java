@@ -7,6 +7,9 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Simple in-memory representation of a user's shopping cart.
+ */
 @Setter
 @Getter
 public class ShoppingCart {

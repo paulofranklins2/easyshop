@@ -8,8 +8,10 @@ import org.springframework.data.repository.query.Param;
 import org.yearup.model.Product;
 
 import java.math.BigDecimal;
-import java.util.List;
 
+/**
+ * Repository providing search operations for {@link Product} entities.
+ */
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT p FROM Product p WHERE (:categoryId IS NULL OR p.categoryId = :categoryId) " +

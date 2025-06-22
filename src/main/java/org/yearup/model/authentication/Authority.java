@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Simple authority/role wrapper used by Spring Security.
+ */
 @Setter
 @Getter
 @ToString

@@ -25,6 +25,9 @@ import org.yearup.security.jwt.TokenProvider;
 
 import javax.validation.Valid;
 
+/**
+ * Controller responsible for authentication endpoints such as login and registration.
+ */
 @RestController
 @CrossOrigin
 @PreAuthorize("permitAll()")
@@ -47,6 +50,9 @@ public class AuthenticationController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Authenticate a user and return a JWT token.
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginDto loginDto) {
         try {
@@ -72,6 +78,9 @@ public class AuthenticationController {
         }
     }
 
+    /**
+     * Register a new user account.
+     */
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<User> register(@Valid @RequestBody RegisterUserDto newUser) {
@@ -101,4 +110,3 @@ public class AuthenticationController {
     }
 
 }
-

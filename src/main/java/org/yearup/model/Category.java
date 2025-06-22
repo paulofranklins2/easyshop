@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Represents a product category.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -12,6 +12,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Represents an application user.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * Entity storing user profile information.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

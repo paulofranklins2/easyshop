@@ -12,6 +12,9 @@ import org.yearup.repository.ProfileRepository;
 import org.yearup.repository.UserRepository;
 
 
+/**
+ * Controller for retrieving and updating user profiles.
+ */
 @RestController
 public class ProfileController {
     private final ProfileRepository profileDao;
@@ -22,6 +25,9 @@ public class ProfileController {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Get the profile for the currently authenticated user.
+     */
     @GetMapping("/profile")
     public Profile getProfile() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -43,6 +49,9 @@ public class ProfileController {
         return profileDao.findById(userId).orElse(null);
     }
 
+    /**
+     * Update the profile for the current user.
+     */
     @PutMapping("/profile")
     public boolean updateProfile(@RequestBody Profile profile) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

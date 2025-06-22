@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * Composite primary key for {@link ShoppingCartItemEntity}.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

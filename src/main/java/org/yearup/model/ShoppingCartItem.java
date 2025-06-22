@@ -6,6 +6,9 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+/**
+ * Item stored in a {@link ShoppingCart}.
+ */
 @Setter
 @Getter
 public class ShoppingCartItem {

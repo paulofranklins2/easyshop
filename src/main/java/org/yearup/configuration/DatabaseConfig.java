@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configures the application's datasource.
+ */
 @Configuration
 public class DatabaseConfig {
     private final BasicDataSource basicDataSource;

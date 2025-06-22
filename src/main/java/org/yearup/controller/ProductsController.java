@@ -14,6 +14,9 @@ import org.yearup.repository.ProductRepository;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Controller exposing product search and management endpoints.
+ */
 @RestController
 @RequestMapping("products")
 @CrossOrigin
@@ -25,6 +28,9 @@ public class ProductsController {
         this.productDao = productDao;
     }
 
+    /**
+     * Search for products using optional filters.
+     */
     @GetMapping("")
     @PreAuthorize("permitAll()")
     public List<Product> search(@RequestParam(name = "cat", required = false) Integer categoryId,
@@ -49,6 +55,9 @@ public class ProductsController {
         }
     }
 
+    /**
+     * Retrieve a product by id.
+     */
     @GetMapping("{id}")
     @PreAuthorize("permitAll()")
     public Product getById(@PathVariable int id) {
@@ -64,6 +73,9 @@ public class ProductsController {
         }
     }
 
+    /**
+     * Create a new product.
+     */
     @PostMapping()
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Product addProduct(@RequestBody Product product) {
@@ -74,6 +86,9 @@ public class ProductsController {
         }
     }
 
+    /**
+     * Update an existing product.
+     */
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateProduct(@PathVariable int id, @RequestBody Product product) {
@@ -85,6 +100,9 @@ public class ProductsController {
         }
     }
 
+    /**
+     * Delete a product by id.
+     */
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteProduct(@PathVariable int id) {

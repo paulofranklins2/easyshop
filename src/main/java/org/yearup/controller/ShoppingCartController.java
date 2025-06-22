@@ -12,6 +12,9 @@ import org.yearup.service.ShoppingCartService;
 
 import java.security.Principal;
 
+/**
+ * REST controller for managing a user's shopping cart.
+ */
 @RestController
 public class ShoppingCartController {
     // a shopping cart requires
@@ -24,6 +27,9 @@ public class ShoppingCartController {
         this.userDao = userDao;
     }
 
+    /**
+     * Retrieve the current user's shopping cart.
+     */
     @GetMapping("/cart")
     public ShoppingCart getCart(Principal principal) {
         try {
@@ -36,12 +42,18 @@ public class ShoppingCartController {
         }
     }
 
+    /**
+     * Add a product to the user's cart.
+     */
     @PostMapping("/cart/products/{productId}")
     public ShoppingCart addToCart(@PathVariable int productId, Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
         return shoppingCartDao.addProduct(userId, productId);
     }
 
+    /**
+     * Update the quantity of a product in the cart.
+     */
     @PutMapping("/cart/products/{productId}")
     public ShoppingCart updateCartQuantity(@PathVariable int productId,
                                            @RequestBody UpdateCartItemDto item,
@@ -50,18 +62,27 @@ public class ShoppingCartController {
         return shoppingCartDao.updateQuantity(userId, productId, item.getQuantity());
     }
 
+    /**
+     * Remove a product from the cart.
+     */
     @DeleteMapping("/cart/products/{productId}")
     public ShoppingCart deleteProduct(@PathVariable int productId, Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
         return shoppingCartDao.deleteProduct(userId, productId);
     }
 
+    /**
+     * Remove all items from the cart.
+     */
     @DeleteMapping("/cart")
     public ShoppingCart clearCart(Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
         return shoppingCartDao.clearCart(userId);
     }
 
+    /**
+     * Utility method to get the current user's id from the {@link Principal}.
+     */
     private int getUserIdFromPrincipal(Principal principal) {
         String username = principal.getName();
         User user = userDao.findByUsername(username);

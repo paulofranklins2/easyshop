@@ -10,6 +10,9 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Handles creation and retrieval of {@link Order} records for the current user.
+ */
 @RestController
 @RequestMapping("/orders")
 public class OrdersController {
@@ -28,6 +31,9 @@ public class OrdersController {
         this.profileDao = profileDao;
     }
 
+    /**
+     * Convert the user's cart into a new order.
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Order createOrder(Principal principal) {
@@ -62,6 +68,9 @@ public class OrdersController {
         return order;
     }
 
+    /**
+     * List all orders belonging to the authenticated user.
+     */
     @GetMapping
     public List<Order> listOrders(Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
@@ -73,6 +82,9 @@ public class OrdersController {
         return orders;
     }
 
+    /**
+     * Retrieve a single order if it belongs to the current user.
+     */
     @GetMapping("/{id}")
     public Order getOrder(@PathVariable int id, Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
@@ -85,6 +97,9 @@ public class OrdersController {
         return null;
     }
 
+    /**
+     * Helper method to convert a {@link Principal} to a user id.
+     */
     private int getUserIdFromPrincipal(Principal principal) {
         String username = principal.getName();
         User user = userDao.findByUsername(username);

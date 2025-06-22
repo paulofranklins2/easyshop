@@ -10,8 +10,9 @@ import java.math.BigDecimal;
 
 import javax.persistence.*;
 
-import java.math.BigDecimal;
-
+/**
+ * Entity representing a product in the catalog.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

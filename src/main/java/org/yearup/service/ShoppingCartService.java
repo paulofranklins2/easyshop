@@ -7,6 +7,9 @@ import org.yearup.repository.ShoppingCartItemRepository;
 
 import java.util.List;
 
+/**
+ * Business logic for manipulating shopping carts persisted in the database.
+ */
 @Service
 public class ShoppingCartService {
     private final ShoppingCartItemRepository cartRepo;
@@ -17,6 +20,9 @@ public class ShoppingCartService {
         this.productRepository = productRepository;
     }
 
+    /**
+     * Retrieve a user's cart from the database.
+     */
     public ShoppingCart getCart(int userId) {
         List<ShoppingCartItemEntity> items = cartRepo.findByUserId(userId);
         ShoppingCart cart = new ShoppingCart();
@@ -31,6 +37,9 @@ public class ShoppingCartService {
         return cart;
     }
 
+    /**
+     * Add a product to the user's cart, incrementing quantity if present.
+     */
     public ShoppingCart addProduct(int userId, int productId) {
         ShoppingCartItemEntity id = cartRepo.findById(new ShoppingCartItemId(userId, productId)).orElse(null);
         if (id == null) {
@@ -46,6 +55,9 @@ public class ShoppingCartService {
         return getCart(userId);
     }
 
+    /**
+     * Update the quantity of a product in the cart.
+     */
     public ShoppingCart updateQuantity(int userId, int productId, int quantity) {
         ShoppingCartItemEntity entity = cartRepo.findById(new ShoppingCartItemId(userId, productId)).orElse(null);
         if (entity != null) {
@@ -55,11 +67,17 @@ public class ShoppingCartService {
         return getCart(userId);
     }
 
+    /**
+     * Remove a product from the cart.
+     */
     public ShoppingCart deleteProduct(int userId, int productId) {
         cartRepo.deleteById(new ShoppingCartItemId(userId, productId));
         return getCart(userId);
     }
 
+    /**
+     * Remove all items from a user's cart.
+     */
     public ShoppingCart clearCart(int userId) {
         List<ShoppingCartItemEntity> items = cartRepo.findByUserId(userId);
         cartRepo.deleteAll(items);

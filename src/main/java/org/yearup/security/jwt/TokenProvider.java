@@ -22,6 +22,9 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+/**
+ * Generates and validates JWT tokens for authentication.
+ */
 @Component
 public class TokenProvider implements InitializingBean {
 

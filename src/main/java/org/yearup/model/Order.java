@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a completed order made by a user.
+ */
 @Getter
 @Setter
 @Entity

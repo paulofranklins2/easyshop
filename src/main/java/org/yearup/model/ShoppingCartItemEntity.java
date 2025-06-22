@@ -6,6 +6,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * JPA entity representing an item in the shopping cart table.
+ */
 @Getter
 @Setter
 @Entity
