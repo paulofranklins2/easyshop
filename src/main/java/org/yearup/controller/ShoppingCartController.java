@@ -17,7 +17,6 @@ import java.security.Principal;
  */
 @RestController
 public class ShoppingCartController {
-    // a shopping cart requires
     private final ShoppingCartService shoppingCartDao;
     private final UserRepository userDao;
 
