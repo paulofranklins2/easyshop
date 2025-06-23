@@ -7,70 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class OrderLineItemTest {
 
     @Test
-    void getLineTotal() {
-    }
-
-    @Test
-    void getOrderLineItemId() {
-    }
-
-    @Test
-    void getOrderId() {
-    }
-
-    @Test
-    void getProductId() {
-    }
-
-    @Test
-    void getProduct() {
-    }
-
-    @Test
-    void getSalesPrice() {
-    }
-
-    @Test
-    void getQuantity() {
-    }
-
-    @Test
-    void getDiscount() {
-    }
-
-    @Test
-    void getDate() {
-    }
-
-    @Test
-    void setOrderLineItemId() {
-    }
-
-    @Test
-    void setOrderId() {
-    }
-
-    @Test
-    void setProductId() {
-    }
-
-    @Test
-    void setProduct() {
-    }
-
-    @Test
-    void setSalesPrice() {
-    }
-
-    @Test
-    void setQuantity() {
-    }
-
-    @Test
-    void setDiscount() {
-    }
-
-    @Test
-    void setDate() {
+    void lineTotalCalculation() {
+        OrderLineItem item = new OrderLineItem();
+        item.setSalesPrice(java.math.BigDecimal.TEN);
+        item.setQuantity(2);
+        item.setDiscount(java.math.BigDecimal.ONE);
+        assertEquals(new java.math.BigDecimal("19"), item.getLineTotal());
     }
 }
