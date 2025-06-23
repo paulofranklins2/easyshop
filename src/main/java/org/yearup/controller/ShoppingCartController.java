@@ -102,6 +102,7 @@ public class ShoppingCartController {
         int userId = getUserIdFromPrincipal(principal);
         PromoCode promo = promoService.findByCode(code);
         if (promo != null) {
+            promoService.recordUsage(userId, promo);
             return shoppingCartService.applyDiscount(userId, promo.getDiscountPercent());
         }
         return shoppingCartService.getCart(userId);

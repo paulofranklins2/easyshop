@@ -1,18 +1,36 @@
 <div class="mb-3 text-end">
+    {{#isAdmin}}
     <button class="btn btn-primary" onclick="promoCodeService.createCode()">Generate Code</button>
+    {{/isAdmin}}
 </div>
 <table class="table">
     <thead>
-    <tr><th>Code</th><th>Discount %</th></tr>
+    <tr><th>Code</th><th>Discount %</th>{{#isAdmin}}<th></th>{{/isAdmin}}</tr>
     </thead>
     <tbody>
     {{#hasCodes}}
     {{#codes}}
-    <tr><td>{{code}}</td><td>{{discountPercent}}</td></tr>
+    <tr>
+        <td>{{code}}</td>
+        <td>
+            {{#isAdmin}}
+            <input type="number" class="form-control form-control-sm code-discount" data-id="{{promoCodeId}}" value="{{discountPercent}}">
+            {{/isAdmin}}
+            {{^isAdmin}}{{discountPercent}}{{/isAdmin}}
+        </td>
+        {{#isAdmin}}
+        <td><button class="btn btn-danger btn-sm delete-code" data-id="{{promoCodeId}}">Delete</button></td>
+        {{/isAdmin}}
+    </tr>
     {{/codes}}
     {{/hasCodes}}
     {{^hasCodes}}
+    {{#isAdmin}}
+    <tr><td colspan="3" class="text-muted">No promo codes.</td></tr>
+    {{/isAdmin}}
+    {{^isAdmin}}
     <tr><td colspan="2" class="text-muted">No promo codes.</td></tr>
+    {{/isAdmin}}
     {{/hasCodes}}
     </tbody>
 </table>

@@ -102,10 +102,14 @@ CREATE TABLE shopping_cart
     FOREIGN KEY (product_id) REFERENCES products (product_id)
 );
 
-CREATE TABLE promo_codes
+CREATE TABLE promo_code_usage
 (
-    promo_code_id    INT NOT NULL AUTO_INCREMENT,
-    code             VARCHAR(50) NOT NULL UNIQUE,
+    usage_id        INT NOT NULL AUTO_INCREMENT,
+    user_id         INT NOT NULL,
+    promo_code_id   INT NOT NULL,
     discount_percent DECIMAL(10, 2) NOT NULL DEFAULT 0,
-    PRIMARY KEY (promo_code_id)
+    used_date       DATETIME       NOT NULL,
+    PRIMARY KEY (usage_id),
+    FOREIGN KEY (user_id) REFERENCES users (user_id),
+    FOREIGN KEY (promo_code_id) REFERENCES promo_codes (promo_code_id)
 );
