@@ -2,95 +2,35 @@ package org.yearup.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProfileTest {
 
     @Test
-    void getUserId() {
-    }
+    void gettersAndSetters() {
+        Profile p = new Profile();
+        p.setUserId(1);
+        p.setFirstName("f");
+        p.setLastName("l");
+        p.setPhone("p");
+        p.setEmail("e");
+        p.setAddress("a");
+        p.setCity("c");
+        p.setState("s");
+        p.setZip("z");
+        p.setPhotoUrl("ph");
+        p.setProfileUrl("pr");
 
-    @Test
-    void getFirstName() {
-    }
-
-    @Test
-    void getLastName() {
-    }
-
-    @Test
-    void getPhone() {
-    }
-
-    @Test
-    void getEmail() {
-    }
-
-    @Test
-    void getAddress() {
-    }
-
-    @Test
-    void getCity() {
-    }
-
-    @Test
-    void getState() {
-    }
-
-    @Test
-    void getZip() {
-    }
-
-    @Test
-    void getPhotoUrl() {
-    }
-
-    @Test
-    void getProfileUrl() {
-    }
-
-    @Test
-    void setUserId() {
-    }
-
-    @Test
-    void setFirstName() {
-    }
-
-    @Test
-    void setLastName() {
-    }
-
-    @Test
-    void setPhone() {
-    }
-
-    @Test
-    void setEmail() {
-    }
-
-    @Test
-    void setAddress() {
-    }
-
-    @Test
-    void setCity() {
-    }
-
-    @Test
-    void setState() {
-    }
-
-    @Test
-    void setZip() {
-    }
-
-    @Test
-    void setPhotoUrl() {
-    }
-
-    @Test
-    void setProfileUrl() {
+        assertEquals(1, p.getUserId());
+        assertEquals("f", p.getFirstName());
+        assertEquals("l", p.getLastName());
+        assertEquals("p", p.getPhone());
+        assertEquals("e", p.getEmail());
+        assertEquals("a", p.getAddress());
+        assertEquals("c", p.getCity());
+        assertEquals("s", p.getState());
+        assertEquals("z", p.getZip());
+        assertEquals("ph", p.getPhotoUrl());
+        assertEquals("pr", p.getProfileUrl());
     }
 }
