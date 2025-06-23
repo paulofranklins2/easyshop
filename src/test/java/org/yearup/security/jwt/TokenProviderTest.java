@@ -36,4 +36,14 @@ class TokenProviderTest {
         var auth2 = provider.getAuthentication(token);
         assertEquals("user", auth2.getName());
     }
+
+    @Test
+    void validateTokenReturnsFalseForInvalid() {
+        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        String secret = Base64.getEncoder().encodeToString(key.getEncoded());
+        TokenProvider provider = new TokenProvider(secret, 60);
+        provider.afterPropertiesSet();
+
+        assertFalse(provider.validateToken("bad.token"));
+    }
 }
