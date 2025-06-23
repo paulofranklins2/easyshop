@@ -25,6 +25,7 @@ class ShoppingCartService {
 
                 this.updateCartDisplay()
                 this.renderSidebar()
+                playCoinSound();
             })
             .catch(error => {
 
@@ -204,6 +205,7 @@ class ShoppingCartService {
                 const off = bootstrap.Offcanvas.getInstance(document.getElementById('cartSidebar'));
                 if (off) off.hide();
                 ordersService.showOrders();
+                playCheckoutSound();
             });
     }
 
