@@ -26,4 +26,13 @@ class DatabaseUserDetailsServiceTest {
         DatabaseUserDetailsService svc = new DatabaseUserDetailsService(repo);
         assertThrows(UserNotActivatedException.class, () -> svc.loadUserByUsername("user"));
     }
+
+    @Test
+    void loadUserByUsernameThrowsWhenMissing() {
+        org.yearup.repository.UserRepository repo = org.mockito.Mockito.mock(org.yearup.repository.UserRepository.class);
+        org.mockito.Mockito.when(repo.findByUsername("missing")).thenReturn(null);
+        DatabaseUserDetailsService svc = new DatabaseUserDetailsService(repo);
+        assertThrows(org.springframework.security.core.userdetails.UsernameNotFoundException.class,
+            () -> svc.loadUserByUsername("missing"));
+    }
 }
