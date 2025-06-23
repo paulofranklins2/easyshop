@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.yearup.dto.error.ErrorResponse;
 import org.yearup.exception.*;
 
+import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
+import java.nio.file.AccessDeniedException;
 import java.time.Instant;
 import java.util.stream.Collectors;
 
@@ -31,6 +33,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<ErrorResponse> handleUnauthorized(UnauthorizedException ex, HttpServletRequest request) {
         return buildResponseEntity(ex, HttpStatus.UNAUTHORIZED, request);
+    }
+
+    @ExceptionHandler({AuthenticationException.class, AccessDeniedException.class})
+    public ResponseEntity<ErrorResponse> handleAuthErrors(Exception ex, HttpServletRequest request) {
+        LOG.warn("Authentication error: {}", ex.getMessage());
+        return buildResponseEntity(new UnauthorizedException("Authentication required"), HttpStatus.UNAUTHORIZED, request);
     }
 
     @ExceptionHandler(NotFoundException.class)

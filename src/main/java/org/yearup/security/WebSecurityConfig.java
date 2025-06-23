@@ -61,20 +61,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                // disable CSRF as tokens are used for auth
-                .csrf().disable()
+            // disable CSRF as tokens are used for auth
+            .csrf().disable()
 
-                .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .accessDeniedHandler(jwtAccessDeniedHandler)
+            .exceptionHandling()
+            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+            .accessDeniedHandler(jwtAccessDeniedHandler)
 
-                // stateless session management
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            // stateless session management
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-                .and()
-                .apply(securityConfigurerAdapter());
+            .and()
+            .authorizeRequests()
+            .antMatchers("/login", "/register", "/products/**", "/categories/**", "/", "/static/**").permitAll()
+            .anyRequest().authenticated()
+
+            .and()
+            .apply(securityConfigurerAdapter());
     }
 
     private JwtConfigurer securityConfigurerAdapter() {

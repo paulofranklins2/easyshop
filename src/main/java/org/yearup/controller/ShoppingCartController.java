@@ -8,6 +8,7 @@ import org.yearup.exception.InternalServerErrorException;
 import org.yearup.exception.NotFoundException;
 import org.yearup.exception.ApplicationException;
 import org.yearup.dto.cart.UpdateCartItemRequest;
+import org.yearup.exception.UnauthorizedException;
 import org.yearup.model.ShoppingCart;
 import org.yearup.model.User;
 import org.yearup.repository.UserRepository;
@@ -93,6 +94,9 @@ public class ShoppingCartController {
      * Utility method to get the current user's id from the {@link Principal}.
      */
     private int getUserIdFromPrincipal(Principal principal) {
+        if (principal == null) {
+            throw new UnauthorizedException("Authentication required");
+        }
         String username = principal.getName();
         User user = userDao.findByUsername(username);
         if (user == null) throw new NotFoundException("User not found");

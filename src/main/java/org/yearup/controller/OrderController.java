@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.yearup.exception.UnauthorizedException;
 import org.yearup.model.*;
 import org.yearup.repository.*;
 import org.yearup.service.ShoppingCartService;
@@ -108,6 +109,9 @@ public class OrderController {
      * Helper method to convert a {@link Principal} to a user id.
      */
     private int getUserIdFromPrincipal(Principal principal) {
+        if (principal == null) {
+            throw new UnauthorizedException("Authentication required");
+        }
         String username = principal.getName();
         User user = userDao.findByUsername(username);
         return user != null ? user.getId() : -1;
