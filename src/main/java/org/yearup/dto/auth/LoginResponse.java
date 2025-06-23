@@ -13,7 +13,6 @@ import org.yearup.model.User;
 @AllArgsConstructor
 @Getter
 public class LoginResponse {
-
     @JsonProperty("token")
     private String token;
     @JsonProperty("user")
