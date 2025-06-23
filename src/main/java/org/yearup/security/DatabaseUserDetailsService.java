@@ -15,24 +15,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Authenticate a user from the database.
+ * Implementation of {@link UserDetailsService} that loads user data from the
+ * database using {@link UserRepository}.
  */
 @Component("userDetailsService")
-public class UserModelDetailsService implements UserDetailsService {
+public class DatabaseUserDetailsService implements UserDetailsService {
 
-    private final Logger log = LoggerFactory.getLogger(UserModelDetailsService.class);
+    private final Logger log = LoggerFactory.getLogger(DatabaseUserDetailsService.class);
 
-    private final UserRepository userDao;
+    private final UserRepository userRepository;
 
-    public UserModelDetailsService(UserRepository userDao) {
-        this.userDao = userDao;
+    public DatabaseUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(final String login) {
         log.debug("Authenticating user '{}'", login);
         String lowercaseLogin = login.toLowerCase();
-        return createSpringSecurityUser(lowercaseLogin, userDao.findByUsername(lowercaseLogin));
+        return createSpringSecurityUser(lowercaseLogin, userRepository.findByUsername(lowercaseLogin));
     }
 
     private org.springframework.security.core.userdetails.User createSpringSecurityUser(String lowercaseLogin, User user) {
@@ -40,11 +41,10 @@ public class UserModelDetailsService implements UserDetailsService {
             throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
         }
         List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getName()))
-                .collect(Collectors.toList());
+            .map(authority -> new SimpleGrantedAuthority(authority.getName()))
+            .collect(Collectors.toList());
         return new org.springframework.security.core.userdetails.User(user.getUsername(),
-                user.getPassword(),
-                grantedAuthorities);
+            user.getPassword(),
+            grantedAuthorities);
     }
 }
-
