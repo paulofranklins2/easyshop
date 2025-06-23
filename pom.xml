@@ -151,6 +151,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Swagger/OpenAPI documentation support -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

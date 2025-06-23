@@ -15,6 +15,7 @@ Here's what’s done and what’s coming soon, written like a checklist so you c
 - [x] Migrated from JDBC to Java JPA
 - [x] Implemented full Javadoc
 - [x] Wrote comprehensive JUnit tests
+- [x] Add Swagger/OpenAPI for API documentation
 
 ### 🔧 Planned / In Progress
 - [ ] Full test coverage (unit + integration)
@@ -26,5 +27,4 @@ Here's what’s done and what’s coming soon, written like a checklist so you c
 - [ ] Advanced roles and permissions
 - [ ] Product review/rating system
 - [ ] Convert static HTML UI to Angular SPA
-- [ ] Add Swagger/OpenAPI for API documentation
 - [ ] Add CI/CD workflow for build and test automation

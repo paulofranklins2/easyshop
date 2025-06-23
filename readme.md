@@ -42,7 +42,12 @@ src/main/resources/static -> HTML/CSS/JS for the frontend
     ```
 3. Visit the App:
 
-    ```yaml
+    ```
    http://localhost:8080
     ```
 
+4. Explore the API documentation:
+
+   ```
+   http://localhost:8080/swagger-ui/index.html
+   ```
