@@ -8,13 +8,7 @@ class WebSecurityConfigTest {
 
     @Test
     void passwordEncoder() {
-    }
-
-    @Test
-    void configure() {
-    }
-
-    @Test
-    void testConfigure() {
+        WebSecurityConfig config = new WebSecurityConfig(null, null, null, null);
+        assertNotNull(config.passwordEncoder().encode("pass"));
     }
 }
