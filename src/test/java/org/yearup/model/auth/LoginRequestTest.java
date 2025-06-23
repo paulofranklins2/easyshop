@@ -7,22 +7,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class LoginRequestTest {
 
     @Test
-    void getUsername() {
-    }
-
-    @Test
-    void getPassword() {
-    }
-
-    @Test
-    void setUsername() {
-    }
-
-    @Test
-    void setPassword() {
-    }
-
-    @Test
-    void testToString() {
+    void gettersAndSetters() {
+        LoginRequest req = new LoginRequest();
+        req.setUsername("u");
+        req.setPassword("p");
+        assertEquals("u", req.getUsername());
+        assertEquals("p", req.getPassword());
+        assertTrue(req.toString().contains("u"));
     }
 }
