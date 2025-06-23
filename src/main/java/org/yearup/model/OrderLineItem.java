@@ -24,7 +24,7 @@ public class OrderLineItem {
     @Column(name = "product_id")
     private int productId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", insertable = false, updatable = false)
     private Product product;
     private BigDecimal salesPrice;
