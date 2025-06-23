@@ -19,6 +19,10 @@
     {{/items}}
     </tbody>
 </table>
+{{#promoCode}}
+<div class="text-end mb-2">Promo Code: {{promoCode}} ({{discountPercent}}% off)</div>
+<div class="text-end mb-2">Discount: -${{discountTotal}}</div>
+{{/promoCode}}
 <div class="text-end mb-2">Total: ${{total}}</div>
 <div class="text-end">
     <button class="btn btn-secondary me-2" onclick="ordersService.backToOrders()">Back</button>

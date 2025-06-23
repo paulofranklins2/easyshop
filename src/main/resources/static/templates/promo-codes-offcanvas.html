@@ -20,10 +20,12 @@
         </td>
         {{#isAdmin}}
         <td>
-            <button class="btn btn-warning btn-sm edit-code me-1" data-id="{{promoCodeId}}">Edit</button>
-            <button class="btn btn-secondary btn-sm cancel-edit me-1 d-none" data-id="{{promoCodeId}}">Cancel</button>
-            <button class="btn btn-primary btn-sm save-code me-1 d-none" data-id="{{promoCodeId}}">Save</button>
-            <button class="btn btn-danger btn-sm delete-code" data-id="{{promoCodeId}}">Delete</button>
+            <div class="btn-group btn-group-sm" role="group">
+                <button class="btn btn-warning edit-code" data-id="{{promoCodeId}}">Edit</button>
+                <button class="btn btn-secondary cancel-edit d-none" data-id="{{promoCodeId}}">Cancel</button>
+                <button class="btn btn-primary save-code d-none" data-id="{{promoCodeId}}">Save</button>
+                <button class="btn btn-danger delete-code" data-id="{{promoCodeId}}">Delete</button>
+            </div>
         </td>
         {{/isAdmin}}
     </tr>

@@ -46,6 +46,8 @@ public class OrderController {
         LOG.debug("Creating order for user {}", userId);
         ShoppingCart cart = cartService.getCart(userId);
         if (cart.getItems().isEmpty()) return null;
+        java.math.BigDecimal discountPercent = cartService.getDiscountPercent(userId);
+        String promoCode = cartService.getPromoCode(userId);
         Profile profile = profileDao.findById(userId).orElse(null);
         Order order = new Order();
         order.setUserId(userId);
@@ -57,6 +59,8 @@ public class OrderController {
             order.setZip(profile.getZip());
         }
         order.setShippingAmount(java.math.BigDecimal.ZERO);
+        order.setPromoCode(promoCode);
+        order.setDiscountPercent(discountPercent);
         order = orderDao.save(order);
         for (ShoppingCartItem cartItem : cart.getItems().values()) {
             OrderLineItem item = new OrderLineItem();
@@ -64,7 +68,9 @@ public class OrderController {
             item.setProductId(cartItem.getProductId());
             item.setSalesPrice(cartItem.getProduct().getPrice());
             item.setQuantity(cartItem.getQuantity());
-            item.setDiscount(java.math.BigDecimal.ZERO);
+            java.math.BigDecimal lineTotal = cartItem.getProduct().getPrice().multiply(new java.math.BigDecimal(cartItem.getQuantity()));
+            java.math.BigDecimal lineDiscount = lineTotal.multiply(discountPercent == null ? java.math.BigDecimal.ZERO : discountPercent);
+            item.setDiscount(lineDiscount);
             item.setDate(LocalDateTime.now());
             lineItemRepo.save(item);
         }
@@ -85,6 +91,7 @@ public class OrderController {
         for (Order order : orders) {
             order.setItems(lineItemRepo.findByOrderId(order.getOrderId()));
             order.getTotal();
+            order.getDiscountTotal();
         }
         return orders;
     }
@@ -100,6 +107,7 @@ public class OrderController {
         if (order != null && order.getUserId() == userId) {
             order.setItems(lineItemRepo.findByOrderId(id));
             order.getTotal();
+            order.getDiscountTotal();
             return order;
         }
         return null;

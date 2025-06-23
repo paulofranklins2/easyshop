@@ -73,6 +73,8 @@ CREATE TABLE orders
     state           VARCHAR(50)    NOT NULL,
     zip             VARCHAR(20)    NOT NULL,
     shipping_amount DECIMAL(10, 2) NOT NULL DEFAULT 0,
+    promo_code      VARCHAR(50)    NULL,
+    discount_percent DECIMAL(10, 2) NOT NULL DEFAULT 0,
     PRIMARY KEY (order_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
