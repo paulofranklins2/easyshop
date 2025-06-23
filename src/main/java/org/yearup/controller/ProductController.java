@@ -86,7 +86,7 @@ public class ProductController {
      * Create a new product.
      */
     @PostMapping()
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public Product addProduct(@RequestBody Product product) {
         LOG.debug("Adding product {}", product.getName());
         try {
@@ -101,7 +101,7 @@ public class ProductController {
      * Update an existing product.
      */
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public void updateProduct(@PathVariable int id, @RequestBody Product product) {
         LOG.debug("Updating product id={}", id);
         try {
@@ -117,7 +117,7 @@ public class ProductController {
      * Delete a product by id.
      */
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteProduct(@PathVariable int id) {
         LOG.debug("Deleting product id={}", id);
         try {

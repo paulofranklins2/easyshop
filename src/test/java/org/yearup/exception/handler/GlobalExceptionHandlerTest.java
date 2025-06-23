@@ -20,4 +20,15 @@ class GlobalExceptionHandlerTest {
         assertEquals(401, response.getBody().getStatus());
         assertEquals("Authentication required", response.getBody().getMessage());
     }
+
+    @Test
+    void handleAccessDeniedReturns403() {
+        GlobalExceptionHandler handler = new GlobalExceptionHandler();
+        org.springframework.security.access.AccessDeniedException ex =
+            new org.springframework.security.access.AccessDeniedException("denied");
+        ResponseEntity<ErrorResponse> response = handler.handleAccessDenied(ex, new MockHttpServletRequest());
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+        assertEquals(403, response.getBody().getStatus());
+        assertEquals("Access denied", response.getBody().getMessage());
+    }
 }

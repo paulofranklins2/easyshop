@@ -27,4 +27,12 @@ class OrderControllerTest {
         java.security.Principal principal = () -> "u";
         assertTrue(controller.listOrders(principal).isEmpty());
     }
+
+    @Test
+    void createOrderHasCreatedStatus() throws NoSuchMethodException {
+        var method = OrderController.class.getMethod("createOrder", java.security.Principal.class);
+        var annotation = method.getAnnotation(org.springframework.web.bind.annotation.ResponseStatus.class);
+        assertNotNull(annotation);
+        assertEquals(org.springframework.http.HttpStatus.CREATED, annotation.value());
+    }
 }

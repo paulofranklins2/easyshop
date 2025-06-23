@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.yearup.dto.error.ErrorResponse;
 import org.yearup.exception.*;
-
-import javax.naming.AuthenticationException;
+import org.springframework.security.core.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
-import java.nio.file.AccessDeniedException;
+import org.springframework.security.access.AccessDeniedException;
 import java.time.Instant;
 import java.util.stream.Collectors;
 
@@ -35,10 +34,16 @@ public class GlobalExceptionHandler {
         return buildResponseEntity(ex, HttpStatus.UNAUTHORIZED, request);
     }
 
-    @ExceptionHandler({AuthenticationException.class, AccessDeniedException.class})
-    public ResponseEntity<ErrorResponse> handleAuthErrors(Exception ex, HttpServletRequest request) {
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleAuthErrors(AuthenticationException ex, HttpServletRequest request) {
         LOG.warn("Authentication error: {}", ex.getMessage());
         return buildResponseEntity(new UnauthorizedException("Authentication required"), HttpStatus.UNAUTHORIZED, request);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException ex, HttpServletRequest request) {
+        LOG.warn("Access denied: {}", ex.getMessage());
+        return buildResponseEntity(new ForbiddenException("Access denied"), HttpStatus.FORBIDDEN, request);
     }
 
     @ExceptionHandler(NotFoundException.class)

@@ -64,7 +64,7 @@ public class CategoryController {
     /**
      * Create a new category.
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
     public ResponseEntity<Category> addCategory(@RequestBody Category category) {
         LOG.debug("Adding category {}", category.getName());
@@ -76,7 +76,7 @@ public class CategoryController {
     /**
      * Update an existing category.
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable int id, @RequestBody Category category) {
         LOG.debug("Updating category id={}", id);
@@ -92,7 +92,7 @@ public class CategoryController {
     /**
      * Delete a category by id.
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable int id) {
         LOG.debug("Deleting category id={}", id);
