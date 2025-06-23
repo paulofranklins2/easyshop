@@ -7,26 +7,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class CategoryTest {
 
     @Test
-    void getCategoryId() {
-    }
+    void gettersAndSetters() {
+        Category c = new Category();
+        c.setCategoryId(7);
+        c.setName("cat");
+        c.setDescription("desc");
 
-    @Test
-    void getName() {
-    }
-
-    @Test
-    void getDescription() {
-    }
-
-    @Test
-    void setCategoryId() {
-    }
-
-    @Test
-    void setName() {
-    }
-
-    @Test
-    void setDescription() {
+        assertEquals(7, c.getCategoryId());
+        assertEquals("cat", c.getName());
+        assertEquals("desc", c.getDescription());
     }
 }
