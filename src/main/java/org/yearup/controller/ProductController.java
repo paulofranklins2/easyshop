@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+import org.yearup.exception.InternalServerErrorException;
+import org.yearup.exception.NotFoundException;
 import org.yearup.model.Product;
 import org.yearup.repository.ProductRepository;
 
@@ -58,7 +58,7 @@ public class ProductController {
             return result.getContent();
         } catch (Exception ex) {
             LOG.error("Error searching products", ex);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+            throw new InternalServerErrorException("Oops... our bad.", ex);
         }
     }
 
@@ -73,12 +73,12 @@ public class ProductController {
             var product = productDao.findById(id).orElse(null);
 
             if (product == null)
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+                throw new NotFoundException("Product not found");
 
             return product;
         } catch (Exception ex) {
             LOG.error("Error getting product {}", id, ex);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+            throw new InternalServerErrorException("Oops... our bad.", ex);
         }
     }
 
@@ -93,7 +93,7 @@ public class ProductController {
             return productDao.save(product);
         } catch (Exception ex) {
             LOG.error("Error adding product", ex);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+            throw new InternalServerErrorException("Oops... our bad.", ex);
         }
     }
 
@@ -109,7 +109,7 @@ public class ProductController {
             productDao.save(product);
         } catch (Exception ex) {
             LOG.error("Error updating product {}", id, ex);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+            throw new InternalServerErrorException("Oops... our bad.", ex);
         }
     }
 
@@ -124,12 +124,12 @@ public class ProductController {
             var product = productDao.findById(id).orElse(null);
 
             if (product == null)
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+                throw new NotFoundException("Product not found");
 
             productDao.deleteById(id);
         } catch (Exception ex) {
             LOG.error("Error deleting product {}", id, ex);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+            throw new InternalServerErrorException("Oops... our bad.", ex);
         }
     }
 }

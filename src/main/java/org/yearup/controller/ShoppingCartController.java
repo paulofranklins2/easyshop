@@ -3,9 +3,10 @@ package org.yearup.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+import org.yearup.exception.InternalServerErrorException;
+import org.yearup.exception.NotFoundException;
+import org.yearup.exception.ApplicationException;
 import org.yearup.dto.cart.UpdateCartItemRequest;
 import org.yearup.model.ShoppingCart;
 import org.yearup.model.User;
@@ -38,11 +39,11 @@ public class ShoppingCartController {
             int userId = getUserIdFromPrincipal(principal);
             LOG.debug("Retrieving cart for user {}", userId);
             return shoppingCartDao.getCart(userId);
-        } catch (ResponseStatusException e) {
+        } catch (ApplicationException e) {
             throw e;
         } catch (Exception e) {
             LOG.error("Error getting cart", e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error.");
+            throw new InternalServerErrorException("Unexpected error.", e);
         }
     }
 
@@ -94,7 +95,7 @@ public class ShoppingCartController {
     private int getUserIdFromPrincipal(Principal principal) {
         String username = principal.getName();
         User user = userDao.findByUsername(username);
-        if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        if (user == null) throw new NotFoundException("User not found");
         return user.getId();
     }
 }

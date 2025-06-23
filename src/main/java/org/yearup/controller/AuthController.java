@@ -14,10 +14,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.yearup.dto.auth.LoginRequest;
 import org.yearup.dto.auth.LoginResponse;
 import org.yearup.dto.auth.RegisterRequest;
+import org.yearup.exception.ConflictException;
+import org.yearup.exception.InternalServerErrorException;
+import org.yearup.exception.UnauthorizedException;
 import org.yearup.model.Profile;
 import org.yearup.model.User;
 import org.yearup.repository.ProfileRepository;
@@ -78,10 +80,10 @@ public class AuthController {
             return new ResponseEntity<>(new LoginResponse(jwt, user), httpHeaders, HttpStatus.OK);
         } catch (BadCredentialsException | UsernameNotFoundException e) {
             LOG.warn("Invalid login for user '{}'", loginRequest.getUsername());
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid username or password.");
+            throw new UnauthorizedException("Invalid username or password.");
         } catch (Exception ex) {
             LOG.error("Error logging in user {}", loginRequest.getUsername(), ex);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+            throw new InternalServerErrorException("Oops... our bad.", ex);
         }
     }
 
@@ -95,7 +97,7 @@ public class AuthController {
         try {
             boolean exists = userDao.existsByUsername(newUser.getUsername());
             if (exists) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Already Exists.");
+                throw new ConflictException("User already exists.");
             }
 
             String role = newUser.getRole();
@@ -113,8 +115,7 @@ public class AuthController {
             return new ResponseEntity<>(user, HttpStatus.CREATED);
         } catch (Exception e) {
             LOG.error("Error registering user {}", newUser.getUsername(), e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
+            throw new InternalServerErrorException("Oops... our bad.", e);
         }
     }
-
 }

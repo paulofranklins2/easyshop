@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.yearup.model.Profile;
 import org.yearup.repository.ProfileRepository;
 import org.yearup.repository.UserRepository;
+import org.yearup.exception.UnauthorizedException;
 
 
 /**
@@ -39,7 +40,7 @@ public class ProfileController {
         LOG.debug("Fetching profile for current user");
 
         if (authentication == null || !authentication.isAuthenticated()) {
-            throw new RuntimeException("Unauthorized access.");
+            throw new UnauthorizedException("Unauthorized access.");
         }
 
         String username;
