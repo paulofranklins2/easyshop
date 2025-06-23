@@ -2,39 +2,20 @@ package org.yearup.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ShoppingCartItemIdTest {
 
     @Test
-    void getUserId() {
-    }
+    void basicMethods() {
+        ShoppingCartItemId id1 = new ShoppingCartItemId(1, 2);
+        ShoppingCartItemId id2 = new ShoppingCartItemId(1, 2);
 
-    @Test
-    void getProductId() {
-    }
-
-    @Test
-    void setUserId() {
-    }
-
-    @Test
-    void setProductId() {
-    }
-
-    @Test
-    void testEquals() {
-    }
-
-    @Test
-    void canEqual() {
-    }
-
-    @Test
-    void testHashCode() {
-    }
-
-    @Test
-    void testToString() {
+        assertEquals(1, id1.getUserId());
+        assertEquals(2, id1.getProductId());
+        assertEquals(id1, id2);
+        assertEquals(id1.hashCode(), id2.hashCode());
+        assertTrue(id1.toString().contains("userId=1"));
     }
 }
