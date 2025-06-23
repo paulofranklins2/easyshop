@@ -1,0 +1,54 @@
+:root {
+    --mario-sky: #5c94fc;
+    --mario-pipe: #4caf50;
+    --mario-yellow: #ffcc00;
+    --mario-brown: #8b4513;
+    --mario-red: #ff0000;
+}
+
+body {
+    font-family: 'Press Start 2P', cursive;
+    background-color: var(--mario-sky);
+    background-image: url('../images/mario/mario-bg.png');
+    image-rendering: pixelated;
+}
+
+.navbar {
+    background-color: var(--mario-sky) !important;
+    border-bottom: 4px solid var(--mario-brown);
+    font-family: 'Press Start 2P', cursive;
+}
+
+.navbar-brand img {
+    image-rendering: pixelated;
+}
+
+.btn-primary {
+    background-color: var(--mario-red);
+    border-color: var(--mario-brown);
+    color: white;
+}
+.btn-primary:hover {
+    background-color: var(--mario-yellow);
+    color: black;
+    transform: translateY(-4px);
+    box-shadow: 0 4px var(--mario-brown);
+}
+
+.card {
+    border: 4px solid var(--mario-brown);
+    background-color: var(--mario-yellow);
+    font-family: 'Press Start 2P', cursive;
+}
+
+.offcanvas {
+    background-color: var(--mario-sky);
+    font-family: 'Press Start 2P', cursive;
+}
+
+.alert {
+    background-color: var(--mario-yellow);
+    color: black;
+    border: 4px solid var(--mario-brown);
+    font-family: 'Press Start 2P', cursive;
+}
