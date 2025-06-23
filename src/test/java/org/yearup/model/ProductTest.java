@@ -2,79 +2,32 @@ package org.yearup.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ProductTest {
 
     @Test
-    void getProductId() {
-    }
+    void gettersAndSetters() {
+        Product p = new Product();
+        p.setProductId(5);
+        p.setName("Widget");
+        p.setPrice(java.math.BigDecimal.ONE);
+        p.setCategoryId(2);
+        p.setDescription("desc");
+        p.setColor("red");
+        p.setStock(3);
+        p.setFeatured(true);
+        p.setImageUrl("/img.png");
 
-    @Test
-    void getName() {
-    }
-
-    @Test
-    void getPrice() {
-    }
-
-    @Test
-    void getCategoryId() {
-    }
-
-    @Test
-    void getDescription() {
-    }
-
-    @Test
-    void getColor() {
-    }
-
-    @Test
-    void getStock() {
-    }
-
-    @Test
-    void isFeatured() {
-    }
-
-    @Test
-    void getImageUrl() {
-    }
-
-    @Test
-    void setProductId() {
-    }
-
-    @Test
-    void setName() {
-    }
-
-    @Test
-    void setPrice() {
-    }
-
-    @Test
-    void setCategoryId() {
-    }
-
-    @Test
-    void setDescription() {
-    }
-
-    @Test
-    void setColor() {
-    }
-
-    @Test
-    void setStock() {
-    }
-
-    @Test
-    void setFeatured() {
-    }
-
-    @Test
-    void setImageUrl() {
+        assertEquals(5, p.getProductId());
+        assertEquals("Widget", p.getName());
+        assertEquals(java.math.BigDecimal.ONE, p.getPrice());
+        assertEquals(2, p.getCategoryId());
+        assertEquals("desc", p.getDescription());
+        assertEquals("red", p.getColor());
+        assertEquals(3, p.getStock());
+        assertTrue(p.isFeatured());
+        assertEquals("/img.png", p.getImageUrl());
     }
 }
