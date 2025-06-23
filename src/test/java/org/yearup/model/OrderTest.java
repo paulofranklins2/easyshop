@@ -2,87 +2,19 @@ package org.yearup.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class OrderTest {
 
     @Test
-    void setItems() {
-    }
+    void totalCalculation() {
+        Order order = new Order();
+        OrderLineItem line = new OrderLineItem();
+        line.setSalesPrice(java.math.BigDecimal.TEN);
+        line.setQuantity(2);
+        order.setItems(java.util.List.of(line));
+        order.setShippingAmount(java.math.BigDecimal.ONE);
 
-    @Test
-    void getTotal() {
-    }
-
-    @Test
-    void getOrderId() {
-    }
-
-    @Test
-    void getUserId() {
-    }
-
-    @Test
-    void getDate() {
-    }
-
-    @Test
-    void getAddress() {
-    }
-
-    @Test
-    void getCity() {
-    }
-
-    @Test
-    void getState() {
-    }
-
-    @Test
-    void getZip() {
-    }
-
-    @Test
-    void getShippingAmount() {
-    }
-
-    @Test
-    void getItems() {
-    }
-
-    @Test
-    void setOrderId() {
-    }
-
-    @Test
-    void setUserId() {
-    }
-
-    @Test
-    void setDate() {
-    }
-
-    @Test
-    void setAddress() {
-    }
-
-    @Test
-    void setCity() {
-    }
-
-    @Test
-    void setState() {
-    }
-
-    @Test
-    void setZip() {
-    }
-
-    @Test
-    void setShippingAmount() {
-    }
-
-    @Test
-    void setTotal() {
+        assertEquals(new java.math.BigDecimal("21"), order.getTotal());
     }
 }
