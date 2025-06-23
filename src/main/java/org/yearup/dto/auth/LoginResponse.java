@@ -1,4 +1,4 @@
-package org.yearup.model.auth;
+package org.yearup.dto.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

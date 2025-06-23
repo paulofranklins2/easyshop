@@ -2,7 +2,6 @@ package org.yearup.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +15,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.yearup.dto.auth.LoginRequest;
+import org.yearup.dto.auth.LoginResponse;
+import org.yearup.dto.auth.RegisterRequest;
 import org.yearup.model.Profile;
 import org.yearup.model.User;
-import org.yearup.model.auth.LoginRequest;
-import org.yearup.model.auth.LoginResponse;
-import org.yearup.model.auth.RegisterRequest;
 import org.yearup.repository.ProfileRepository;
 import org.yearup.repository.UserRepository;
 import org.yearup.security.jwt.JwtFilter;

@@ -1,4 +1,4 @@
-package org.yearup.model.dto.cart;
+package org.yearup.dto.cart;
 
 import lombok.Getter;
 import lombok.Setter;

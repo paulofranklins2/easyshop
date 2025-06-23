@@ -1,4 +1,4 @@
-package org.yearup.model.auth;
+package org.yearup.dto.auth;
 
 import org.junit.jupiter.api.Test;
 

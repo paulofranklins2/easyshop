@@ -2,13 +2,13 @@ package org.yearup.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.yearup.dto.auth.RegisterRequest;
 import org.yearup.model.User;
-import org.yearup.model.auth.RegisterRequest;
 import org.yearup.repository.ProfileRepository;
 import org.yearup.repository.UserRepository;
 import org.yearup.security.jwt.TokenProvider;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AuthControllerTest {
 
@@ -30,7 +30,7 @@ class AuthControllerTest {
         req.setConfirmPassword("p");
         req.setRole("USER");
         org.mockito.Mockito.when(userRepo.existsByUsername("u")).thenReturn(false);
-        org.mockito.Mockito.when(userRepo.save(org.mockito.Mockito.any())).thenReturn(new User("u","p","USER"));
+        org.mockito.Mockito.when(userRepo.save(org.mockito.Mockito.any())).thenReturn(new User("u", "p", "USER"));
         var response = controller.register(req);
         assertEquals(201, response.getStatusCodeValue());
     }

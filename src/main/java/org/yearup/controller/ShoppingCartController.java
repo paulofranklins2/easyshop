@@ -2,14 +2,13 @@ package org.yearup.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.yearup.dto.cart.UpdateCartItemRequest;
 import org.yearup.model.ShoppingCart;
 import org.yearup.model.User;
-import org.yearup.model.dto.cart.UpdateCartItemRequest;
 import org.yearup.repository.UserRepository;
 import org.yearup.service.ShoppingCartService;
 

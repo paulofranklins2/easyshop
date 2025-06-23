@@ -1,9 +1,9 @@
-package org.yearup.model.auth;
+package org.yearup.dto.auth;
 
 import org.junit.jupiter.api.Test;
 import org.yearup.model.User;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LoginResponseTest {
 

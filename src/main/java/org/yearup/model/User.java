@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.yearup.model.auth.Authority;
+import org.yearup.dto.auth.Authority;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -93,10 +93,10 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return id == user.id &&
-                activated == user.activated &&
-                Objects.equals(username, user.username) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(authorities, user.authorities);
+            activated == user.activated &&
+            Objects.equals(username, user.username) &&
+            Objects.equals(password, user.password) &&
+            Objects.equals(authorities, user.authorities);
     }
 
     @Override
@@ -107,11 +107,11 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", activated=" + activated +
-                ", authorities=" + authorities +
-                '}';
+            "id=" + id +
+            ", username='" + username + '\'' +
+            ", activated=" + activated +
+            ", authorities=" + authorities +
+            '}';
     }
 
     @JsonIgnore
@@ -119,7 +119,7 @@ public class User {
         if (this.role != null) {
             return this.role.toUpperCase();
         }
-        if (authorities.size() > 0) {
+        if (!authorities.isEmpty()) {
             for (Authority role : authorities) {
                 return role.getName().toUpperCase();
             }
