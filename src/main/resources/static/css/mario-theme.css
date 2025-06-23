@@ -9,8 +9,9 @@
 body {
     font-family: 'Press Start 2P', cursive;
     background-color: var(--mario-sky);
-    background-image: url('../images/mario/mario-bg.png');
+    /*background-image: url('../images/mario/mario-bg.png');*/
     image-rendering: pixelated;
+    height: 100%;
 }
 
 .navbar {
