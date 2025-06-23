@@ -7,10 +7,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class UpdateCartItemRequestTest {
 
     @Test
-    void getQuantity() {
-    }
-
-    @Test
-    void setQuantity() {
+    void gettersAndSetters() {
+        UpdateCartItemRequest req = new UpdateCartItemRequest();
+        req.setQuantity(4);
+        assertEquals(4, req.getQuantity());
     }
 }
