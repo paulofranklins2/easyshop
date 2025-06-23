@@ -1,6 +1,9 @@
 package org.yearup.security;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.core.AuthenticationException;
 
 import java.io.IOException;
 
@@ -11,9 +14,9 @@ class JwtAuthenticationEntryPointTest {
     @Test
     void commence() throws IOException {
         JwtAuthenticationEntryPoint entry = new JwtAuthenticationEntryPoint();
-        org.springframework.mock.web.MockHttpServletResponse res = new org.springframework.mock.web.MockHttpServletResponse();
-        entry.commence(new org.springframework.mock.web.MockHttpServletRequest(), res,
-            new org.springframework.security.core.AuthenticationException("err"){});
+        MockHttpServletResponse res = new MockHttpServletResponse();
+        entry.commence(new MockHttpServletRequest(), res,
+            new AuthenticationException("err"){});
         assertEquals(401, res.getStatus());
     }
 }

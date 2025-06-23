@@ -1,6 +1,9 @@
 package org.yearup.security;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.io.IOException;
 
@@ -11,9 +14,9 @@ class JwtAccessDeniedHandlerTest {
     @Test
     void handle() throws IOException {
         JwtAccessDeniedHandler handler = new JwtAccessDeniedHandler();
-        org.springframework.mock.web.MockHttpServletResponse res = new org.springframework.mock.web.MockHttpServletResponse();
-        handler.handle(new org.springframework.mock.web.MockHttpServletRequest(), res,
-            new org.springframework.security.access.AccessDeniedException("denied"));
+        MockHttpServletResponse res = new MockHttpServletResponse();
+        handler.handle(new MockHttpServletRequest(), res,
+            new AccessDeniedException("denied"));
         assertEquals(403, res.getStatus());
     }
 }

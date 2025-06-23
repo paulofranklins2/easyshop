@@ -1,6 +1,11 @@
 package org.yearup.security.jwt;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,19 +13,19 @@ class JwtFilterTest {
 
     @Test
     void doFilter() throws Exception {
-        TokenProvider provider = org.mockito.Mockito.mock(TokenProvider.class);
-        org.mockito.Mockito.when(provider.validateToken("t")).thenReturn(true);
-        org.springframework.security.core.Authentication auth =
+        TokenProvider provider = Mockito.mock(TokenProvider.class);
+        Mockito.when(provider.validateToken("t")).thenReturn(true);
+        Authentication auth =
             new org.springframework.security.authentication.UsernamePasswordAuthenticationToken("u", "p");
-        org.mockito.Mockito.when(provider.getAuthentication("t")).thenReturn(auth);
+        Mockito.when(provider.getAuthentication("t")).thenReturn(auth);
 
         JwtFilter filter = new JwtFilter(provider);
-        org.springframework.mock.web.MockHttpServletRequest req = new org.springframework.mock.web.MockHttpServletRequest();
+        MockHttpServletRequest req = new MockHttpServletRequest();
         req.addHeader(JwtFilter.AUTHORIZATION_HEADER, "Bearer t");
-        org.springframework.mock.web.MockHttpServletResponse res = new org.springframework.mock.web.MockHttpServletResponse();
+        MockHttpServletResponse res = new MockHttpServletResponse();
         filter.doFilter(req, res, (r, s) -> {});
 
-        assertEquals("u", org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName());
-        org.springframework.security.core.context.SecurityContextHolder.clearContext();
+        assertEquals("u", SecurityContextHolder.getContext().getAuthentication().getName());
+        SecurityContextHolder.clearContext();
     }
 }

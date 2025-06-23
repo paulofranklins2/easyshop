@@ -1,7 +1,9 @@
 package org.yearup.controller;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.yearup.dto.auth.RegisterRequest;
 import org.yearup.model.User;
 import org.yearup.repository.ProfileRepository;
@@ -18,19 +20,19 @@ class AuthControllerTest {
 
     @Test
     void register() {
-        UserRepository userRepo = org.mockito.Mockito.mock(UserRepository.class);
-        ProfileRepository profileRepo = org.mockito.Mockito.mock(ProfileRepository.class);
-        TokenProvider provider = org.mockito.Mockito.mock(TokenProvider.class);
-        AuthenticationManagerBuilder builder = org.mockito.Mockito.mock(AuthenticationManagerBuilder.class);
-        org.springframework.security.crypto.password.PasswordEncoder encoder = org.mockito.Mockito.mock(org.springframework.security.crypto.password.PasswordEncoder.class);
+        UserRepository userRepo = Mockito.mock(UserRepository.class);
+        ProfileRepository profileRepo = Mockito.mock(ProfileRepository.class);
+        TokenProvider provider = Mockito.mock(TokenProvider.class);
+        AuthenticationManagerBuilder builder = Mockito.mock(AuthenticationManagerBuilder.class);
+        PasswordEncoder encoder = Mockito.mock(PasswordEncoder.class);
         AuthController controller = new AuthController(provider, builder, userRepo, profileRepo, encoder);
         RegisterRequest req = new RegisterRequest();
         req.setUsername("u");
         req.setPassword("p");
         req.setConfirmPassword("p");
         req.setRole("USER");
-        org.mockito.Mockito.when(userRepo.existsByUsername("u")).thenReturn(false);
-        org.mockito.Mockito.when(userRepo.save(org.mockito.Mockito.any())).thenReturn(new User("u", "p", "USER"));
+        Mockito.when(userRepo.existsByUsername("u")).thenReturn(false);
+        Mockito.when(userRepo.save(Mockito.any())).thenReturn(new User("u", "p", "USER"));
         var response = controller.register(req);
         assertEquals(201, response.getStatusCodeValue());
     }

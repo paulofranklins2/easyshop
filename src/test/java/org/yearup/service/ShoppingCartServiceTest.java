@@ -1,68 +1,75 @@
 package org.yearup.service;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.yearup.model.ShoppingCartItemEntity;
+import org.yearup.model.ShoppingCartItemId;
 import org.yearup.repository.ProductRepository;
 import org.yearup.repository.ShoppingCartItemRepository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ShoppingCartServiceTest {
 
     @Test
     void basicFlow() {
-        ShoppingCartItemRepository repo = org.mockito.Mockito.mock(ShoppingCartItemRepository.class);
-        ProductRepository productRepo = org.mockito.Mockito.mock(ProductRepository.class);
-        org.mockito.Mockito.when(repo.findByUserId(1)).thenReturn(java.util.List.of());
+        ShoppingCartItemRepository repo = Mockito.mock(ShoppingCartItemRepository.class);
+        ProductRepository productRepo = Mockito.mock(ProductRepository.class);
+        Mockito.when(repo.findByUserId(1)).thenReturn(List.of());
         ShoppingCartService svc = new ShoppingCartService(repo, productRepo);
         assertNotNull(svc.getCart(1));
     }
 
     @Test
     void addProductCreatesNewEntityWhenNotExists() {
-        ShoppingCartItemRepository repo = org.mockito.Mockito.mock(ShoppingCartItemRepository.class);
-        ProductRepository productRepo = org.mockito.Mockito.mock(ProductRepository.class);
-        org.mockito.Mockito.when(repo.findByUserId(1)).thenReturn(java.util.List.of());
-        org.mockito.Mockito.when(repo.findById(new org.yearup.model.ShoppingCartItemId(1, 2)))
+        ShoppingCartItemRepository repo = Mockito.mock(ShoppingCartItemRepository.class);
+        ProductRepository productRepo = Mockito.mock(ProductRepository.class);
+        Mockito.when(repo.findByUserId(1)).thenReturn(List.of());
+        Mockito.when(repo.findById(new ShoppingCartItemId(1, 2)))
             .thenReturn(java.util.Optional.empty());
 
         ShoppingCartService svc = new ShoppingCartService(repo, productRepo);
-        svc.addProduct(1,2);
+        svc.addProduct(1, 2);
 
-        org.mockito.Mockito.verify(repo).save(org.mockito.Mockito.argThat(e -> e.getQuantity() == 1));
+        Mockito.verify(repo).save(Mockito.argThat(e -> e.getQuantity() == 1));
     }
 
     @Test
     void updateQuantityUpdatesExistingEntity() {
-        ShoppingCartItemRepository repo = org.mockito.Mockito.mock(ShoppingCartItemRepository.class);
-        ProductRepository productRepo = org.mockito.Mockito.mock(ProductRepository.class);
-        org.yearup.model.ShoppingCartItemEntity entity = new org.yearup.model.ShoppingCartItemEntity();
-        entity.setUserId(1); entity.setProductId(2); entity.setQuantity(1);
-        org.mockito.Mockito.when(repo.findById(new org.yearup.model.ShoppingCartItemId(1,2)))
+        ShoppingCartItemRepository repo = Mockito.mock(ShoppingCartItemRepository.class);
+        ProductRepository productRepo = Mockito.mock(ProductRepository.class);
+        ShoppingCartItemEntity entity = new ShoppingCartItemEntity();
+        entity.setUserId(1);
+        entity.setProductId(2);
+        entity.setQuantity(1);
+        Mockito.when(repo.findById(new ShoppingCartItemId(1, 2)))
             .thenReturn(java.util.Optional.of(entity));
-        org.mockito.Mockito.when(repo.findByUserId(1)).thenReturn(java.util.List.of());
+        Mockito.when(repo.findByUserId(1)).thenReturn(List.of());
         ShoppingCartService svc = new ShoppingCartService(repo, productRepo);
-        svc.updateQuantity(1,2,5);
-        org.mockito.Mockito.verify(repo).save(org.mockito.Mockito.argThat(e -> e.getQuantity()==5));
+        svc.updateQuantity(1, 2, 5);
+        Mockito.verify(repo).save(Mockito.argThat(e -> e.getQuantity() == 5));
     }
 
     @Test
     void deleteProductCallsRepository() {
-        ShoppingCartItemRepository repo = org.mockito.Mockito.mock(ShoppingCartItemRepository.class);
-        ProductRepository productRepo = org.mockito.Mockito.mock(ProductRepository.class);
-        org.mockito.Mockito.when(repo.findByUserId(1)).thenReturn(java.util.List.of());
+        ShoppingCartItemRepository repo = Mockito.mock(ShoppingCartItemRepository.class);
+        ProductRepository productRepo = Mockito.mock(ProductRepository.class);
+        Mockito.when(repo.findByUserId(1)).thenReturn(List.of());
         ShoppingCartService svc = new ShoppingCartService(repo, productRepo);
-        svc.deleteProduct(1,2);
-        org.mockito.Mockito.verify(repo).deleteById(new org.yearup.model.ShoppingCartItemId(1,2));
+        svc.deleteProduct(1, 2);
+        Mockito.verify(repo).deleteById(new ShoppingCartItemId(1, 2));
     }
 
     @Test
     void clearCartDeletesAll() {
-        ShoppingCartItemRepository repo = org.mockito.Mockito.mock(ShoppingCartItemRepository.class);
-        ProductRepository productRepo = org.mockito.Mockito.mock(ProductRepository.class);
-        java.util.List<org.yearup.model.ShoppingCartItemEntity> list = java.util.List.of(new org.yearup.model.ShoppingCartItemEntity());
-        org.mockito.Mockito.when(repo.findByUserId(1)).thenReturn(list);
+        ShoppingCartItemRepository repo = Mockito.mock(ShoppingCartItemRepository.class);
+        ProductRepository productRepo = Mockito.mock(ProductRepository.class);
+        List<ShoppingCartItemEntity> list = List.of(new ShoppingCartItemEntity());
+        Mockito.when(repo.findByUserId(1)).thenReturn(list);
         ShoppingCartService svc = new ShoppingCartService(repo, productRepo);
         svc.clearCart(1);
-        org.mockito.Mockito.verify(repo).deleteAll(list);
+        Mockito.verify(repo).deleteAll(list);
     }
 }

@@ -5,7 +5,9 @@ import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.yearup.dto.error.ErrorResponse;
@@ -30,8 +32,8 @@ class GlobalExceptionHandlerTest {
     @Test
     void handleAccessDeniedReturns403() {
         GlobalExceptionHandler handler = new GlobalExceptionHandler();
-        org.springframework.security.access.AccessDeniedException ex =
-            new org.springframework.security.access.AccessDeniedException("denied");
+        AccessDeniedException ex =
+            new AccessDeniedException("denied");
         ResponseEntity<ErrorResponse> response = handler.handleAccessDenied(ex, new MockHttpServletRequest());
         assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
         assertEquals(403, response.getBody().getStatus());
@@ -60,8 +62,8 @@ class GlobalExceptionHandlerTest {
     void handleValidationAggregatesMessages() throws NoSuchMethodException {
         GlobalExceptionHandler handler = new GlobalExceptionHandler();
         Object target = new Object();
-        org.springframework.validation.BeanPropertyBindingResult br =
-            new org.springframework.validation.BeanPropertyBindingResult(target, "t");
+        BeanPropertyBindingResult br =
+            new BeanPropertyBindingResult(target, "t");
         br.addError(new FieldError("t", "f1", "m1"));
         br.addError(new FieldError("t", "f2", "m2"));
         MethodParameter param = new MethodParameter(String.class.getMethods()[0], -1);

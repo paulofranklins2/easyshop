@@ -2,12 +2,14 @@ package org.yearup.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.yearup.model.Profile;
 import org.yearup.model.User;
 import org.yearup.repository.ProfileRepository;
 import org.yearup.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -24,16 +26,16 @@ class ProfileControllerTest {
         // Arrange mock user and profile
         User user = new User(); user.setId(1);
         when(userRepo.findByUsername("u")).thenReturn(user);
-        when(repo.findById(1)).thenReturn(java.util.Optional.of(new Profile()));
+        when(repo.findById(1)).thenReturn(Optional.of(new Profile()));
 
         // Set security context properly
         var auth = new UsernamePasswordAuthenticationToken("u", "p", List.of());
-        org.springframework.security.core.context.SecurityContextHolder.getContext().setAuthentication(auth);
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
         // Act + Assert
         assertNotNull(controller.getProfile());
 
         // Clean up
-        org.springframework.security.core.context.SecurityContextHolder.clearContext();
+        SecurityContextHolder.clearContext();
     }
 }

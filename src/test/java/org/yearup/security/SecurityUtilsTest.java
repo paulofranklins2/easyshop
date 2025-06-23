@@ -1,22 +1,25 @@
 package org.yearup.security;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SecurityUtilsTest {
 
     @Test
     void getCurrentUsername() {
-        var auth = new org.springframework.security.authentication.UsernamePasswordAuthenticationToken("user", "pass");
-        org.springframework.security.core.context.SecurityContextHolder.getContext().setAuthentication(auth);
+        var auth = new UsernamePasswordAuthenticationToken("user", "pass");
+        SecurityContextHolder.getContext().setAuthentication(auth);
         assertEquals("user", SecurityUtils.getCurrentUsername().orElse(null));
-        org.springframework.security.core.context.SecurityContextHolder.clearContext();
+        SecurityContextHolder.clearContext();
     }
 
     @Test
     void getCurrentUsernameReturnsEmptyWhenNoAuth() {
-        org.springframework.security.core.context.SecurityContextHolder.clearContext();
+        SecurityContextHolder.clearContext();
         assertTrue(SecurityUtils.getCurrentUsername().isEmpty());
     }
 }

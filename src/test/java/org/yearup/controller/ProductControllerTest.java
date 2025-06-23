@@ -1,7 +1,12 @@
 package org.yearup.controller;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.yearup.repository.ProductRepository;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,10 +14,11 @@ class ProductControllerTest {
 
     @Test
     void search() {
-        ProductRepository repo = org.mockito.Mockito.mock(ProductRepository.class);
+        ProductRepository repo = Mockito.mock(ProductRepository.class);
         ProductController controller = new ProductController(repo);
-        org.mockito.Mockito.when(repo.search(null, null, null, null, org.springframework.data.domain.PageRequest.of(0,25)))
-            .thenReturn(new org.springframework.data.domain.PageImpl<>(java.util.List.of()));
-        assertTrue(controller.search(null,null,null,null,0,25,null).isEmpty());
+
+        Mockito.when(repo.search(null, null, null, null, PageRequest.of(0,12)))
+            .thenReturn(new PageImpl<>(List.of()));
+        assertTrue(controller.search(null,null,null,null,0,12,null).isEmpty());
     }
 }
