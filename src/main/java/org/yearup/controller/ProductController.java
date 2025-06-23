@@ -42,7 +42,7 @@ public class ProductController {
                                 @RequestParam(name = "maxPrice", required = false) BigDecimal maxPrice,
                                 @RequestParam(name = "color", required = false) String color,
                                 @RequestParam(name = "page", defaultValue = "0") int page,
-                                @RequestParam(name = "size", defaultValue = "25") int size,
+                                @RequestParam(name = "size", defaultValue = "12") int size,
                                 @RequestParam(name = "q", required = false) String query
     ) {
         LOG.debug("Searching products cat={}, minPrice={}, maxPrice={}, color={}, page={}, size={}, q={}",

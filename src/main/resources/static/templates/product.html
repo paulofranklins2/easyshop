@@ -1,28 +1,22 @@
 {{#products}}
 <div class="col">
-    <div class="card h-100">
-        <div class="row g-0">
-            <div class="col-4 d-flex align-items-center">
-                <img src="{{imagePath}}" class="img-fluid"
-                     alt=""
-                     onclick="showImageDetailForm(`{{name}}`, '{{imagePath}}')">
+    <div class="card h-100 d-flex flex-column">
+        <img src="{{imagePath}}" class="card-img-top product-image"
+             alt=""
+             onclick="showImageDetailForm(`{{name}}`, '{{imagePath}}')">
+        <div class="card-body text-start d-flex flex-column">
+            <div class="d-flex justify-content-between mb-2">
+                <h5 class="card-title">{{name}}</h5>
+                <h5 class="text-success">${{price}}</h5>
             </div>
-            <div class="col-8">
-                <div class="card-body text-start d-flex flex-column h-100">
-                    <div class="d-flex justify-content-between">
-                        <h5 class="card-title">{{name}}</h5>
-                        <h5 class="text-success">${{price}}</h5>
-                    </div>
-                    <p class="card-text">{{description}}</p>
-                    <div class="mt-auto add-button">
-                        <div class="d-flex justify-content-between">
-                            <button class="btn btn-sm btn-success" onclick="cartService.addToCart({{productId}})">Add to Cart</button>
-                            {{#isAdmin}}
-                            <button class="btn btn-warning btn-sm" onclick="productService.editProduct({{productId}})">Edit</button>
-                            <button class="btn btn-danger btn-sm" onclick="productService.confirmDelete({{productId}})">Delete</button>
-                            {{/isAdmin}}
-                        </div>
-                    </div>
+            <p class="card-text">{{description}}</p>
+            <div class="mt-auto">
+                <div class="btn-group w-100 add-button">
+                    <button class="btn btn-sm btn-success flex-fill" onclick="cartService.addToCart({{productId}})">Add to Cart</button>
+                    {{#isAdmin}}
+                    <button class="btn btn-warning btn-sm flex-fill" onclick="productService.editProduct({{productId}})">Edit</button>
+                    <button class="btn btn-danger btn-sm flex-fill" onclick="productService.confirmDelete({{productId}})">Delete</button>
+                    {{/isAdmin}}
                 </div>
             </div>
         </div>

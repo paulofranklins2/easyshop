@@ -182,3 +182,13 @@ main > .content-form .cart-item {
     border-radius: 50%;
     margin: 15px auto;
 }
+
+/* Increase offcanvas width for more comfortable editing */
+.offcanvas {
+    --bs-offcanvas-width: 30%;
+}
+
+/* Ensure product card buttons stay aligned */
+.btn-group.add-button > .btn {
+    flex: 1 1 auto;
+}
