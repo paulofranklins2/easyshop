@@ -33,6 +33,8 @@ class OrdersService {
         axios.get(`${config.baseUrl}/orders/${id}`)
             .then(res => {
                 const data = res.data;
+                // convert decimal discount to integer percent for display
+                data.discountPercent = Math.round((data.discountPercent || 0) * 100);
                 templateBuilder.build('order-detail-offcanvas', data, 'orderDetailSidebarBody', () => {
                     const listOff = bootstrap.Offcanvas.getInstance(document.getElementById('ordersSidebar'));
                     if (listOff) listOff.hide();

@@ -33,7 +33,7 @@
 
 ### 🛒 E-Commerce Features (Planned Ideas)
 - [ ] Wishlist / Favorites
-- [ ] Discounts / Promo Codes
+- [x] Discounts / Promo Codes
 - [ ] Inventory Management
 - [ ] Product Variants (size, color, etc.)
 - [ ] Abandoned Cart Recovery
@@ -41,9 +41,11 @@
 ---
 
 ### 💳 Checkout / Payment
-- [ ] Third-party Payment Gateway Integration (e.g., Stripe, PayPal)
+
+[//]: # (- [ ] Third-party Payment Gateway Integration &#40;e.g., Stripe, PayPal&#41;)
 - [ ] Invoice Generation (PDF)
-- [ ] Multiple Address Support
+
+[//]: # (- [ ] Multiple Address Support)
 
 ---
 

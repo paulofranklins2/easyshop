@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.yearup.exception.BadRequestException;
 import org.yearup.exception.UnauthorizedException;
 import org.yearup.model.*;
 import org.yearup.repository.*;
@@ -45,7 +46,8 @@ public class OrderController {
         int userId = getUserIdFromPrincipal(principal);
         LOG.debug("Creating order for user {}", userId);
         ShoppingCart cart = cartService.getCart(userId);
-        if (cart.getItems().isEmpty()) return null;
+        if (cart.getItems().isEmpty())
+            throw new BadRequestException("Cart is empty");
         java.math.BigDecimal discountPercent = cartService.getDiscountPercent(userId);
         String promoCode = cartService.getPromoCode(userId);
         Profile profile = profileDao.findById(userId).orElse(null);
@@ -77,6 +79,7 @@ public class OrderController {
         cartService.clearCart(userId);
         order.setItems(lineItemRepo.findByOrderId(order.getOrderId()));
         order.getTotal();
+        order.getDiscountTotal();
         return order;
     }
 
