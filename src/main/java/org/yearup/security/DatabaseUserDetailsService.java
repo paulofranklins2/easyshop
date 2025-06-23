@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.yearup.model.User;
 import org.yearup.repository.UserRepository;
@@ -33,7 +34,12 @@ public class DatabaseUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String login) {
         log.debug("Authenticating user '{}'", login);
         String lowercaseLogin = login.toLowerCase();
-        return createSpringSecurityUser(lowercaseLogin, userRepository.findByUsername(lowercaseLogin));
+        User user = userRepository.findByUsername(lowercaseLogin);
+        if (user == null) {
+            log.debug("User '{}' not found in the database", lowercaseLogin);
+            throw new UsernameNotFoundException("User " + lowercaseLogin + " not found");
+        }
+        return createSpringSecurityUser(lowercaseLogin, user);
     }
 
     private org.springframework.security.core.userdetails.User createSpringSecurityUser(String lowercaseLogin, User user) {
@@ -41,10 +47,10 @@ public class DatabaseUserDetailsService implements UserDetailsService {
             throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
         }
         List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
-            .map(authority -> new SimpleGrantedAuthority(authority.getName()))
-            .collect(Collectors.toList());
+                .map(authority -> new SimpleGrantedAuthority(authority.getName()))
+                .collect(Collectors.toList());
         return new org.springframework.security.core.userdetails.User(user.getUsername(),
-            user.getPassword(),
-            grantedAuthorities);
+                user.getPassword(),
+                grantedAuthorities);
     }
 }
