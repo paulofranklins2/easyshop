@@ -13,4 +13,10 @@ class SecurityUtilsTest {
         assertEquals("user", SecurityUtils.getCurrentUsername().orElse(null));
         org.springframework.security.core.context.SecurityContextHolder.clearContext();
     }
+
+    @Test
+    void getCurrentUsernameReturnsEmptyWhenNoAuth() {
+        org.springframework.security.core.context.SecurityContextHolder.clearContext();
+        assertTrue(SecurityUtils.getCurrentUsername().isEmpty());
+    }
 }
