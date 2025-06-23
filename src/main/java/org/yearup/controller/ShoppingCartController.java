@@ -103,7 +103,7 @@ public class ShoppingCartController {
         PromoCode promo = promoService.findByCode(code);
         if (promo != null) {
             promoService.recordUsage(userId, promo);
-            return shoppingCartService.applyDiscount(userId, promo.getDiscountPercent());
+            return shoppingCartService.applyDiscount(userId, promo.getDiscountPercent(), code);
         }
         return shoppingCartService.getCart(userId);
     }

@@ -39,7 +39,9 @@ class ShoppingCartService {
     setCart(data) {
         this.cart = {
             items: [],
-            total: 0
+            total: 0,
+            discountPercent: data.discountPercent || 0,
+            promoCode: data.promoCode || null
         }
 
         this.cart.total = data.total;
@@ -133,6 +135,13 @@ class ShoppingCartService {
         totalDiv.className = 'text-end my-2';
         totalDiv.innerText = `Total: $${this.cart.total.toFixed(2)}`;
         container.appendChild(document.createElement('hr'));
+        if (this.cart.promoCode) {
+            const info = document.createElement('div');
+            info.className = 'text-end';
+            const pct = (this.cart.discountPercent * 100).toFixed(0);
+            info.innerText = `Applied ${this.cart.promoCode} (${pct}% off)`;
+            container.appendChild(info);
+        }
         container.appendChild(totalDiv);
 
         const promo = document.createElement('div');

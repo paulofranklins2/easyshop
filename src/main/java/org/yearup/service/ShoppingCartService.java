@@ -18,6 +18,7 @@ public class ShoppingCartService {
     private final ShoppingCartItemRepository cartRepo;
     private final ProductRepository productRepository;
     private final java.util.Map<Integer, java.math.BigDecimal> discounts = new java.util.concurrent.ConcurrentHashMap<>();
+    private final java.util.Map<Integer, String> promoCodes = new java.util.concurrent.ConcurrentHashMap<>();
 
     public ShoppingCartService(ShoppingCartItemRepository cartRepo, ProductRepository productRepository) {
         this.cartRepo = cartRepo;
@@ -32,6 +33,8 @@ public class ShoppingCartService {
         List<ShoppingCartItemEntity> items = cartRepo.findByUserId(userId);
         ShoppingCart cart = new ShoppingCart();
         java.math.BigDecimal disc = discounts.getOrDefault(userId, java.math.BigDecimal.ZERO);
+        cart.setDiscountPercent(disc);
+        cart.setPromoCode(promoCodes.get(userId));
         for (ShoppingCartItemEntity entity : items) {
             Product product = productRepository.findById(entity.getProductId()).orElse(null);
             if (product == null) continue;
@@ -94,14 +97,16 @@ public class ShoppingCartService {
         List<ShoppingCartItemEntity> items = cartRepo.findByUserId(userId);
         cartRepo.deleteAll(items);
         discounts.remove(userId);
+        promoCodes.remove(userId);
         return getCart(userId);
     }
 
     /**
      * Apply a percent discount to the user's cart.
      */
-    public ShoppingCart applyDiscount(int userId, java.math.BigDecimal percent) {
+    public ShoppingCart applyDiscount(int userId, java.math.BigDecimal percent, String code) {
         discounts.put(userId, percent);
+        promoCodes.put(userId, code);
         return getCart(userId);
     }
 
@@ -110,5 +115,9 @@ public class ShoppingCartService {
      */
     public java.math.BigDecimal getDiscountPercent(int userId) {
         return discounts.getOrDefault(userId, java.math.BigDecimal.ZERO);
+    }
+
+    public String getPromoCode(int userId) {
+        return promoCodes.get(userId);
     }
 }

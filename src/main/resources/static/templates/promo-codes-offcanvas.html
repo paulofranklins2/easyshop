@@ -10,16 +10,21 @@
     <tbody>
     {{#hasCodes}}
     {{#codes}}
-    <tr>
+    <tr data-id="{{promoCodeId}}">
         <td>{{code}}</td>
         <td>
             {{#isAdmin}}
-            <input type="number" class="form-control form-control-sm code-discount" data-id="{{promoCodeId}}" value="{{discountPercent}}">
+            <input type="number" class="form-control form-control-sm code-discount" data-id="{{promoCodeId}}" value="{{discountPercent}}" disabled>
             {{/isAdmin}}
             {{^isAdmin}}{{discountPercent}}{{/isAdmin}}
         </td>
         {{#isAdmin}}
-        <td><button class="btn btn-danger btn-sm delete-code" data-id="{{promoCodeId}}">Delete</button></td>
+        <td>
+            <button class="btn btn-warning btn-sm edit-code me-1" data-id="{{promoCodeId}}">Edit</button>
+            <button class="btn btn-secondary btn-sm cancel-edit me-1 d-none" data-id="{{promoCodeId}}">Cancel</button>
+            <button class="btn btn-primary btn-sm save-code me-1 d-none" data-id="{{promoCodeId}}">Save</button>
+            <button class="btn btn-danger btn-sm delete-code" data-id="{{promoCodeId}}">Delete</button>
+        </td>
         {{/isAdmin}}
     </tr>
     {{/codes}}

@@ -14,6 +14,8 @@ import java.util.Map;
 @Getter
 public class ShoppingCart {
     private Map<Integer, ShoppingCartItem> items = new HashMap<>();
+    private BigDecimal discountPercent = BigDecimal.ZERO;
+    private String promoCode;
 
     public boolean contains(int productId) {
         return items.containsKey(productId);
