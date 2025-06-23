@@ -2,7 +2,6 @@ package org.yearup.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.stereotype.Service;
 import org.yearup.model.*;
 import org.yearup.repository.ProductRepository;
@@ -18,6 +17,7 @@ public class ShoppingCartService {
     private static final Logger LOG = LoggerFactory.getLogger(ShoppingCartService.class);
     private final ShoppingCartItemRepository cartRepo;
     private final ProductRepository productRepository;
+    private final java.util.Map<Integer, java.math.BigDecimal> discounts = new java.util.concurrent.ConcurrentHashMap<>();
 
     public ShoppingCartService(ShoppingCartItemRepository cartRepo, ProductRepository productRepository) {
         this.cartRepo = cartRepo;
@@ -31,12 +31,14 @@ public class ShoppingCartService {
         LOG.debug("Getting cart for user {}", userId);
         List<ShoppingCartItemEntity> items = cartRepo.findByUserId(userId);
         ShoppingCart cart = new ShoppingCart();
+        java.math.BigDecimal disc = discounts.getOrDefault(userId, java.math.BigDecimal.ZERO);
         for (ShoppingCartItemEntity entity : items) {
             Product product = productRepository.findById(entity.getProductId()).orElse(null);
             if (product == null) continue;
             ShoppingCartItem item = new ShoppingCartItem();
             item.setProduct(product);
             item.setQuantity(entity.getQuantity());
+            item.setDiscountPercent(disc);
             cart.add(item);
         }
         return cart;
@@ -83,6 +85,7 @@ public class ShoppingCartService {
         return getCart(userId);
     }
 
+
     /**
      * Remove all items from a user's cart.
      */
@@ -90,6 +93,22 @@ public class ShoppingCartService {
         LOG.debug("Clearing cart for user {}", userId);
         List<ShoppingCartItemEntity> items = cartRepo.findByUserId(userId);
         cartRepo.deleteAll(items);
+        discounts.remove(userId);
         return getCart(userId);
+    }
+
+    /**
+     * Apply a percent discount to the user's cart.
+     */
+    public ShoppingCart applyDiscount(int userId, java.math.BigDecimal percent) {
+        discounts.put(userId, percent);
+        return getCart(userId);
+    }
+
+    /**
+     * Retrieve the currently applied discount percent.
+     */
+    public java.math.BigDecimal getDiscountPercent(int userId) {
+        return discounts.getOrDefault(userId, java.math.BigDecimal.ZERO);
     }
 }

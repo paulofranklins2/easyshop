@@ -218,3 +218,6 @@ VALUES ('Laptop', 999.99, 1, 'A high-performance laptop for work and entertainme
        ('Laptop', 999.99, 1, 'A high-performance gaming laptop.', 'laptop.jpg', 30, 0, 'Gray'),
        ('Tea Kettle', 29.99, 3, 'Brew a perfect cup of tea with this classic tea kettle.', 'tea-kettle.jpg', 50, 1,
         'White');
+
+-- promo codes
+INSERT INTO promo_codes (code, discount_percent) VALUES ('SAVE10', 0.10);

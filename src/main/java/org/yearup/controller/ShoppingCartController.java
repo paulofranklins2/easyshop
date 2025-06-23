@@ -4,14 +4,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.yearup.dto.cart.UpdateCartItemRequest;
+import org.yearup.exception.ApplicationException;
 import org.yearup.exception.InternalServerErrorException;
 import org.yearup.exception.NotFoundException;
-import org.yearup.exception.ApplicationException;
-import org.yearup.dto.cart.UpdateCartItemRequest;
 import org.yearup.exception.UnauthorizedException;
+import org.yearup.model.PromoCode;
 import org.yearup.model.ShoppingCart;
 import org.yearup.model.User;
 import org.yearup.repository.UserRepository;
+import org.yearup.service.PromoCodeService;
 import org.yearup.service.ShoppingCartService;
 
 import java.security.Principal;
@@ -22,13 +24,15 @@ import java.security.Principal;
 @RestController
 public class ShoppingCartController {
     private static final Logger LOG = LoggerFactory.getLogger(ShoppingCartController.class);
-    private final ShoppingCartService shoppingCartDao;
+    private final ShoppingCartService shoppingCartService;
     private final UserRepository userDao;
+    private final PromoCodeService promoService;
 
     @Autowired
-    public ShoppingCartController(ShoppingCartService shoppingCartDao, UserRepository userDao) {
-        this.shoppingCartDao = shoppingCartDao;
+    public ShoppingCartController(ShoppingCartService shoppingCartDao, UserRepository userDao, PromoCodeService promoService) {
+        this.shoppingCartService = shoppingCartDao;
         this.userDao = userDao;
+        this.promoService = promoService;
     }
 
     /**
@@ -39,7 +43,7 @@ public class ShoppingCartController {
         try {
             int userId = getUserIdFromPrincipal(principal);
             LOG.debug("Retrieving cart for user {}", userId);
-            return shoppingCartDao.getCart(userId);
+            return shoppingCartService.getCart(userId);
         } catch (ApplicationException e) {
             throw e;
         } catch (Exception e) {
@@ -55,7 +59,7 @@ public class ShoppingCartController {
     public ShoppingCart addToCart(@PathVariable int productId, Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
         LOG.debug("Adding product {} to cart for user {}", productId, userId);
-        return shoppingCartDao.addProduct(userId, productId);
+        return shoppingCartService.addProduct(userId, productId);
     }
 
     /**
@@ -67,7 +71,7 @@ public class ShoppingCartController {
                                            Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
         LOG.debug("Updating product {} quantity to {} for user {}", productId, item.getQuantity(), userId);
-        return shoppingCartDao.updateQuantity(userId, productId, item.getQuantity());
+        return shoppingCartService.updateQuantity(userId, productId, item.getQuantity());
     }
 
     /**
@@ -77,7 +81,7 @@ public class ShoppingCartController {
     public ShoppingCart deleteProduct(@PathVariable int productId, Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
         LOG.debug("Deleting product {} from cart for user {}", productId, userId);
-        return shoppingCartDao.deleteProduct(userId, productId);
+        return shoppingCartService.deleteProduct(userId, productId);
     }
 
     /**
@@ -87,7 +91,20 @@ public class ShoppingCartController {
     public ShoppingCart clearCart(Principal principal) {
         int userId = getUserIdFromPrincipal(principal);
         LOG.debug("Clearing cart for user {}", userId);
-        return shoppingCartDao.clearCart(userId);
+        return shoppingCartService.clearCart(userId);
+    }
+
+    /**
+     * Apply a promo code to the cart.
+     */
+    @PostMapping("/cart/promo/{code}")
+    public ShoppingCart applyPromo(@PathVariable String code, Principal principal) {
+        int userId = getUserIdFromPrincipal(principal);
+        PromoCode promo = promoService.findByCode(code);
+        if (promo != null) {
+            return shoppingCartService.applyDiscount(userId, promo.getDiscountPercent());
+        }
+        return shoppingCartService.getCart(userId);
     }
 
     /**

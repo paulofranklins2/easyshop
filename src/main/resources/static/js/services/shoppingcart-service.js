@@ -128,8 +128,17 @@ class ShoppingCartService {
             div.innerHTML = `<div class="d-flex align-items-center"><img src="${imgPath}" style="width:40px;height:40px;object-fit:contain" class="me-2"><div><strong>${item.product.name}</strong><br>$${item.product.price} × <select class="form-select form-select-sm d-inline-block w-auto cartQty" data-id="${item.product.productId}">${options}</select></div></div><button class="btn btn-danger btn-sm remove-item" data-id="${item.product.productId}">Remove</button>`;
             container.appendChild(div);
         });
-        const totalDiv = document.getElementById('cartSidebarTotal');
-        if (totalDiv) totalDiv.innerText = `Total: $${this.cart.total.toFixed(2)}`;
+        const totalDiv = document.createElement('div');
+        totalDiv.id = 'cartSidebarTotal';
+        totalDiv.className = 'text-end my-2';
+        totalDiv.innerText = `Total: $${this.cart.total.toFixed(2)}`;
+        container.appendChild(document.createElement('hr'));
+        container.appendChild(totalDiv);
+
+        const promo = document.createElement('div');
+        promo.className = 'input-group mb-3';
+        promo.innerHTML = `<input type="text" id="promo-code-input" class="form-control" placeholder="Promo code"><button class="btn btn-outline-primary" id="applyPromo">Apply</button>`;
+        container.appendChild(promo);
         container.querySelectorAll('.cartQty').forEach(sel => {
             sel.addEventListener('change', (e) => {
                 this.updateQuantity(sel.dataset.id, parseInt(sel.value));
@@ -154,8 +163,8 @@ class ShoppingCartService {
             clear.addEventListener('click', () => this.clearCart());
             btnDiv.appendChild(checkout);
             btnDiv.appendChild(clear);
-            container.appendChild(document.createElement('hr'));
             container.appendChild(btnDiv);
+            promo.querySelector('#applyPromo').addEventListener('click', () => promoCodeService.applyCode());
         }
     }
 

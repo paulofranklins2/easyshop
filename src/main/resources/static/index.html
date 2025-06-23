@@ -24,6 +24,7 @@
     <script src="js/services/profile-service.js"></script>
     <script src="js/services/shoppingcart-service.js"></script>
     <script src="js/services/orders-service.js"></script>
+    <script src="js/services/promocode-service.js"></script>
 
     <script src="js/filter.js"></script>
 
@@ -50,8 +51,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body" id="cartSidebarItems">
-        <hr>
-        <div class="text-end" id="cartSidebarTotal">Total: $0.00</div>
+
     </div>
 </div>
 
@@ -138,6 +138,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
     <div class="offcanvas-body" id="ordersSidebarBody">
+    </div>
+</div>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="promoCodesSidebar">
+    <div class="offcanvas-header">
+        <h5>Promo Codes</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body" id="promoCodesSidebarBody">
     </div>
 </div>
 <div class="offcanvas offcanvas-end" tabindex="-1" id="orderDetailSidebar">
