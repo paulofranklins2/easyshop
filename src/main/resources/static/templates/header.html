@@ -28,7 +28,17 @@
                         <li><a class="dropdown-item" href="#" onclick="categoryService.showCategoryManager(); return false;">Add Category</a></li>
                         <li><a class="dropdown-item" href="#" data-bs-toggle="offcanvas" data-bs-target="#addProductSidebar" onclick="productService.showAddProduct()">Add Product</a></li>
                         <li><a class="dropdown-item" href="#" data-bs-toggle="offcanvas" data-bs-target="#promoCodesSidebar" onclick="promoCodeService.loadCodes()">Promo Codes</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        External Link
+                    </a>
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/swagger-ui/index.html" target="_blank">Swagger UI</a></li>
+                        <li><a class="dropdown-item" href="https://github.com/users/paulofranklins2/projects/4" target="_blank">Project Board</a></li>
+                        <li><a class="dropdown-item" href="https://github.com/paulofranklins2/easyshop" target="_blank">Git Repository</a></li>
                     </ul>
                 </li>
                 {{/isAdmin}}

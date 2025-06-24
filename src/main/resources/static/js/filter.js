@@ -17,6 +17,23 @@ function loadCategories(categories) {
     }
 }
 
+function loadColors(colors) {
+    const select = document.getElementById('color-select');
+    if (!select) return;
+    while (select.options.length > 1) {
+        select.remove(1);
+    }
+    colors.forEach(c => {
+        const option = document.createElement('option');
+        option.innerText = c;
+        select.appendChild(option);
+    });
+
+    if (productService && productService.filter.color) {
+        select.value = productService.filter.color;
+    }
+}
+
 function restoreFilters() {
     if (!productService) return;
     const filter = productService.filter;

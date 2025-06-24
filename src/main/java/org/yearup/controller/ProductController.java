@@ -63,6 +63,21 @@ public class ProductController {
     }
 
     /**
+     * Retrieve list of available product colors.
+     */
+    @GetMapping("/colors")
+    @PreAuthorize("permitAll()")
+    public List<String> getColors() {
+        LOG.debug("Retrieving available colors");
+        try {
+            return productDao.findDistinctColors();
+        } catch (Exception ex) {
+            LOG.error("Error retrieving colors", ex);
+            throw new InternalServerErrorException("Oops... our bad.", ex);
+        }
+    }
+
+    /**
      * Retrieve a product by id.
      */
     @GetMapping("{id}")

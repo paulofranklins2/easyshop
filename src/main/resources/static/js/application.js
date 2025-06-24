@@ -180,6 +180,7 @@ function showCart() {
 function showFilters() {
     templateBuilder.build('filter', {}, 'filterSidebarBody', () => {
         categoryService.getAllCategories(loadCategories);
+        colorService.getAllColors(loadColors);
         restoreFilters();
         const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('filterSidebar'));
         offcanvas.show();

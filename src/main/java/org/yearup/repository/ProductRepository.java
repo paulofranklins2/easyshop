@@ -16,9 +16,9 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT p FROM Product p WHERE (:categoryId IS NULL OR p.categoryId = :categoryId) " +
-            "AND (:minPrice IS NULL OR p.price >= :minPrice) " +
-            "AND (:maxPrice IS NULL OR p.price <= :maxPrice) " +
-            "AND (:color IS NULL OR p.color = :color)")
+        "AND (:minPrice IS NULL OR p.price >= :minPrice) " +
+        "AND (:maxPrice IS NULL OR p.price <= :maxPrice) " +
+        "AND (:color IS NULL OR p.color = :color)")
     Page<Product> search(@Param("categoryId") Integer categoryId,
                          @Param("minPrice") BigDecimal minPrice,
                          @Param("maxPrice") BigDecimal maxPrice,
@@ -26,8 +26,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
                          Pageable pageable);
 
     @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%',:query,'%')) " +
-            "OR LOWER(p.description) LIKE LOWER(CONCAT('%',:query,'%'))")
+        "OR LOWER(p.description) LIKE LOWER(CONCAT('%',:query,'%'))")
     Page<Product> searchByQuery(@Param("query") String query, Pageable pageable);
 
     List<Product> findByCategoryId(int categoryId);
+
+    @Query("SELECT DISTINCT p.color FROM Product p WHERE p.color IS NOT NULL")
+    List<String> findDistinctColors();
 }
