@@ -98,7 +98,7 @@ class UserService {
                 };
 
                 templateBuilder.append("error", data, "errors")
-                playLogoutSound();
+                fireballAudio();
             });
     }
 
@@ -113,7 +113,7 @@ class UserService {
             .then(response => {
                 this.saveUser(response.data)
                 this.setHeaderLogin();
-
+                playCheckoutSound();
                 axios.defaults.headers.common = {'Authorization': `Bearer ${this.currentUser.token}`}
                 productService.enableButtons();
                 productService.search();
@@ -125,6 +125,7 @@ class UserService {
                 };
 
                 templateBuilder.append("error", data, "errors")
+                fireballAudio();
             })
     }
 
