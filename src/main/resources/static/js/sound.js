@@ -5,6 +5,7 @@ let checkoutAudio;
 let logoutAudio;
 let fireballAudio;
 let jumpAudio;
+let discountAudio;
 const offcanvasTracked = new Set();
 let navSoundEnabled = true;
 
@@ -70,6 +71,14 @@ function playJumpSound() {
     }
 }
 
+function playDiscountSound() {
+    if (discountAudio) {
+        discountAudio.currentTime = 0;
+        discountAudio.play().catch(() => {});
+    }
+}
+
+
 
 // initialize sounds on page load
 document.addEventListener('DOMContentLoaded', () => {
@@ -84,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     logoutAudio = new Audio('sounds/30_e6zdu9M.mp3');
     fireballAudio = new Audio('sounds/mario-fireball.mp3');
     jumpAudio = new Audio('sounds/super-mario-jump.mp3');
+    discountAudio = new Audio('sounds/1-mushroom.mp3');
 
     // ensure non-bgm sounds play at full volume
     pipeAudio.volume = 1.0;
@@ -92,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     logoutAudio.volume = 1.0;
     fireballAudio.volume = 1.0;
     jumpAudio.volume = 1.0;
+    discountAudio.volume = 1.0;
 
     addOffcanvasListeners();
 

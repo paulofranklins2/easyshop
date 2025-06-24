@@ -50,6 +50,9 @@ class PromoCodeService {
             .then(res => {
                 cartService.setCart(res.data);
                 cartService.renderSidebar();
+                if (res.data.promoCode) {
+                    playDiscountSound();
+                }
             });
     }
 
