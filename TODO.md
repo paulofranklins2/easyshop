@@ -43,7 +43,7 @@
 ### 💳 Checkout / Payment
 
 [//]: # (- [ ] Third-party Payment Gateway Integration &#40;e.g., Stripe, PayPal&#41;)
-- [ ] Invoice Generation (PDF)
+- [X] Invoice Generation (PDF)
 
 [//]: # (- [ ] Multiple Address Support)
 

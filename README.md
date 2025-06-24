@@ -118,6 +118,7 @@ Endpoints that modify data require the `Authorization` header (e.g., `/profile`,
 | POST   | `/orders`                    | Checkout cart        |
 | GET    | `/orders`                    | List user's orders   |
 | GET    | `/orders/{id}`               | Get order details    |
+| GET    | `/orders/{id}/invoice`       | Download invoice PDF |
 
 ### Profile
 

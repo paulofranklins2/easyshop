@@ -9,6 +9,7 @@ import org.yearup.repository.OrderLineItemRepository;
 import org.yearup.repository.OrderRepository;
 import org.yearup.repository.ProfileRepository;
 import org.yearup.repository.UserRepository;
+import org.yearup.service.InvoiceService;
 import org.yearup.service.ShoppingCartService;
 
 import java.security.Principal;
@@ -25,9 +26,12 @@ class OrderControllerTest {
         ShoppingCartService cartService = Mockito.mock(ShoppingCartService.class);
         UserRepository userRepo = Mockito.mock(UserRepository.class);
         ProfileRepository profileRepo = Mockito.mock(ProfileRepository.class);
-        OrderController controller = new OrderController(orderRepo, lineRepo, cartService, userRepo, profileRepo);
+        InvoiceService invoiceService = Mockito.mock(InvoiceService.class);
+        OrderController controller = new OrderController(orderRepo, lineRepo, cartService, userRepo, profileRepo, invoiceService);
 
-        User u = new User(); u.setId(1); Mockito.when(userRepo.findByUsername("u")).thenReturn(u);
+        User u = new User();
+        u.setId(1);
+        Mockito.when(userRepo.findByUsername("u")).thenReturn(u);
         Mockito.when(orderRepo.findByUserIdOrderByDateDesc(1)).thenReturn(List.of());
 
         Principal principal = () -> "u";
@@ -40,5 +44,11 @@ class OrderControllerTest {
         var annotation = method.getAnnotation(ResponseStatus.class);
         assertNotNull(annotation);
         assertEquals(HttpStatus.CREATED, annotation.value());
+    }
+
+    @Test
+    void downloadInvoiceMethodExists() throws NoSuchMethodException {
+        var method = OrderController.class.getMethod("downloadInvoice", int.class, Principal.class);
+        assertNotNull(method);
     }
 }

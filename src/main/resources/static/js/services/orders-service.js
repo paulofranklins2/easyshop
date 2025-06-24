@@ -37,8 +37,15 @@ class OrdersService {
                     if (listOff) listOff.hide();
                     const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('orderDetailSidebar'));
                     off.show();
+                    document.getElementById('download-invoice').addEventListener('click', () => {
+                        this.downloadInvoice(id);
+                    });
                 });
             });
+    }
+
+    downloadInvoice(id) {
+        window.open(`${config.baseUrl}/orders/${id}/invoice`, '_blank');
     }
 
     backToOrders() {

@@ -11,6 +11,7 @@ import org.yearup.repository.OrderLineItemRepository;
 import org.yearup.repository.OrderRepository;
 import org.yearup.repository.ProfileRepository;
 import org.yearup.repository.UserRepository;
+import org.yearup.service.InvoiceService;
 import org.yearup.service.ShoppingCartService;
 
 import java.security.Principal;
@@ -29,14 +30,16 @@ public class OrderController {
     private final ShoppingCartService cartService;
     private final UserRepository userDao;
     private final ProfileRepository profileDao;
+    private final InvoiceService invoiceService;
 
     public OrderController(OrderRepository orderDao, OrderLineItemRepository lineItemRepo, ShoppingCartService cartService,
-                           UserRepository userDao, ProfileRepository profileDao) {
+                           UserRepository userDao, ProfileRepository profileDao, InvoiceService invoiceService) {
         this.orderDao = orderDao;
         this.lineItemRepo = lineItemRepo;
         this.cartService = cartService;
         this.userDao = userDao;
         this.profileDao = profileDao;
+        this.invoiceService = invoiceService;
     }
 
     /**
@@ -116,6 +119,26 @@ public class OrderController {
             return order;
         }
         return null;
+    }
+
+    /**
+     * Download the invoice PDF for an order.
+     */
+    @GetMapping("/{id}/invoice")
+    public org.springframework.http.ResponseEntity<byte[]> downloadInvoice(@PathVariable int id, Principal principal) {
+        int userId = getUserIdFromPrincipal(principal);
+        Order order = orderDao.findById(id).orElse(null);
+        if (order == null || order.getUserId() != userId) {
+            return org.springframework.http.ResponseEntity.notFound().build();
+        }
+        order.setItems(lineItemRepo.findByOrderId(id));
+        order.getTotal();
+        order.getDiscountTotal();
+        byte[] pdf = invoiceService.generateInvoice(order);
+        return org.springframework.http.ResponseEntity.ok()
+            .header("Content-Type", "application/pdf")
+            .header("Content-Disposition", "attachment; filename=invoice-" + id + ".pdf")
+            .body(pdf);
     }
 
     /**
