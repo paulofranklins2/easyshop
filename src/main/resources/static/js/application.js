@@ -18,10 +18,35 @@ function hideLoginCanvas()
     templateBuilder.clear('login');
 }
 
+function showLoginCanvas()
+{
+    templateBuilder.build('login-offcanvas', {}, 'login', () => {
+        const element = document.getElementById('loginCanvas');
+        addOffcanvasListeners(element);
+        const canvas = new bootstrap.Offcanvas(element);
+        canvas.show();
+    });
+}
+
+function hideLoginCanvas()
+{
+    const element = document.getElementById('loginCanvas');
+    if(element)
+    {
+        element.addEventListener('hidden.bs.offcanvas', () => {
+            templateBuilder.clear('login');
+        }, {once: true});
+        const canvas = bootstrap.Offcanvas.getInstance(element);
+        if(canvas) canvas.hide();
+        else templateBuilder.clear('login');
+    }
+}
+
 function showRegisterCanvas()
 {
     templateBuilder.build('register-offcanvas', {}, 'login', () => {
         const element = document.getElementById('registerCanvas');
+        addOffcanvasListeners(element);
         const canvas = new bootstrap.Offcanvas(element);
         canvas.show();
     });
@@ -32,10 +57,13 @@ function hideRegisterCanvas()
     const element = document.getElementById('registerCanvas');
     if(element)
     {
+        element.addEventListener('hidden.bs.offcanvas', () => {
+            templateBuilder.clear('login');
+        }, {once: true});
         const canvas = bootstrap.Offcanvas.getInstance(element);
         if(canvas) canvas.hide();
+        else templateBuilder.clear('login');
     }
-    templateBuilder.clear('login');
 }
 
 function registerUser()
@@ -45,10 +73,7 @@ function registerUser()
     const confirm = document.getElementById("register-confirm").value;
     const role = document.getElementById("register-role")?.value || 'USER';
 
-    userService.register(username, password, confirm, role, () => {
-        hideRegisterCanvas();
-        showLoginCanvas();
-    });
+    userService.register(username, password, confirm, role);
 }
 
 

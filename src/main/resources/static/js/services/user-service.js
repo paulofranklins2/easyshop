@@ -89,6 +89,13 @@ class UserService {
             .then(response => {
                 console.log(response.data);
                 playCheckoutSound();
+                if (typeof disableNextNavSound === 'function') {
+                    disableNextNavSound();
+                }
+                if (typeof hideRegisterCanvas === 'function') {
+                    hideRegisterCanvas();
+                }
+                this.login(username, password, false);
                 if (callback) callback();
             })
             .catch(error => {
@@ -98,11 +105,11 @@ class UserService {
                 };
 
                 templateBuilder.append("error", data, "errors")
-                fireballAudio();
+                playFireballSound();
             });
     }
 
-    login(username, password) {
+    login(username, password, playSound = true, callback) {
         const url = `${config.baseUrl}/login`;
         const login = {
             username: username,
@@ -113,11 +120,14 @@ class UserService {
             .then(response => {
                 this.saveUser(response.data)
                 this.setHeaderLogin();
-                playCheckoutSound();
+                if (playSound) {
+                    playCheckoutSound();
+                }
                 axios.defaults.headers.common = {'Authorization': `Bearer ${this.currentUser.token}`}
                 productService.enableButtons();
                 productService.search();
                 cartService.loadCart();
+                if (callback) callback();
             })
             .catch(error => {
                 const data = {
@@ -125,7 +135,7 @@ class UserService {
                 };
 
                 templateBuilder.append("error", data, "errors")
-                fireballAudio();
+                playFireballSound();
             })
     }
 

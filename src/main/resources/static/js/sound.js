@@ -5,6 +5,7 @@ let checkoutAudio;
 let logoutAudio;
 let fireballAudio;
 const offcanvasTracked = new Set();
+let navSoundEnabled = true;
 
 function addOffcanvasListeners(root = document) {
     root.querySelectorAll('.offcanvas').forEach(off => {
@@ -18,10 +19,15 @@ function addOffcanvasListeners(root = document) {
 
 
 function playNavSound() {
-    if (pipeAudio) {
+    if (pipeAudio && navSoundEnabled) {
         pipeAudio.currentTime = 0;
         pipeAudio.play().catch(() => {});
     }
+    navSoundEnabled = true;
+}
+
+function disableNextNavSound() {
+    navSoundEnabled = false;
 }
 
 function playCoinSound() {
