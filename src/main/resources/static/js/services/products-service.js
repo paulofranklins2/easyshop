@@ -286,6 +286,9 @@ class ProductService {
         axios.delete(`${config.baseUrl}/products/${id}`)
             .then(() => {
                 const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('deleteProductSidebar'));
+                if (typeof disableNextNavSound === 'function') {
+                    disableNextNavSound();
+                }
                 off.hide();
                 this.search();
                 playFireballSound();

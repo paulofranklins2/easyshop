@@ -265,6 +265,7 @@ class ShoppingCartService {
 
                 this.updateCartDisplay()
                 this.renderSidebar()
+                playLogoutSound();
 
             })
             .catch(error => {

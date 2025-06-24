@@ -85,6 +85,9 @@ class CategoryService {
         axios.delete(`${config.baseUrl}/categories/${id}`)
             .then(() => {
                 const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('deleteCategorySidebar'));
+                if (typeof disableNextNavSound === 'function') {
+                    disableNextNavSound();
+                }
                 off.hide();
                 this.showCategoryManager();
                 playFireballSound();
