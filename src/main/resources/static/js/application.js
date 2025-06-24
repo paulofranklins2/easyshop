@@ -85,8 +85,7 @@ function login() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    userService.login(username, password);
-    hideModalForm()
+    userService.login(username, password, true, hideModalForm);
 }
 
 function register() {

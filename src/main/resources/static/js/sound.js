@@ -4,11 +4,17 @@ let coinAudio;
 let checkoutAudio;
 let logoutAudio;
 let fireballAudio;
+let jumpAudio;
 const offcanvasTracked = new Set();
 let navSoundEnabled = true;
 
 function addOffcanvasListeners(root = document) {
-    root.querySelectorAll('.offcanvas').forEach(off => {
+    const elements = [];
+    if(root.classList && root.classList.contains('offcanvas')) {
+        elements.push(root);
+    }
+    elements.push(...root.querySelectorAll('.offcanvas'));
+    elements.forEach(off => {
         if(!offcanvasTracked.has(off)) {
             off.addEventListener('show.bs.offcanvas', playNavSound);
             off.addEventListener('hide.bs.offcanvas', playNavSound);
@@ -16,7 +22,6 @@ function addOffcanvasListeners(root = document) {
         }
     });
 }
-
 
 function playNavSound() {
     if (pipeAudio && navSoundEnabled) {
@@ -58,6 +63,14 @@ function playFireballSound() {
     }
 }
 
+function playJumpSound() {
+    if (jumpAudio) {
+        jumpAudio.currentTime = 0;
+        jumpAudio.play().catch(() => {});
+    }
+}
+
+
 // initialize sounds on page load
 document.addEventListener('DOMContentLoaded', () => {
     bgmAudio = new Audio('sounds/title-bgm.mp3');
@@ -70,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     checkoutAudio = new Audio('sounds/1up.mp3');
     logoutAudio = new Audio('sounds/30_e6zdu9M.mp3');
     fireballAudio = new Audio('sounds/mario-fireball.mp3');
+    jumpAudio = new Audio('sounds/super-mario-jump.mp3');
 
     // ensure non-bgm sounds play at full volume
     pipeAudio.volume = 1.0;
@@ -77,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     checkoutAudio.volume = 1.0;
     logoutAudio.volume = 1.0;
     fireballAudio.volume = 1.0;
+    jumpAudio.volume = 1.0;
 
     addOffcanvasListeners();
 

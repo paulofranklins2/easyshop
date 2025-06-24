@@ -183,6 +183,7 @@ class ProductService {
         prev.addEventListener('click', (e) => {
             e.preventDefault();
             if (this.page > 0) {
+                if (typeof playJumpSound === 'function') playJumpSound();
                 this.page--;
                 this.search();
             }
@@ -212,6 +213,7 @@ class ProductService {
         next.addEventListener('click', (e) => {
             e.preventDefault();
             if (this.lastCount === this.size) {
+                if (typeof playJumpSound === 'function') playJumpSound();
                 this.page++;
                 this.search();
             }
