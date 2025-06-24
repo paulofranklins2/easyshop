@@ -127,6 +127,7 @@ class UserService {
                 productService.enableButtons();
                 productService.search();
                 cartService.loadCart();
+                wishlistService.loadWishlist();
                 if (callback) callback();
             })
             .catch(error => {
@@ -149,6 +150,8 @@ class UserService {
 
         productService.enableButtons();
         productService.search();
+        wishlistService.items = [];
+        wishlistService.updateDisplay();
     }
 
 }

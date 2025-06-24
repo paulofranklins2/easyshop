@@ -177,6 +177,12 @@ function showCart() {
     offcanvas.show();
 }
 
+function showWishlist() {
+    wishlistService.loadWishlist();
+    const offcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('wishlistSidebar'));
+    offcanvas.show();
+}
+
 function showFilters() {
     templateBuilder.build('filter', {}, 'filterSidebarBody', () => {
         categoryService.getAllCategories(loadCategories);

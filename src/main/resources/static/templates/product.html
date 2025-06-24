@@ -13,6 +13,7 @@
             <div class="mt-auto">
                 <div class="btn-group w-100 add-button">
                     <button class="btn btn-sm btn-success flex-fill" onclick="cartService.addToCart({{productId}})">Add to Cart</button>
+                    <button class="btn btn-sm btn-outline-secondary flex-fill" onclick="wishlistService.addToWishlist({{productId}})">Wishlist</button>
                     {{#isAdmin}}
                     <button class="btn btn-warning btn-sm flex-fill" onclick="productService.editProduct({{productId}})">Edit</button>
                     <button class="btn btn-danger btn-sm flex-fill" onclick="productService.confirmDelete({{productId}})">Delete</button>
