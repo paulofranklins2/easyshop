@@ -323,6 +323,18 @@ class ProductService {
             });
     }
 
+    showInventory() {
+        const url = `${config.baseUrl}/products?page=0&size=1000`;
+        axios.get(url)
+            .then(res => {
+                const data = { products: res.data, hasProducts: res.data.length > 0 };
+                templateBuilder.build('inventory-offcanvas', data, 'inventorySidebarBody', () => {
+                    const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('inventorySidebar'));
+                    off.show();
+                });
+            });
+    }
+
 }
 
 

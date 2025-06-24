@@ -1,0 +1,34 @@
+<div id="inventory-list">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#hasProducts}}
+        {{#products}}
+        <tr>
+            <td>{{productId}}</td>
+            <td>{{name}}</td>
+            <td>${{price}}</td>
+            <td>{{stock}}</td>
+            <td>
+                <button class="btn btn-sm btn-warning me-1" onclick="productService.editProduct({{productId}})">Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="productService.confirmDelete({{productId}})">Delete</button>
+            </td>
+        </tr>
+        {{/products}}
+        {{/hasProducts}}
+        {{^hasProducts}}
+        <tr>
+            <td colspan="5" class="text-muted">No products found.</td>
+        </tr>
+        {{/hasProducts}}
+        </tbody>
+    </table>
+</div>
