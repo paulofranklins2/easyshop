@@ -45,7 +45,19 @@ class OrdersService {
     }
 
     downloadInvoice(id) {
-        window.open(`${config.baseUrl}/orders/${id}/invoice`, '_blank');
+        axios.get(`${config.baseUrl}/orders/${id}/invoice`, {responseType: 'blob'})
+            .then(res => {
+                const blob = new Blob([res.data], {type: 'application/pdf'});
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `invoice-${id}.pdf`;
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            });
     }
 
     backToOrders() {
