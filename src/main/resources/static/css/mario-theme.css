@@ -37,6 +37,7 @@ h1, h2, h3, h4, h5, h6,
     border-color: var(--mario-brown);
     color: white;
 }
+
 .btn-primary:hover {
     background-color: var(--mario-yellow);
     color: black;
@@ -48,15 +49,18 @@ h1, h2, h3, h4, h5, h6,
     background-color: var(--mario-pipe);
     border-color: var(--mario-brown);
 }
+
 .btn-warning {
     background-color: var(--mario-yellow);
     border-color: var(--mario-brown);
     color: black;
 }
+
 .btn-danger {
     background-color: var(--mario-red);
     border-color: var(--mario-brown);
 }
+
 .btn-info {
     background-color: var(--mario-yellow);
     border-color: var(--mario-brown);

@@ -286,6 +286,7 @@ class ProductService {
                 const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('deleteProductSidebar'));
                 off.hide();
                 this.search();
+                playFireballSound();
             });
     }
 

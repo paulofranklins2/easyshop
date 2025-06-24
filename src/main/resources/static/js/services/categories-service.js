@@ -87,6 +87,7 @@ class CategoryService {
                 const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('deleteCategorySidebar'));
                 off.hide();
                 this.showCategoryManager();
+                playFireballSound();
             });
     }
 }

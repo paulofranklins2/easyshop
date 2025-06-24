@@ -195,6 +195,7 @@ class ShoppingCartService {
                 this.setCart(res.data);
                 this.updateCartDisplay();
                 this.renderSidebar();
+                playFireballSound();
             });
     }
 

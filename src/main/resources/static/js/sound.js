@@ -1,12 +1,14 @@
 let bgmAudio;
-let navAudio;
+let pipeAudio;
 let coinAudio;
 let checkoutAudio;
+let logoutAudio;
+let fireballAudio;
 
 function playNavSound() {
-    if (navAudio) {
-        navAudio.currentTime = 0;
-        navAudio.play().catch(() => {});
+    if (pipeAudio) {
+        pipeAudio.currentTime = 0;
+        pipeAudio.play().catch(() => {});
     }
 }
 
@@ -24,26 +26,38 @@ function playCheckoutSound() {
     }
 }
 
+function playLogoutSound() {
+    if (logoutAudio) {
+        logoutAudio.currentTime = 0;
+        logoutAudio.play().catch(() => {});
+    }
+}
+
+function playFireballSound() {
+    if (fireballAudio) {
+        fireballAudio.currentTime = 0;
+        fireballAudio.play().catch(() => {});
+    }
+}
+
 // initialize sounds on page load
 document.addEventListener('DOMContentLoaded', () => {
     bgmAudio = new Audio('sounds/title-bgm.mp3');
     bgmAudio.loop = true;
     bgmAudio.play().catch(() => {});
 
-    navAudio = new Audio('sounds/super-mario-bros.mp3');
+    pipeAudio = new Audio('sounds/super-mario-bros.mp3');
     coinAudio = new Audio('sounds/mario-coin-sound-effect.mp3');
-    checkoutAudio = new Audio('sounds/30_e6zdu9M.mp3');
+    checkoutAudio = new Audio('sounds/1up.mp3');
+    logoutAudio = new Audio('sounds/30_e6zdu9M.mp3');
+    fireballAudio = new Audio('sounds/mario-fireball.mp3');
 
-    // play sound when any navbar link or button is clicked
-    document.body.addEventListener('click', (e) => {
-        if (e.target.closest('.navbar a') || e.target.closest('.navbar button')) {
-            playNavSound();
-        }
-    });
-
-    // play sound when offcanvas is opened
+    // play sound when offcanvas is opened or closed
     document.querySelectorAll('.offcanvas').forEach(off => {
         off.addEventListener('show.bs.offcanvas', () => {
+            playNavSound();
+        });
+        off.addEventListener('hide.bs.offcanvas', () => {
             playNavSound();
         });
     });

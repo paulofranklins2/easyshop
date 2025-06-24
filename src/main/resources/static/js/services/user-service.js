@@ -130,6 +130,7 @@ class UserService {
         localStorage.removeItem('user');
         axios.defaults.headers.common = {'Authorization': `bearer ${this.currentUser.token}`}
         this.currentUser = {};
+        playLogoutSound();
 
         this.setHeaderLogin();
 
