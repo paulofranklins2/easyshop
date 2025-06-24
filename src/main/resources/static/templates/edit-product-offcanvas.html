@@ -44,7 +44,7 @@
             <label for="edit-image">Image URL</label>
         </div>
         <div class="text-end">
-            <button class="btn btn-secondary me-2" data-bs-dismiss="offcanvas">Cancel</button>
+            <button class="btn btn-secondary me-2" onclick="productService.cancelEdit()">Cancel</button>
             <button class="btn btn-primary" onclick="productService.saveProduct({{productId}})">Save</button>
         </div>
     </div>
