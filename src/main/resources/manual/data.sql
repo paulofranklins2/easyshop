@@ -33,7 +33,7 @@ VALUES
 -- Collectibles
     ('Mario Figurine', 24.99, 4, 'Mario Figurine - classic collectible or playable item from the retro era.', 'https://i.etsystatic.com/47671761/r/il/527b5d/6429147761/il_794xN.6429147761_imxb.jpg', 33, 0, 'Red'),
     ('Zelda Poster', 14.99, 4, 'Zelda Poster - classic collectible or playable item from the retro era.', 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQuhfCZE-0UWidBTeOAtBGXm3Y4kRAbo_cnPFYeBgcL1hS8zlVhSmL22neggyB9CMYjrNxiyu6osISVahF3VOi0D9-nhFZbeg', 90, 1, 'Green'),
-    ('Retro Game Keychain', 5.99, 4, 'Retro Game Keychain - classic collectible or playable item from the retro era.', 'game-keychain.jpg', 77, 1, 'Multicolor'),
+    ('Retro Game Keychain', 5.99, 4, 'Retro Game Keychain - classic collectible or playable item from the retro era.', 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRQIZ43G0Nd4IzxUbLbBjqkWEZctS9ZAqumbxXYP5ieB77bIDPHMXJnWaG2TcwRBKhch3a3nzIbp4VUxO_h1afgWtdj3theqC8pJ3tH0EoH9nXk2ADQ91jCRHSfwjXXEe1pFivv0-9ISoY&usqp=CAc', 77, 1, 'Multicolor'),
     ('Yoshi Plush', 19.99, 4, 'Yoshi Plush - classic collectible or playable item from the retro era.', 'https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQO6s61cElQgSaNeGbS4uMDLQRATEWFwb22AKt3sViZleC8cfoIws-u_ur6XFLgx4Cx67EY5vNyD5vH0b6PpPOAI4CoF7kO7YQg-lVD4fRHZdJFuv_gw5vW', 70, 0, 'Green'),
     ('SNES Mug', 11.99, 4, 'SNES Mug - classic collectible or playable item from the retro era.', 'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTwOGg9ivqMl9GM9hYESswWDoaHr7EqTTxFwo9wXk3gxdbaGNvLrjkASe_p-a8AX6fl3bgU1zyWGmq0BL62qXkirp2O9qglfXUX6ute5abmowJIRzgtuCTh', 58, 1, 'Gray'),
 
