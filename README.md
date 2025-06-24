@@ -169,9 +169,6 @@ ORDERS ||--o{ ORDER_LINE_ITEMS: includes
 PRODUCTS ||--o{ SHOPPING_CART: "in"
 ```
 
-The schema script (`src/main/resources/manual/create_database.sql`) defines tables and relationships. Sample data lives
-in `src/main/resources/manual/data.sql`.
-
 ## Testing
 
 JUnit tests live under `src/test/java`. Run all tests with:
@@ -206,7 +203,7 @@ Dockerizing the API itself is on the roadmap.
 ## Data Seeding
 
 The SQL files in `src/main/resources/manual` contain schema and sample data. To reset the database, rerun
-`create_database.sql` followed by `data.sql` or restart the MySQL container.
+followed by `data.sql` or restart the MySQL container.
 
 ## Developer Notes
 
