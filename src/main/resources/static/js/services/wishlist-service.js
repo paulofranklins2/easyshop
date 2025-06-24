@@ -32,6 +32,9 @@ class WishlistService {
             .then(res => {
                 this.items = res.data;
                 this.updateDisplay();
+                if (typeof playJumpSound() === 'function') {
+                    playJumpSound();
+                }
             });
     }
 
@@ -40,6 +43,9 @@ class WishlistService {
             .then(res => {
                 this.items = res.data;
                 this.updateDisplay();
+                if (typeof playFireballSound === 'function') {
+                    playFireballSound();
+                }
             });
     }
 
@@ -50,6 +56,9 @@ class WishlistService {
                 cartService.loadCart();
                 const off = bootstrap.Offcanvas.getInstance(document.getElementById('wishlistSidebar'));
                 if (off) off.show();
+                if (typeof playCheckoutSound === 'function') {
+                    playCheckoutSound();
+                }
             });
     }
 
