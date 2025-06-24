@@ -32,7 +32,7 @@
 ---
 
 ### 🛒 E-Commerce Features (Planned Ideas)
-- [ ] Wishlist / Favorites
+- [x] Wishlist / Favorites
 - [x] Discounts / Promo Codes
 - [ ] Inventory Management
 - [ ] Product Variants (size, color, etc.)

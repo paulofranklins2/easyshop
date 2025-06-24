@@ -3,6 +3,14 @@ let wishlistService;
 class WishlistService {
     items = [];
 
+    updateBadge() {
+        try {
+            const badge = document.getElementById('wishlist-items');
+            if (badge) badge.innerText = this.items.length;
+        } catch (e) {
+        }
+    }
+
     getImagePath(url) {
         if (url.startsWith('http')) return url;
         if (productService && productService.hasPhoto(url)) {
@@ -53,21 +61,26 @@ class WishlistService {
             const div = document.createElement('div');
             div.className = 'd-flex justify-content-between align-items-center mb-3';
             const imgPath = this.getImagePath(p.imageUrl);
-            div.innerHTML = `<div class="d-flex align-items-center"><img src="${imgPath}" style="width:40px;height:40px;object-fit:contain" class="me-2"><strong>${p.name}</strong></div>`;
+            div.innerHTML = `<div class="d-flex align-items-center"><img src="${imgPath}" style="width:40px;height:40px;object-fit:contain" class="me-2"><div><strong>${p.name}</strong><br>$${p.price}</div></div>`;
+
             const btnGroup = document.createElement('div');
+
             const cartBtn = document.createElement('button');
-            cartBtn.className = 'btn btn-primary btn-sm me-2';
-            cartBtn.innerText = 'Add to Cart';
+            cartBtn.className = 'btn btn-success btn-sm me-2'; // green
+            cartBtn.innerText = '🛒';
             cartBtn.addEventListener('click', () => this.moveToCart(p.productId));
+
             const delBtn = document.createElement('button');
-            delBtn.className = 'btn btn-danger btn-sm';
-            delBtn.innerText = 'Remove';
+            delBtn.className = 'btn btn-danger btn-sm'; // red
+            delBtn.innerText = '❌';
             delBtn.addEventListener('click', () => this.remove(p.productId));
+
             btnGroup.appendChild(cartBtn);
             btnGroup.appendChild(delBtn);
             div.appendChild(btnGroup);
             container.appendChild(div);
         });
+        this.updateBadge();
     }
 }
 
