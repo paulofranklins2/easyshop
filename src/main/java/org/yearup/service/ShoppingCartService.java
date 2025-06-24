@@ -8,6 +8,10 @@ import org.yearup.repository.ProductRepository;
 import org.yearup.repository.ShoppingCartItemRepository;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static java.math.BigDecimal.*;
 
 /**
  * Business logic for manipulating shopping carts persisted in the database.
@@ -17,8 +21,8 @@ public class ShoppingCartService {
     private static final Logger LOG = LoggerFactory.getLogger(ShoppingCartService.class);
     private final ShoppingCartItemRepository cartRepo;
     private final ProductRepository productRepository;
-    private final java.util.Map<Integer, java.math.BigDecimal> discounts = new java.util.concurrent.ConcurrentHashMap<>();
-    private final java.util.Map<Integer, String> promoCodes = new java.util.concurrent.ConcurrentHashMap<>();
+    private final Map<Integer, java.math.BigDecimal> discounts = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Integer, String> promoCodes = new ConcurrentHashMap<>();
 
     public ShoppingCartService(ShoppingCartItemRepository cartRepo, ProductRepository productRepository) {
         this.cartRepo = cartRepo;
@@ -32,7 +36,7 @@ public class ShoppingCartService {
         LOG.debug("Getting cart for user {}", userId);
         List<ShoppingCartItemEntity> items = cartRepo.findByUserId(userId);
         ShoppingCart cart = new ShoppingCart();
-        java.math.BigDecimal disc = discounts.getOrDefault(userId, java.math.BigDecimal.ZERO);
+        java.math.BigDecimal disc = discounts.getOrDefault(userId, ZERO);
         cart.setDiscountPercent(disc);
         cart.setPromoCode(promoCodes.get(userId));
         for (ShoppingCartItemEntity entity : items) {
@@ -114,7 +118,7 @@ public class ShoppingCartService {
      * Retrieve the currently applied discount percent.
      */
     public java.math.BigDecimal getDiscountPercent(int userId) {
-        return discounts.getOrDefault(userId, java.math.BigDecimal.ZERO);
+        return discounts.getOrDefault(userId, ZERO);
     }
 
     public String getPromoCode(int userId) {

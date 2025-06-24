@@ -3,6 +3,7 @@ package org.yearup.security;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.yearup.exception.handler.UserNotActivatedException;
 import org.yearup.model.User;
 import org.yearup.repository.UserRepository;
 

@@ -1,4 +1,4 @@
-package org.yearup.security;
+package org.yearup.exception.handler;
 
 import org.springframework.security.core.AuthenticationException;
 

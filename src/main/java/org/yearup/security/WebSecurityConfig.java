@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.yearup.security.jwt.JwtConfigurer;
 import org.yearup.security.jwt.TokenProvider;
-import org.yearup.security.DatabaseUserDetailsService;
 
 /**
  * Spring Security configuration for JWT based auth.
@@ -26,12 +25,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final DatabaseUserDetailsService userDetailsService;
 
-    public WebSecurityConfig(
-        TokenProvider tokenProvider,
-        JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-        JwtAccessDeniedHandler jwtAccessDeniedHandler,
-        DatabaseUserDetailsService userDetailsService
-    ) {
+    public WebSecurityConfig(TokenProvider tokenProvider, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+                             JwtAccessDeniedHandler jwtAccessDeniedHandler, DatabaseUserDetailsService userDetailsService) {
         this.tokenProvider = tokenProvider;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
@@ -64,22 +59,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             // disable CSRF as tokens are used for auth
             .csrf().disable()
 
-            .exceptionHandling()
-            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-            .accessDeniedHandler(jwtAccessDeniedHandler)
+            .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).accessDeniedHandler(jwtAccessDeniedHandler)
 
             // stateless session management
-            .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-//            .and()
-//            .authorizeRequests()
-//            .antMatchers("/login", "/register", "/products/**", "/categories/**", "/", "/static/**").permitAll()
-//            .anyRequest().authenticated()
-
-            .and()
-            .apply(securityConfigurerAdapter());
+            .and().apply(securityConfigurerAdapter());
     }
 
     private JwtConfigurer securityConfigurerAdapter() {
