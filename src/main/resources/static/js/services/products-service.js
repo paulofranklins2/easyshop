@@ -240,6 +240,8 @@ class ProductService {
             }));
             templateBuilder.build('edit-product-offcanvas', data, 'editProductSidebarBody', () => {
                 const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('editProductSidebar'));
+                const inv = bootstrap.Offcanvas.getInstance(document.getElementById('inventorySidebar'));
+                if (inv) inv.hide();
                 off.show();
             });
         }));
@@ -260,7 +262,7 @@ class ProductService {
             .then(() => {
                 const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('editProductSidebar'));
                 off.hide();
-                this.search();
+                this.showInventory();
             });
     }
 
@@ -277,6 +279,8 @@ class ProductService {
                 }
                 templateBuilder.build('confirm-delete-product-offcanvas', data, 'deleteProductSidebarBody', () => {
                     const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('deleteProductSidebar'));
+                    const inv = bootstrap.Offcanvas.getInstance(document.getElementById('inventorySidebar'));
+                    if (inv) inv.hide();
                     off.show();
                 });
             });
@@ -290,9 +294,21 @@ class ProductService {
                     disableNextNavSound();
                 }
                 off.hide();
-                this.search();
+                this.showInventory();
                 playFireballSound();
             });
+    }
+
+    cancelEdit() {
+        const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('editProductSidebar'));
+        off.hide();
+        this.showInventory();
+    }
+
+    cancelDelete() {
+        const off = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('deleteProductSidebar'));
+        off.hide();
+        this.showInventory();
     }
 
     showAddProduct() {

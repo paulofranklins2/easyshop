@@ -9,7 +9,7 @@
             <label for="edit-category-description">Description</label>
         </div>
         <div class="text-end">
-            <button class="btn btn-secondary me-2" data-bs-dismiss="offcanvas">Cancel</button>
+            <button class="btn btn-secondary me-2" onclick="productService.cancelEdit()">Cancel</button>
             <button class="btn btn-primary" onclick="categoryService.updateCategory({{categoryId}})">Update</button>
         </div>
     </div>
