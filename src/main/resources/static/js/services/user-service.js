@@ -88,6 +88,7 @@ class UserService {
         axios.post(url, register)
             .then(response => {
                 console.log(response.data);
+                playCheckoutSound();
                 if (callback) callback();
             })
             .catch(error => {
@@ -97,6 +98,7 @@ class UserService {
                 };
 
                 templateBuilder.append("error", data, "errors")
+                playLogoutSound();
             });
     }
 

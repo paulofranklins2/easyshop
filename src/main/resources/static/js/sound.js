@@ -4,6 +4,18 @@ let coinAudio;
 let checkoutAudio;
 let logoutAudio;
 let fireballAudio;
+const offcanvasTracked = new Set();
+
+function addOffcanvasListeners(root = document) {
+    root.querySelectorAll('.offcanvas').forEach(off => {
+        if(!offcanvasTracked.has(off)) {
+            off.addEventListener('show.bs.offcanvas', playNavSound);
+            off.addEventListener('hide.bs.offcanvas', playNavSound);
+            offcanvasTracked.add(off);
+        }
+    });
+}
+
 
 function playNavSound() {
     if (pipeAudio) {
@@ -44,6 +56,7 @@ function playFireballSound() {
 document.addEventListener('DOMContentLoaded', () => {
     bgmAudio = new Audio('sounds/title-bgm.mp3');
     bgmAudio.loop = true;
+    bgmAudio.volume = 0.15;
     bgmAudio.play().catch(() => {});
 
     pipeAudio = new Audio('sounds/super-mario-bros.mp3');
@@ -52,13 +65,25 @@ document.addEventListener('DOMContentLoaded', () => {
     logoutAudio = new Audio('sounds/30_e6zdu9M.mp3');
     fireballAudio = new Audio('sounds/mario-fireball.mp3');
 
-    // play sound when offcanvas is opened or closed
-    document.querySelectorAll('.offcanvas').forEach(off => {
-        off.addEventListener('show.bs.offcanvas', () => {
-            playNavSound();
-        });
-        off.addEventListener('hide.bs.offcanvas', () => {
-            playNavSound();
-        });
-    });
+    // ensure non-bgm sounds play at full volume
+    pipeAudio.volume = 1.0;
+    coinAudio.volume = 1.0;
+    checkoutAudio.volume = 1.0;
+    logoutAudio.volume = 1.0;
+    fireballAudio.volume = 1.0;
+
+    addOffcanvasListeners();
+
+    // watch for dynamically added offcanvas elements
+    const observer = new MutationObserver(() => addOffcanvasListeners());
+    observer.observe(document.body, {childList: true, subtree: true});
+
+    // resume background music on first user interaction if blocked
+    const resumeBgm = () => {
+        if (bgmAudio.paused) {
+            bgmAudio.play().catch(() => {});
+        }
+    };
+    document.addEventListener('click', resumeBgm, {once: true});
+    document.addEventListener('keydown', resumeBgm, {once: true});
 });
