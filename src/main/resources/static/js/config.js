@@ -17,7 +17,20 @@ const config = (() => {
             }
         }
 
-        const raw = fromGlobal || fromMeta || (origin ? `${origin}${contextPath}/api` : '/api');
+        const defaultBase = (origin ? `${origin}${contextPath}/api` : '/api');
+        let raw = fromGlobal || fromMeta || defaultBase;
+        // If an override points to localhost but the page isn't on localhost, ignore it
+        try {
+            if (typeof window !== 'undefined') {
+                const pageHost = window.location && window.location.hostname;
+                const isLocalHost = (h) => ['localhost', '127.0.0.1', '::1'].includes(String(h).toLowerCase());
+                const parsed = new URL(raw, origin || (typeof window !== 'undefined' ? window.location.href : undefined));
+                if (isLocalHost(parsed.hostname) && !isLocalHost(pageHost)) {
+                    raw = defaultBase;
+                    try { console.warn('Ignoring localhost API_BASE_URL on non-localhost page; using same-origin /api'); } catch (e) {}
+                }
+            }
+        } catch (e) { /* non-absolute raw; fine */ }
         const normalized = String(raw).replace(/\/+$/, ''); // remove trailing slash(es)
 
         const cfg = { baseUrl: normalized };
