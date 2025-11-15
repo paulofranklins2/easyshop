@@ -16,5 +16,4 @@ spring:
 # JWT Configuration
 jwt:
     secret: ${JWT_SECRET}
-    token-validity-in-seconds: 86400  # 24 hours
-    token-validity-in-seconds-for-remember-me: 2592000  # 30 days
+    token-timeout-seconds: 86400  # 24 hours
