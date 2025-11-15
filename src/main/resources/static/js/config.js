@@ -6,8 +6,18 @@ const config = (() => {
         const fromMeta = meta ? meta.getAttribute('content') : null;
         const fromGlobal = (typeof window !== 'undefined' && window.API_BASE_URL) ? String(window.API_BASE_URL) : null;
         const origin = (typeof window !== 'undefined' && window.location && window.location.origin) ? window.location.origin : '';
+        // Try to respect a sub-path context (e.g., /easyshop) if app is hosted under one
+        let contextPath = '';
+        if (typeof window !== 'undefined' && window.location && typeof window.location.pathname === 'string') {
+            const path = window.location.pathname;
+            // If served under a base path like /easyshop/, include that in default API base
+            const match = path.match(/^\/(?!js|css|images|fonts)([^\/]+)(?:\/|$)/);
+            if (match && match[1] && match[1] !== 'index.html') {
+                contextPath = `/${match[1]}`;
+            }
+        }
 
-        const raw = fromGlobal || fromMeta || (origin ? `${origin}/api` : '/api');
+        const raw = fromGlobal || fromMeta || (origin ? `${origin}${contextPath}/api` : '/api');
         const normalized = String(raw).replace(/\/+$/, ''); // remove trailing slash(es)
 
         const cfg = { baseUrl: normalized };

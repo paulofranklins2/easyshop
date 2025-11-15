@@ -149,9 +149,11 @@ class ProductService {
 
             })
             .catch(error => {
+                // Log full error and URL for easier troubleshooting
+                try { console.error('Products search failed:', { url, error }); } catch(e) {}
 
                 const data = {
-                    error: "Searching products failed."
+                    error: `Searching products failed.`
                 };
 
                 templateBuilder.append("error", data, "errors")
