@@ -1,3 +1,3 @@
 const config = {
-    baseUrl: 'http://localhost'
+    baseUrl: 'http://localhost/api'
 }
